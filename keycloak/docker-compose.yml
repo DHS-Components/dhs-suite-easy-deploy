@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+
+  keycloak:
+      image: ciam-swarm-keycloak:1.0
+      ports:
+      - "8060:8080"
+      environment:
+        KEYCLOAK_ADMIN: admin
+        KEYCLOAK_ADMIN_PASSWORD: p455w0rD_kc1
+        KC_HOSTNAME: 127.0.0.1
+        KC_LOG: console,file
+        KC_DB_URL_HOST: postgres_db
+        KC_DB_URL_DATABASE: keycloak
+        KC_DB_USERNAME: db_user
+        KC_DB_PASSWORD: password
+
+      depends_on:
+        - postgres_db
+
+  postgres_db:
+      image: postgres:10.21
+      environment:
+        POSTGRES_PASSWORD: p455w0rD
+        POSTGRES_USER: postgres
+      volumes:
+        - pg-scripts:/docker-entrypoint-initdb.d
+        - pg-data:/var/lib/postgresql/data
+        
+volumes:
+  pg-data:
+    external: true
+  pg-scripts:
+    external: true
+
+networks:
+  default:
+    external:
+      name: collnetwork

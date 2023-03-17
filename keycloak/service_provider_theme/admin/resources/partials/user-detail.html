@@ -1,0 +1,36 @@
+<div class="col-sm-9 col-md-10 col-sm-push-3 col-md-push-2">
+    <ol class="breadcrumb">
+        <li><a href="#/realms/{{realm.realm}}/users">{{:: 'users' | translate}}</a></li>
+        <li>{{user.id}}</li>
+    </ol>
+
+    <kc-tabs-user></kc-tabs-user>
+
+    <form class="form-horizontal" name="userForm" novalidate kc-read-only="!create && !user.access.manage">
+
+        <fieldset class="border-top">
+            <div class="form-group">
+                <label class="col-md-2 control-label"for="id">{{:: 'id' | translate}}</label>
+                <div class="col-md-6">
+                    <input class="form-control" type="text" id="id" name="id" data-ng-model="user.id" autofocus data-ng-readonly="true">
+                </div>
+            </div>
+
+        </fieldset>
+
+        <div class="form-group">
+            <div class="col-md-10 col-md-offset-2" data-ng-show="create && (access.manageUsers || (serverInfo.featureEnabled('ADMIN_FINE_GRAINED_AUTHZ') && access.queryUsers))">
+                <button kc-save data-ng-show="changed">{{:: 'save' | translate}}</button>
+                <button kc-cancel data-ng-click="cancel()">{{:: 'cancel' | translate}}</button>
+            </div>
+
+            <div class="col-md-10 col-md-offset-2" data-ng-show="!create && user.access.manage">
+                <button kc-save  data-ng-disabled="!changed">{{:: 'save' | translate}}</button>
+                <button kc-reset data-ng-disabled="!changed">{{:: 'cancel' | translate}}</button>
+            </div>
+        </div>
+
+    </form>
+</div>
+
+<kc-menu></kc-menu>

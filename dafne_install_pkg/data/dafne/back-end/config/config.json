@@ -1,0 +1,52 @@
+{
+    "logger": {
+	"zippedArchive": false,
+	"dateFormat": "YYYY-MM-DD HH:mm:ss,SSS",
+	"maxSize": "50m",
+	"severity": "debug",
+	"logname": "dafne-be--%DATE%.log",
+	"datePattern": "YYYY-MM-DD"
+    },
+    "production": {
+    	"username": "dafne",
+    	"password": "password",
+    	"database": "dafne",
+    	"host": "db",
+    	"port": "5432",
+    	"dialect": "postgres",
+    	"operatorsAliases": false 
+    },
+	"crypto": {
+		"symmetric": {
+			"secret": "4esGygkXXhvzoV8PD3JF2YhdmiiYsucx",
+			"algorithm": "aes-256-ctr"
+		}
+	},
+	"auth": {
+		"keycloakBaseUrl": "https://ivvproxy.dhus.onda-dias.com/auth/realms/dhus/protocol/openid-connect",
+		"clientId": "dafne",
+		"grantType": "password"
+
+	},
+	"availability": {
+		"schedule": "*/5 * * * *",
+		"enablePurge": true,
+		"purgeSchedule": "0 1 * * *",
+		"rollingPeriodInDays": 90,
+		"url": "odata/v1/Products?$top=1"
+	},
+	"latency": {
+		"schedule": "*/5 * * * *",
+		"enablePurge": true,
+		"purgeSchedule": "0 1 * * *",
+		"rollingPeriodInDays": 90,
+		"feRetrySchedule": "*/3 * * * *",
+		"feMaxRetry": 10,
+		"tolerance": 1
+	  },
+	"requestTimeout": 30000,
+	"dataSourceStatus": ["RUNNING", "PENDING"],
+	"version": "3.0.1",
+        "port": 2000,
+	"adminRole": "DATAFLOW_MANAGER"
+}

@@ -1,0 +1,205 @@
+{
+    "version": "1.0.1",
+    "centreInfo": {
+        "name": "",
+        "image": "",
+        "link": "",
+        "alt": "",
+        "title": ""
+    },
+    "baseUrl": "https://dhs-test.onda-dias.eu/gss-cat-01/",
+    "searchOptions": {
+        "productsPerPage": 50,
+        "orderBy": "PublicationDate",
+        "sort": "desc"
+    },
+    "mapSettings": {
+        "initialViewState": {
+            "longitude": 2.27,
+            "latitude": 38.86,
+            "zoom": 1.5,
+            "minZoom": 0.5,
+            "maxZoom": 10
+        },
+        "projection": "globe"
+    },
+    "loginSettings": {
+        "text": "Please Sign in to access our service",
+        "buttonText": "Sign in"
+    },
+    "keycloak": {
+        "issuer": "https://collaborative-dhs.onda-dias.eu/auth/realms/collaborative-dhs",
+        "redirectUri": "http://127.0.0.1:8090/copsi/home",
+        "clientId": "ivv-gss1-client",
+        "responseType": "code",
+        "scope": "openid profile email",
+        "requireHttps": false,
+        "showDebugInformation": false,
+        "disableAtHashCheck": true,
+        "useSilentRefresh": true
+    },
+    "quicklookURL": "https://dhs-test.onda-dias.eu/gss-cat-01/odata/v1/Products(<uuid>)/AttachedFiles('quick-look.jpg')/$value",
+    "infoLogosLeft": [
+        { "link": "https://www.esa.int/", "image": "./assets/images/ESA_logo_2020_White_cut.png", "title": "Visit ESA website", "alt": "ESA logo" },
+        { "link": "https://european-union.europa.eu/", "image": "./assets/images/logoEU.svg", "title": "Visit EU website", "alt": "EU logo" },
+        { "link": "http://www.copernicus.eu", "image": "./assets/images/copernicus_eu_logo_blu_white.png", "title": "Visit Copernicus website", "alt": "Copernicus logo" },
+        { "link": "https://ivvproxy.onda.onda-dias.com/col-dhs-website/", "image": "./assets/images/logoDHS.png", "title": "Visit DHS website" , "alt": "DHS logo"}
+
+    ],
+    "infoLogosRight": [
+        { "link": "https://www.serco.com/", "image": "./assets/images/logo-serco-grey_cut.png", "title": "Visit Serco website", "alt": "Serco logo"  },
+        { "link": "http://www.alia-space.com/", "image": "./assets/images/logo_alia_white.png", "title": "Visit Alia website", "alt": "Alia Space logo"  }
+    ],
+    "platformList": [
+      {
+        "name": "SENTINEL-1",
+        "tags": [
+          {
+            "name": "productType",
+            "color": "#ff6400",
+            "title": "Product Type"
+          },
+          {
+            "name": "operationalMode",
+            "color": "#00338D",
+            "title": "Operational Mode"
+          },
+          {
+            "name": "polarisationChannels",
+            "color": "#0CCE6B",
+            "title": "Polarisation"
+          },
+          {
+            "name": "orbitNumber",
+            "color": "#b81365",
+            "title": "Orbit Number"
+          },
+          {
+            "name": "timeliness",
+            "color": "#C47AC0",
+            "title": "Timeliness"
+          }
+        ]
+      },
+      {
+        "name": "Sentinel-2",
+        "tags": [
+          {
+            "name": "productType",
+            "color": "#ff6400",
+            "title": "Product Type"
+          },
+          {
+            "name": "cloudCover",
+            "color": "#ff006e",
+            "title": "Cloud Cover Percentage"
+          },
+          {
+            "name": "tileId",
+            "color": "#6400ff",
+            "title": "Tile Identifier"
+          },
+          {
+            "name": "orbitNumber",
+            "color": "#b81365",
+            "title": "Orbit Number"
+          },
+          {
+            "name": "datastripId",
+            "color": "#0f7173",
+            "title": "Datastrip Identifier"
+          }
+        ]
+      },
+      {
+        "name": "SENTINEL-3",
+        "tags": [
+          {
+            "name": "productType",
+            "color": "#ff6400",
+            "title": "Product Type"
+          },
+          {
+            "name": "orbitNumber",
+            "color": "#b81365",
+            "title": "Orbit Number"
+          },
+          {
+            "name": "relativeOrbitNumber",
+            "color": "#48a9a6",
+            "title": "Relative Orbit Number"
+          },
+          {
+            "name": "timeliness",
+            "color": "#C47AC0",
+            "title": "Timeliness"
+          },
+          {
+            "name": "instrumentShortName",
+            "color": "#4B9CE7",
+            "title": "Instrument"
+          }
+        ]
+      },
+      {
+        "name": "SENTINEL-5P",
+        "tags": [
+          {
+            "name": "productType",
+            "color": "#ff6400",
+            "title": "Product Type"
+          },
+          {
+            "name": "processingMode",
+            "color": "#5B486A",
+            "title": "Processing Mode"
+          },
+          {
+            "name": "orbitNumber",
+            "color": "#b81365",
+            "title": "Orbit Number"
+          },
+          {
+            "name": "processingLevel",
+            "color": "#E71D36",
+            "title": "Processing Level"
+          }
+        ]
+      }
+    ],
+    "footprints": {
+      "defaultColor": "#ff640070",
+      "defaultBorderColor": "#882200dd",
+      "defaultBorderWidth": 2,
+      "selectedColor": "#00aeefaa",
+      "selectedBorderColor": "#0044eecc",
+      "selectedBorderWidth": 3
+    },
+    "styles": [
+        {
+          "name": "Terrain",
+          "url": "https://tiles.maps.eox.at/wmts/1.0.0/terrain_3857/default/g/{z}/{y}/{x}.jpg"
+        },
+        {
+          "name": "OSM",
+          "url": "https://c.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        },
+        {
+          "name": "Terrain Light",
+          "url": "https://tiles.maps.eox.at/wmts/1.0.0/terrain-light_3857/default/g/{z}/{y}/{x}.jpg"
+        },
+        {
+          "name": "Black Marble",
+          "url": "https://tiles.maps.eox.at/wmts/1.0.0/blackmarble_3857/default/g/{z}/{y}/{x}.jpg"
+        },
+        {
+          "name": "Blue Marble",
+          "url": "https://tiles.maps.eox.at/wmts/1.0.0/bluemarble_3857/default/g/{z}/{y}/{x}.jpg"
+        },
+        {
+          "name": "S2 Cloudless",
+          "url": "https://tiles.maps.eox.at/wmts/1.0.0/s2cloudless_3857/default/g/{z}/{y}/{x}.jpg"
+        }
+      ]
+
+}

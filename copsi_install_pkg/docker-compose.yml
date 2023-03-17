@@ -1,0 +1,24 @@
+version: "3.1"
+services:
+  copsi:
+    image: "collaborativedhs/copsi:1.0.1"
+    container_name: copsi
+    hostname: copsi
+    restart: always
+    ports:
+      - "8090:80"
+    volumes:
+      - copsi-config:/usr/local/apache2/htdocs/assets/config
+      # uncomment the following line in case of deployment without proxy
+      - /var/lib/docker/volumes/copsi-html/_data/index.html:/usr/local/apache2/htdocs/index.html    
+
+volumes:
+  copsi-config:
+    external: true
+  copsi-html:
+    external: true
+
+networks:
+  default:
+    external:
+      name: collnetwork

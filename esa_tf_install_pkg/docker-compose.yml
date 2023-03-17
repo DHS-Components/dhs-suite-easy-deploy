@@ -1,0 +1,109 @@
+
+version: '3.8'
+
+services:
+    esa_tf_scheduler:
+        image: daskdev/dask:2021.8.1-py3.9
+        ports:
+            - "8786:8786"
+            - "8787:8787"
+        command: dask-scheduler
+
+    esa_tf_restapi:
+        image: collaborativedhs/esa_tf_restapi:latest
+        ports:
+            - "8000:8000"
+        command: make serve PORT=8000 SCHEDULER="tcp://esa_tf_scheduler:8786"
+        volumes:
+            - type: volume
+              source: tf-config
+              target: /config
+            - type: volume
+              source: tf-output
+              target: /output
+        environment:
+            - ESA_TF_CONFIG_FILE=/config/esa_tf.config
+            - FORWARDED_ALLOW_IPS=*
+            - ROOT_PATH=
+            - OUTPUT_DIR=/output
+
+    esa_tf_worker:
+        image: collaborativedhs/esa_tf_worker:latest
+        depends_on:
+            - esa_tf_scheduler
+        volumes:
+            - type: volume
+              source: tf-config
+              target: /config
+            - type: volume
+              source: tf-output
+              target: /output
+            - type: volume
+              source: tf-data
+              target: /data
+            - type: volume
+              source: tf-plugins
+              target: /plugins
+            - type: volume
+              source: tf-traces
+              target: /traces
+        environment:
+            - ESA_TF_CONFIG_FILE=/config/esa_tf.config
+            - HUBS_CREDENTIALS_FILE=/config/hubs_credentials.yaml
+            - TRACEABILITY_CONFIG_FILE=/config/traceability_config.yaml
+            - KEY_FILE=/config/secret.txt
+            - TRACETOOL_FILE=/opt/tracetool-1.2.4.jar
+            - OUTPUT_DIR=/output
+            - TRACES_DIR=/traces
+            - OUTPUT_OWNER_ID=0
+            - OUTPUT_GROUP_OWNER_ID=0
+            - TF_DEBUG=0
+        command: >
+          sh -c 'if \[ -n "$$(ls /plugins/* 2>/dev/null)" \]; then pip install /plugins/* ; fi &&
+                 make dask-worker DASKFLAGS="tcp://esa_tf_scheduler:8786"'
+
+    esa_tf_proxy:
+        image: nginx:1.21.6
+        volumes:
+            - ./nginx/templates:/etc/nginx/templates
+            - ./nginx/njs:/etc/nginx/njs
+            - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+            - type: volume
+              source: tf-output
+              target: /usr/share/nginx/html
+            - type: volume
+              source: tf-logs
+              target: /var/log/nginx
+        ports:
+            - "8070:8080"
+        environment:
+            - NGINX_HOST=_
+            - NGINX_PORT=8080
+            - APPLICATION_HOSTNAME=
+            - APPLICATION_PROTO=
+            - OIDC_ACTIVE=
+            - OIDC_ROOT_URL=
+            - REALM_NAME=
+            - CLIENT_ID=
+            - CLIENT_SECRET=
+            - KEYCLOAK_HOST_HEADER=
+            - GUARD_ROLE=
+
+volumes:
+  tf-config:
+    external: true
+  tf-output:
+    external: true
+  tf-data:
+    external: true
+  tf-plugins:
+    external: true
+  tf-traces:
+    external: true
+  tf-logs:
+    external: true
+
+networks:
+  default:
+    external:
+      name: collnetwork

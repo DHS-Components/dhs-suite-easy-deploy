@@ -1,0 +1,50 @@
+{
+  "resultsPerPage": "2",
+  "sources": [
+    {
+      "dataSource": "https://catalogue.onda-dias.eu/dias-catalogue/Products?$search=%22footprint:%20%22Intersects(POINT([eventLat]%20[eventLong]))%22%20AND%20%20beginPosition:[[eventStartTime]T00:00:00.000Z%20TO%20[eventEndTime]T00:00:00.000Z]%20AND%20platformShortName:S1%20AND%20productType:IW_SLC__1S%22&$format=json",
+      "username": "null",
+      "password": "null",
+      "type": "copernicus",
+      "associatedId": "1"
+    },
+     {
+      "DHuSAddress": "colhub.copernicus.eu/dhus",
+      "dataSource": "https://[DHuSAddress]/search?start=0&rows=100&q=(platformname:Sentinel-1%20AND%20producttype:SLC%20AND%20sensoroperationalmode:IW%20AND%20footprint:%22Intersects(POINT([eventLat]%20[eventLong]))%22%20AND%20beginposition:[[eventStartTime]T00:00:00.000Z%20TO%20[eventEndTime]T00:00:00.000Z])&format=json",
+      "username": "ivvuser",
+      "password": "password",
+      "type": "copernicus",
+      "associatedId": "1"
+    },
+    {
+      "dataSource": "https://webservices.ingv.it/fdsnws/event/1/query?starttime=[SelectedDate]T00:00:00&endtime=[EndDate]T23:59:59&minmagnitude=[magnitude]&format=text&lat=[CityLat]&lon=[CityLong]&maxradiuskm=50&limit=[limit]&offset=[offset]",
+      "username": "null",
+      "password": "null",
+      "eventType": "earthquake",
+      "associatedId": "1"
+    },
+    {
+      "DHuSAddress": "colhub.copernicus.eu/dhus",
+      "dataSource": "https://[DHuSAddress]/search?start=0&rows=100&q=(platformname:Sentinel-2%20AND%20producttype:S2MSI2A%20AND%20footprint:%22Intersects(POINT([eventLat]%20[eventLong]))%22%20AND%20beginposition:[[eventStartTime]T00:00:00.000Z%20TO%20[eventEndTime]T00:00:00.000Z])&format=json",
+      "username": "ivvuser",
+      "password": "password",
+      "type": "copernicus",
+      "associatedId": "2"
+    },
+    {
+      "dataSource": "https://data.seattle.gov/resource/kzjm-xkqj.json?$limit=[limit]&$offset=[offset]&$where=within_circle(report_location,%20[CityLat],%20[CityLong],%2050)%20and%20datetime%20between%20%27[SelectedDate]T00:00:00%27%20and%20%27[EndDate]T23:59:59%27",
+      "username": "null",
+      "password": "null",
+      "additionalFields": ["incidentType","eventId"],
+      "eventType": "firecall",
+      "associatedId": "2"
+    }#,
+    #{
+     # "dataSource": "https://catalogue.onda-dias.eu/dias-catalogue/Products?$search=%22footprint:%20%22Intersects(POINT([eventLat]%20[eventLong]))%22%20AND%20%20beginPosition:[[eventStartTime]T00:00:00.000Z%20TO%20[eventEndTime]T00:00:00.000Z]%20AND%20platformShortName:S2%20AND%20productType:S2MSI2A%22&$format=json",
+     # "username": "null",
+     # "password": "null",
+     # "type": "copernicus",
+     # "associatedId": "2"
+    #}
+  ]
+}
