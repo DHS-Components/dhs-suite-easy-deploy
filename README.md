@@ -1,4 +1,16 @@
 
+  HOW TO LAUNCH THE INSTALLATION: 
+
+  ./script.sh "10.144.1.99" "dhs-suite-easy-deploy" "https://vritrovato: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@github.com/SercoSPA/dhs-suite-easy-deploy.git" "copsi,dafne,tf,sf,iam"
+
+  HOW TO REMOVE SERVICES: 
+
+  docker stack rm copsi-service dafne-service tf-service sf-service iam-service
+  docker volume rm copsi-config copsi-html dafne-be-config dafne-be-logs dafne-db dafne-fe-config dafne-fe-html dr-api_logs kb_db pg-data pg-scripts sf-api_logs sf_config tf-config tf-data tf-logs tf-plugins tf-traces tf-output
+  docker network rm collnetwork
+  docker swarm leave --force
+  userdel -r colluser
+
   GENERAL COMMANDS
 
     from root on centos

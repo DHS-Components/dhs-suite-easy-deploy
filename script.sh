@@ -419,11 +419,13 @@
 
    repository=$2
 
-   listtoinstall=$3
+   linkrepository=$3
+
+   listtoinstall=$4
 
    checkuser=`cat /etc/passwd | grep "colluser" | wc -l`
 
-   if [[ "$checkuser" == 1 ]] ; then
+   if [[ "$checkuser" == "1" ]] ; then
 
      echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] The user 'colluser' already exists"
   
@@ -445,9 +447,9 @@
   
    fi
 
-   checkswarm=`docker node ls | grep "Error"`
+   docker node ls
 
-   if [[ "$checkswarm" == "" ]] ; then
+   if [[ "$?" == "0" ]] ; then
 
      echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] The swarm already exists"
 
@@ -461,15 +463,15 @@
 
    fi
 
-   checkrepository=`runuser -l colluser -c "sudo ls /home/colluser/$1 | grep \"No such file or directory\""`
+   runuser -l colluser -c "sudo ls /home/colluser/$repository"
 
-   if [[ "$checkrepository" == "" ]] ; then
+   if [[ "$?" == "0" ]] ; then
 
      echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] The repository already exists"
 
    else
 
-     runuser -l colluser -c "sudo git clone $repository"
+     runuser -l colluser -c "sudo git clone $linkrepository"
 
      echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Repository downloaded under /home/colluser"
 
