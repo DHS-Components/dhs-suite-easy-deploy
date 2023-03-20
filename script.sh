@@ -419,9 +419,7 @@
 
    repository=$2
 
-   linkrepository=$3
-
-   listtoinstall=$4
+   listtoinstall=$3
 
    checkuser=`cat /etc/passwd | grep "colluser" | wc -l`
 
