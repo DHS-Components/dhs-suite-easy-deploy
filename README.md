@@ -11,9 +11,9 @@
 
   - unzip the package and go inside it:
 
-    unzip 1.0.0.zip -d dhs-suite-easy-deploy
+    unzip dhs-suite-easy-deploy-1.0.0.zip
   
-    cd dhs-suite-easy-deploy
+    cd dhs-suite-easy-deploy-1.0.0
 
   HOW TO LAUNCH THE INSTALLATION: 
 
