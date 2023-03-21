@@ -7,7 +7,7 @@
 
   - download the package from:
 
-    curl -u vritrovato83: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 -LJO "https://github.com/SercoSPA/$repository/archive/refs/tags/1.0.0.zip" 
+    curl -u vritrovato83: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 -LJO "https://github.com/SercoSPA/dhs-suite-easy-deploy/archive/refs/tags/1.0.0.zip" 
 
   - unzip the package and go inside it:
 
