@@ -471,7 +471,7 @@
 
      runuser -l colluser -c "sudo curl -u vritrovato83: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 -LJO \"https://github.com/SercoSPA/$repository/archive/refs/tags/1.0.0.zip\""
 
-     runuser -l colluser -c "sudo unzip 1.0.0.zip -d $repository"  
+     runuser -l colluser -c "sudo unzip dhs-suite-easy-deploy-1.0.0.zip -d $repository"  
 
      echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Repository downloaded under /home/colluser"
 
