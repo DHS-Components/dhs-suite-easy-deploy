@@ -1,84 +1,160 @@
+<p align="center">
+  <img src="./LogoDHS.png" alt="DHS suite easy deploy" width="428" />
+</p>
 
-  PREREQUIREMENTS:
+# DHS suite 2 click installation
 
-  Execute the following from 'root' user:
+[![Stand With Ukraine](https://raw.githubusercontent.com/vshymanskyy/StandWithUkraine/main/badges/StandWithUkraine.svg)](https://vshymanskyy.github.io/StandWithUkraine)
+[![OpenCollective](https://opencollective.com/cucumber/backers/badge.svg)](https://opencollective.com/cucumber)
+[![OpenCollective](https://opencollective.com/cucumber/sponsors/badge.svg)](https://opencollective.com/cucumber)
+[![pull requests](https://oselvar.com/api/badge?label=pull%20requests&csvUrl=https%3A%2F%2Fraw.githubusercontent.com%2Fcucumber%2Foselvar-github-metrics%2Fmain%2Fdata%2Fcucumber%2Fcucumber-ruby%2FpullRequests.csv)](https://oselvar.com/github/cucumber/oselvar-github-metrics/main/cucumber/cucumber-ruby)
+[![issues](https://oselvar.com/api/badge?label=issues&csvUrl=https%3A%2F%2Fraw.githubusercontent.com%2Fcucumber%2Foselvar-github-metrics%2Fmain%2Fdata%2Fcucumber%2Fcucumber-ruby%2Fissues.csv)](https://oselvar.com/github/cucumber/oselvar-github-metrics/main/cucumber/cucumber-ruby)
+[![Test cucumber](https://github.com/cucumber/cucumber-ruby/actions/workflows/cucumber-ruby.yml/badge.svg)](https://github.com/cucumber/cucumber-ruby/actions/workflows/cucumber-ruby.yml)
+[![Code Climate](https://codeclimate.com/github/cucumber/cucumber-ruby.svg)](https://codeclimate.com/github/cucumber/cucumber-ruby)
+[![Coverage Status](https://coveralls.io/repos/cucumber/cucumber-ruby/badge.svg?branch=main)](https://coveralls.io/r/cucumber/cucumber-ruby?branch=main)
 
-  - install Docker engine>=v20.10.21
+Cucumber is a tool for running automated tests written in plain language. Because they're
+written in plain language, they can be read by anyone on your team. Because they can be
+read by anyone, you can use them to help improve communication, collaboration and trust on
+your team.
 
-  - install Docker compose>=v2.12.2 
+<p align="center">
+  <img src="./.github/img/gherkin-example.png" alt="Cucumber Gherkin Example" width="728" />
+</p>
 
-  - download the package into /home from:
+This is the Ruby implementation of Cucumber. Cucumber is also available for [JavaScript](https://github.com/cucumber/cucumber-js),
+[Java](https://github.com/cucumber/cucumber-jvm), and a lot of other languages. You can find a list of implementations here: https://cucumber.io/docs/installation/.
 
-    curl -u vritrovato83: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 -LJO "https://github.com/SercoSPA/dhs-suite-easy-deploy/archive/refs/tags/1.0.0.zip" 
+See [CONTRIBUTING.md](CONTRIBUTING.md) for info on contributing to Cucumber (issues, PRs, etc.).
 
-  - unzip the package and go inside it:
+Everyone interacting in this codebase and issue tracker is expected to follow the
+Cucumber [code of conduct](https://cucumber.io/conduct).
 
-    unzip /home/dhs-suite-easy-deploy-1.0.0.zip
-  
-    cd /home/dhs-suite-easy-deploy-1.0.0
+## Installation
 
-  HOW TO LAUNCH THE INSTALLATION: 
+Cucumber for Ruby is a Ruby gem. Install it as you would install any gem: add
+`cucumber` to your Gemfile:
 
-  The script has 3 parameters, ip machine, name of repository (the repository downloaded is the 1.0.0 version), list of softwares installable. If it wants to install ALL softwares please execute this command from 'root' user:  
+    gem 'cucumber'
 
-    ./2-click-installer.sh "<ip_machine>" "dhs-suite-easy-deploy" "copsi,dafne,tf,sf,iam"
+then install it:
 
-  The version of softwares installed are:
+    $ bundle
 
-  - COPSI: copsi 1.0.1
+or install the gem directly:
 
-  - DAFNE: dafne frontend 3.0.2, dafne backend 3.0.1, postgres 12.5 
+    $ gem install cucumber
 
-  - TF: esa_tf_restapi and esa_tf_worker latest version, scheduler dask 2021.8.1-py3.9, nginx 1.21.6
+Later in this document, bundler is considered being used so all commands are using
+`bundle exec`. If this is not the case for you, execute `cucumber` directly, without
+`bundle exec`.
 
-  - SF: virtuoso-opensource-7 latest version, sf-datareceiver v2.0, semantic_framework v2.3
+### Supported platforms
 
-  - KEYCLOAK: custom version ciam-swarm-keycloak:1.0
+- Ruby 3.2
+- Ruby 3.1
+- Ruby 3.0
+- Ruby 2.7
+- TruffleRuby 22.0.0+
+- JRuby (with [some limitations](https://github.com/cucumber/cucumber-ruby/blob/main/docs/jruby-limitations.md))
+  - 9.4
 
-  If it wants to install a subset of softwares, for instance copsi and dafne, execute this command from 'root' user:
+### Ruby on Rails
 
-    ./2-click-installer.sh "<ip_machine>" "dhs-suite-easy-deploy" "copsi,dafne"
+Using Ruby on Rails? You can use [cucumber-rails](https://github.com/cucumber/cucumber-rails)
+to bring Cucumber into your Rails project.
 
-  HOW TO REMOVE ALL SERVICES/ALL VOLUMES/NETWORK/SWARM/USER:
+## Usage
 
-  These commands must be executed from 'root' user :
+### Initialization
 
-  - docker stack rm copsi-service dafne-service tf-service sf-service iam-service 
-  
-  - docker volume rm copsi-config copsi-html dafne-be-config dafne-be-logs dafne-db dafne-fe-config dafne-fe-html dr-api_logs kb_db pg-data pg-scripts sf-api_logs sf-config tf-config tf-data tf-logs tf-plugins tf-traces tf-output
-  
-  - docker network rm collnetwork
-  
-  - docker swarm leave --force
-  
-  - userdel -r colluser
+If you need to, initialize your `features` directory with
 
-  WHERE TO CONFIG THE SOFTWARES:
+    $ bundle exec cucumber --init
 
-  - COPSI:
+This will create the following directories and files if they do not exist already:
 
-    /var/lib/docker/volumes/copsi-config/_data/config.json
+    features
+    ├── step_definitions
+    └── support
+        └── env.rb
 
-  - DAFNE:
+### Create your specification
 
-    /var/lib/docker/volumes/dafne-be-config/_data/config.json
- 
-    /var/lib/docker/volumes/dafne-be-config/_data/db_credentials.env
- 
-    /var/lib/docker/volumes/dafne-fe-config/_data/config.json
+Create a file named `rule.feature` in the `features` directory with:
 
-  - SF:
+```gherkin
+# features/rule.feature
 
-    /var/lib/docker/volumes/sf-config/_data/configuration.json
- 
-    /var/lib/docker/volumes/sf-config/_data/keycloak_configuration.json
+Feature: Rule Sample
 
-  - TF:
+  Rule: This is a rule
 
-    /var/lib/docker/volumes/tf-config/_data/esa_tf.config
- 
-    /var/lib/docker/volumes/tf-config/_data/hubs_credentials.yaml
- 
-    /var/lib/docker/volumes/tf-config/_data/traceability_config.yaml
+    Example: A passing example
+      Given this will pass
+      When I do an action
+      Then some results should be there
 
-  Please refer to documentation of each software regarding how to configure the files above.
+    Example: A failing example
+      Given this will fail
+      When I do an action
+      Then some results should be there
+
+```
+
+### Automate your specification
+
+And a file named `steps.rb` in `features/step_definitions` with:
+
+```ruby
+# features/step_definitions/steps.rb
+
+Given("this will pass") do
+  @this_will_pass = true
+end
+
+Given("this will fail") do
+  @this_will_pass = false
+end
+
+When("I do an action") do
+end
+
+Then("some results should be there") do
+  expect(@this_will_pass)
+end
+```
+
+### Run Cucumber
+
+    $ bundle exec cucumber
+
+To execute a single feature file:
+
+    $ bundle exec cucumber features/rule.feature
+
+To execute a single example, indicates the line of the name of the example:
+
+    $ bundle exec cucumber features/rule.feature:7
+
+To summarize the results on the standard output, and writte a HTML report on disk:
+
+    $ bundle exec cucumber --format summary --format html --out report.html
+
+For more command line options
+
+    $ bundle exec cucumber --help
+
+You can also find documentation on the command line possibilities in
+[features/docs/cli](features/docs/cli).
+
+## Documentation and support
+
+- Getting started, writing features, step definitions, and more: https://cucumber.io/docs
+- Ruby API Documentation: http://www.rubydoc.info/github/cucumber/cucumber-ruby/
+- Community support forum: https://community.smartbear.com/t5/Cucumber-Open/bd-p/CucumberOS
+- Slack: [register for an account](https://cucumberbdd-slack-invite.herokuapp.com/) then head over to [#intro](https://cucumberbdd.slack.com/messages/C5WD8SA21/)
+
+## Copyright
+
+Copyright (c) Cucumber Ltd. and Contributors. See LICENSE for details.
