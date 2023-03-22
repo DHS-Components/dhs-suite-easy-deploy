@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="./LogoDHS.png" alt="DHS suite easy deploy" width="107" />
+  <img src="./LogoDHS.png" alt="DHS suite easy deploy" width="214" />
 </p>
 
 # DHS suite 2 click installation
