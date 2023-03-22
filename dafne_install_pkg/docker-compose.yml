@@ -5,7 +5,7 @@ services:
     #container_name: fe
     hostname: frontend
     #restart: always
-    build: .
+    #build: .
     ports:
       - "8080:80"
     volumes:
@@ -19,7 +19,7 @@ services:
     #container_name: be
     hostname: backend
     #restart: always
-    build: .
+    #build: .
     command: bash -c "npx sequelize-cli db:migrate && node index.js"
 
     ports:

@@ -14,6 +14,8 @@
 
        status="NOK"
 
+       echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Begin creation volumes for COPSI"
+
        runuser -l colluser -c "sudo docker volume create copsi-config"
 
        if [[ "$?" == "0" ]];then
@@ -30,13 +32,17 @@
 
                 if [[ "$?" == "0" ]];then
 
+	           echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Creation volumes for COPSI terminated correctly"
+
+		   echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Begin creation services for COPSI"
+
                    runuser -l colluser -c "sudo docker stack deploy --compose-file /home/colluser/$1/copsi_install_pkg/docker-compose.yml copsi-service"
 
                    if [[ "$?" == "0" ]];then
 
-                      runuser -l colluser -c "sudo docker stack deploy --compose-file /home/colluser/$1/copsi_install_pkg/docker-compose.yml copsi-service"
-
                       status="OK"
+
+		      echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Creation services for COPSI terminated correctly"
 
                    fi
 
@@ -56,11 +62,11 @@
 
 	  runuser -l colluser -c "sudo docker volume rm copsi-html"
 
-          echo "$(date '+%Y-%m-%d %H:%M:%S') [ERROR] End installation COPSI not terminated correctly"
+          echo "$(date '+%Y-%m-%d %H:%M:%S') [ERROR] Installation COPSI not terminated correctly, COPSI service and all related volumes have been removed"
 
        else
 
-          echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] End installation COPSI terminated with success"
+          echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Installation COPSI terminated with success"
 
        fi
 
@@ -82,6 +88,8 @@
        echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Begin installation DAFNE"
 
        status="NOK"
+
+       echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Begin creation volumes for DAFNE"
 
        if [[ "$?" == "0" ]];then
 
@@ -117,9 +125,19 @@
 
                                     if [[ "$?" == "0" ]];then
 
+					echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Creation volumes for DAFNE terminated correctly"
+
+                                        echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Begin creation services for DAFNE"
+
                                         runuser -l colluser -c "sudo docker stack deploy --compose-file /home/colluser/$1/dafne_install_pkg/docker-compose.yml dafne-service"
 
-                                        status="OK"
+                                        if [[ "$?" == "0" ]];then
+
+                                            status="OK"
+
+                                            echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Creation services for DAFNE terminated correctly"
+
+                                        fi
 
                                     fi
 
@@ -153,11 +171,11 @@
 
           runuser -l colluser -c "sudo docker stack rm dafne-service"
 
-          echo "$(date '+%Y-%m-%d %H:%M:%S') [ERROR] End installation DAFNE not terminated correctly"
+          echo "$(date '+%Y-%m-%d %H:%M:%S') [ERROR] Installation DAFNE not terminated correctly, DAFNE service and all related volumes have been removed"
 
        else
 
-          echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] End installation DAFNE terminated with success"
+          echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Installation DAFNE terminated with success"
 
        fi
 
@@ -179,6 +197,8 @@
        echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Begin installation TF"
 
        status="NOK"
+
+       echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Begin creation volumes for TF"
 
        runuser -l colluser -c "sudo docker volume create tf-config"
 
@@ -212,9 +232,19 @@
 
                                     if [[ "$?" == "0" ]];then
 
+					echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Creation volumes for TF terminated correctly"
+
+                                        echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Begin creation services for TF"
+
                                         runuser -l colluser -c "sudo docker stack deploy --compose-file /home/colluser/$1/esa_tf_install_pkg/docker-compose.yml tf-service"
                                         
-				        status="OK"	
+				        if [[ "$?" == "0" ]];then
+
+                                            status="OK"
+
+                                            echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Creation services for TF terminated correctly"
+
+                                        fi 
 
                                     fi
 
@@ -248,11 +278,11 @@
 
 	  runuser -l colluser -c "sudo docker stack rm tf-service"
 
-          echo "$(date '+%Y-%m-%d %H:%M:%S') [ERROR] End installation TF not terminated correctly"
+          echo "$(date '+%Y-%m-%d %H:%M:%S') [ERROR] Installation TF not terminated correctly, TF service and all related volumes have been removed"
 
        else
 
-          echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] End installation TF terminated with success"
+          echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Installation TF terminated with success"
 
        fi
 
@@ -266,13 +296,15 @@
 
      if [[ "$checkserviceiam" != 0  ]];then
 
-       echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] The IAM software is already installed"
+       echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] The KEYCLOAK software is already installed"
 
      else
 
        echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Begin installation KEYCLOAK"
 
        status="NOK"
+
+       echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Begin creation volumes for KEYCLOAK"
 
        runuser -l colluser -c "sudo docker volume create pg-scripts"
 
@@ -290,9 +322,19 @@
 
                    if [[ "$?" == "0" ]];then
 
+		       echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Creation volumes for KEYCLOAK terminated correctly"
+
+                       echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Begin creation services for KEYCLOAK"
+
                        runuser -l colluser -c "sudo docker stack deploy --compose-file /home/colluser/"$1"/keycloak/docker-compose.yml iam-service"
 
-                       status="OK"
+                       if [[ "$?" == "0" ]];then
+
+                           status="OK"
+
+                           echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Creation services for KEYCLOAK terminated correctly"
+
+                       fi 
 
 		   fi
 
@@ -310,11 +352,11 @@
 
 	  runuser -l colluser -c "sudo docker stack rm iam-service"
 
-          echo "$(date '+%Y-%m-%d %H:%M:%S') [ERROR] End installation KEYCLOAK not terminated correctly"
+          echo "$(date '+%Y-%m-%d %H:%M:%S') [ERROR] Installation KEYCLOAK not terminated correctly, KEYCLOAK service and all related volumes have been removed"
 
        else
 
-          echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] End installation KEYCLOAK terminated with success"
+          echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Installation KEYCLOAK terminated with success"
 
        fi
 
@@ -336,6 +378,8 @@
        echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Begin installation SF"
 
        status="NOK"
+
+       echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Begin creation volumes for SF"
 
        if [[ "$?" == "0" ]];then
 
@@ -359,9 +403,19 @@
 
                            if [[ "$?" == "0" ]];then
 
+			       echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Creation volumes for SF terminated correctly"
+
+                               echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Begin creation services for SF"
+
                                runuser -l colluser -c "sudo docker stack deploy --compose-file /home/colluser/$1/sf_install_pkg/docker-compose.yml sf-service"
                                
-			       status="OK"  
+			       if [[ "$?" == "0" ]];then
+
+                                   status="OK"
+
+                                   echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Creation services for SF terminated correctly"
+
+                               fi 
 
                            fi
 
@@ -387,11 +441,11 @@
 
 	  runuser -l colluser -c "sudo docker stack rm sf-service"
 
-          echo "$(date '+%Y-%m-%d %H:%M:%S') [ERROR] End installation SF not terminated correctly"
+          echo "$(date '+%Y-%m-%d %H:%M:%S') [ERROR] Installation SF not terminated correctly, SF service and all related volumes have been removed"
 
        else
 
-          echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] End installation SF terminated with success"
+          echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Installation SF terminated with success"
 
        fi
 
@@ -399,7 +453,7 @@
 
    }
 
-   echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Script 2 click begin"
+   echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Script 2 click installation begin"
 
    #Installation needed
 
@@ -435,7 +489,7 @@
 
      echo "%wheel ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 
-     echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Created colluser"
+     echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Created 'colluser' user"
   
    fi
 
@@ -443,7 +497,7 @@
 
    if [[ "$?" == "0" ]] ; then
 
-     echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] The swarm already exists"
+     echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] The Docker Swarm already exists"
 
    else
 
@@ -451,7 +505,7 @@
 
      docker network create --driver=overlay --attachable -o com.docker.network.bridge.enable_icc=true collnetwork
 
-     echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Created swarm"
+     echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Created Docker Swarm"
 
    fi
 
@@ -511,4 +565,4 @@
 
    fi
 
-   echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Script 2 click end"
+   echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Script 2 click installation terminated with success"
