@@ -60,16 +60,21 @@
   - DAFNE:
 
     /var/lib/docker/volumes/dafne-be-config/_data/config.json
+ 
     /var/lib/docker/volumes/dafne-be-config/_data/db_credentials.env
+ 
     /var/lib/docker/volumes/dafne-fe-config/_data/config.json
 
   - SF:
 
     /var/lib/docker/volumes/sf-config/_data/configuration.json
+ 
     /var/lib/docker/volumes/sf-config/_data/keycloak_configuration.json
 
   - TF:
 
     /var/lib/docker/volumes/tf-config/_data/esa_tf.config
+ 
     /var/lib/docker/volumes/tf-config/_data/hubs_credentials.yaml
+ 
     /var/lib/docker/volumes/tf-config/_data/traceability_config.yaml
