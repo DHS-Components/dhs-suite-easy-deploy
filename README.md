@@ -2,7 +2,7 @@
   <img src="./LogoDHS.png" alt="DHS suite easy deploy" width="214" />
 </p>
 
-# DHS suite 2 click installation
+# DHS suite easy deploy
 
 [![Stand With Ukraine](https://raw.githubusercontent.com/vshymanskyy/StandWithUkraine/main/badges/StandWithUkraine.svg)](https://vshymanskyy.github.io/StandWithUkraine)
 [![OpenCollective](https://opencollective.com/cucumber/backers/badge.svg)](https://opencollective.com/cucumber)
