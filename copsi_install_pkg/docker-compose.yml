@@ -2,9 +2,9 @@ version: "3.1"
 services:
   copsi:
     image: "collaborativedhs/copsi:1.0.1"
-    container_name: copsi
+    #container_name: copsi
     hostname: copsi
-    restart: always
+    #restart: always
     ports:
       - "8090:80"
     volumes:

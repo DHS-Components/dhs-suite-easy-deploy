@@ -2,9 +2,9 @@ version: "3.1"
 services:
   fe:
     image: "collaborativedhs/dafne:fe-3.0.2"
-    container_name: fe
+    #container_name: fe
     hostname: frontend
-    restart: always
+    #restart: always
     build: .
     ports:
       - "8080:80"
@@ -16,9 +16,9 @@ services:
       - be
   be:
     image: "collaborativedhs/dafne:be-3.0.1"
-    container_name: be
+    #container_name: be
     hostname: backend
-    restart: always
+    #restart: always
     build: .
     command: bash -c "npx sequelize-cli db:migrate && node index.js"
 
@@ -37,9 +37,9 @@ services:
     depends_on:
       - db
   db:
-    container_name: db
+    #container_name: db
     hostname: dafne_db
-    restart: always
+    #restart: always
     image: "library/postgres:12.5"
     env_file:
       - /var/lib/docker/volumes/dafne-be-config/_data/db_credentials.env

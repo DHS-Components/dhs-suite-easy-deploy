@@ -2,7 +2,7 @@ version: '3.7'
 services:
     sf-kb:
         image: openlink/virtuoso-opensource-7:latest
-        container_name: kb
+        #container_name: kb
         environment:
             - DBA_PASSWORD=mysecret
         ports:
@@ -12,7 +12,7 @@ services:
             - kb_db:/database
     dr-api:
         image: collaborativedhs/sf-datareceiver:v2.0
-        container_name: dr
+        #container_name: dr
         ports:
             - '8088:8080'    
         volumes:
