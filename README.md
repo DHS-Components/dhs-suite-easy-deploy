@@ -1,7 +1,7 @@
 
   PREREQUIREMENTS:
 
-    Execute the following from 'root' user:
+  Execute the following from 'root' user:
 
   - install Docker engine>=v20.10.21
 
@@ -19,11 +19,11 @@
 
   HOW TO LAUNCH THE INSTALLATION: 
 
-    The script has 3 parameters, ip machine, name of repository (the repository downloaded is the 1.0.0 version), list of softwares installable. If it wants to install ALL softwares please execute this command:  
+  The script has 3 parameters, ip machine, name of repository (the repository downloaded is the 1.0.0 version), list of softwares installable. If it wants to install ALL softwares please execute this command:  
 
-  ./2-click-installer.sh "<ip_machine>" "dhs-suite-easy-deploy" "copsi,dafne,tf,sf,iam"
+    ./2-click-installer.sh "<ip_machine>" "dhs-suite-easy-deploy" "copsi,dafne,tf,sf,iam"
 
-    The version of softwares installed are:
+  The version of softwares installed are:
 
   - COPSI: copsi 1.0.1
 
@@ -35,9 +35,9 @@
 
   - KEYCLOAK: custom version ciam-swarm-keycloak:1.0
 
-    If it wants to install a subset of softwares, for instance copsi and dafne, execute this command:
+  If it wants to install a subset of softwares, for instance copsi and dafne, execute this command:
 
-  ./2-click-installer.sh "<ip_machine>" "dhs-suite-easy-deploy" "copsi,dafne"
+    ./2-click-installer.sh "<ip_machine>" "dhs-suite-easy-deploy" "copsi,dafne"
 
   HOW TO REMOVE ALL SERVICES/ALL VOLUMES/NETWORK/SWARM/USER: 
 
