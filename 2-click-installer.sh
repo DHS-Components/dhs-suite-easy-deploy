@@ -2,7 +2,7 @@
    function installCopsi()
    {
 
-     checkservicecopsi=`docker service ls | grep "copsi" | wc -l`
+     checkservicecopsi=`docker service ls | grep "copsi-" | wc -l`
 
      if [[ "$checkservicecopsi" != 0  ]];then
 
@@ -56,11 +56,11 @@
 
 	  runuser -l colluser -c "sudo docker volume rm copsi-html"
 
-          echo "$(date '+%Y-%m-%d %H:%M:%S') [ERROR] End installation COPSI not correctly"
+          echo "$(date '+%Y-%m-%d %H:%M:%S') [ERROR] End installation COPSI not terminated correctly"
 
        else
 
-          echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] End installation COPSI correctly"
+          echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] End installation COPSI terminated with success"
 
        fi
 
@@ -71,7 +71,7 @@
    function installDafne()
    {
      
-     checkservicedafne=`docker service ls | grep "dafne" | wc -l`
+     checkservicedafne=`docker service ls | grep "dafne-" | wc -l`
 
      if [[ "$checkservicedafne" != 0  ]];then
 
@@ -153,11 +153,11 @@
 
           runuser -l colluser -c "sudo docker stack rm dafne-service"
 
-          echo "$(date '+%Y-%m-%d %H:%M:%S') [ERROR] End installation DAFNE not correctly"
+          echo "$(date '+%Y-%m-%d %H:%M:%S') [ERROR] End installation DAFNE not terminated correctly"
 
        else
 
-          echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] End installation DAFNE correctly"
+          echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] End installation DAFNE terminated with success"
 
        fi
 
@@ -168,7 +168,7 @@
    function installTF()
    {
 
-     checkservicetf=`docker service ls | grep "tf" | wc -l`
+     checkservicetf=`docker service ls | grep "tf-" | wc -l`
 
      if [[ "$checkservicetf" != 0  ]];then
 
@@ -248,11 +248,11 @@
 
 	  runuser -l colluser -c "sudo docker stack rm tf-service"
 
-          echo "$(date '+%Y-%m-%d %H:%M:%S') [ERROR] End installation TF not correctly"
+          echo "$(date '+%Y-%m-%d %H:%M:%S') [ERROR] End installation TF not terminated correctly"
 
        else
 
-          echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] End installation TF correctly"
+          echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] End installation TF terminated with success"
 
        fi
 
@@ -262,7 +262,7 @@
    function installIam()
    {
 
-     checkserviceiam=`docker service ls | grep "iam" | wc -l`
+     checkserviceiam=`docker service ls | grep "iam-" | wc -l`
 
      if [[ "$checkserviceiam" != 0  ]];then
 
@@ -286,19 +286,13 @@
 
                if [[ "$?" == "0" ]];then
 
-                   runuser -l colluser -c "sudo docker login -u onda.ops.team -p w]Ts+T72 https://docker-registry.onda-dias.eu"
+                   runuser -l colluser -c "cd /home/colluser/\"$1\"/keycloak; sudo docker build -t ciam-swarm-keycloak:1.0 .;"
 
                    if [[ "$?" == "0" ]];then
 
-                       runuser -l colluser -c "cd /home/colluser/\"$1\"/keycloak; sudo docker build -t ciam-swarm-keycloak:1.0 .;"
+                       runuser -l colluser -c "sudo docker stack deploy --compose-file /home/colluser/"$1"/keycloak/docker-compose.yml iam-service"
 
-                       if [[ "$?" == "0" ]];then
-
-                           runuser -l colluser -c "sudo docker stack deploy --compose-file /home/colluser/"$1"/keycloak/docker-compose.yml iam-service"
-
-                           status="OK"
-
-		       fi
+                       status="OK"
 
 		   fi
 
@@ -316,11 +310,11 @@
 
 	  runuser -l colluser -c "sudo docker stack rm iam-service"
 
-          echo "$(date '+%Y-%m-%d %H:%M:%S') [ERROR] End installation KEYCLOAK not correctly"
+          echo "$(date '+%Y-%m-%d %H:%M:%S') [ERROR] End installation KEYCLOAK not terminated correctly"
 
        else
 
-          echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] End installation KEYCLOAK correctly"
+          echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] End installation KEYCLOAK terminated with success"
 
        fi
 
@@ -331,7 +325,7 @@
    function installSF()
    {
 
-     checkservicesf=`docker service ls | grep "sf" | wc -l`
+     checkservicesf=`docker service ls | grep "sf-" | wc -l`
 
      if [[ "$checkservicesf" != 0  ]];then
 
@@ -345,7 +339,7 @@
 
        if [[ "$?" == "0" ]];then
 
-           runuser -l colluser -c "sudo docker volume create sf_config"
+           runuser -l colluser -c "sudo docker volume create sf-config"
 
            if [[ "$?" == "0" ]];then
 
@@ -361,7 +355,7 @@
 
                        if [[ "$?" == "0" ]];then
 
-                           runuser -l colluser -c "sudo cp /home/colluser/$1/sf_install_pkg/config/* /var/lib/docker/volumes/sf_config/_data/"
+                           runuser -l colluser -c "sudo cp /home/colluser/$1/sf_install_pkg/config/* /var/lib/docker/volumes/sf-config/_data/"
 
                            if [[ "$?" == "0" ]];then
 
@@ -383,21 +377,21 @@
 
        if [[ "$status" == "NOK" ]];then
 
-          runuser -l colluser -c "sudo docker volume create sf_config"
+          runuser -l colluser -c "sudo docker volume rm sf-config"
 
-	  runuser -l colluser -c "sudo docker volume create kb_db"
+	  runuser -l colluser -c "sudo docker volume rm kb_db"
 
-	  runuser -l colluser -c "sudo docker volume create dr-api_logs"
+	  runuser -l colluser -c "sudo docker volume rm dr-api_logs"
 
-	  runuser -l colluser -c "sudo docker volume create sf-api_logs"
+	  runuser -l colluser -c "sudo docker volume rm sf-api_logs"
 
 	  runuser -l colluser -c "sudo docker stack rm sf-service"
 
-          echo "$(date '+%Y-%m-%d %H:%M:%S') [ERROR] End installation SF not correctly"
+          echo "$(date '+%Y-%m-%d %H:%M:%S') [ERROR] End installation SF not terminated correctly"
 
        else
 
-          echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] End installation SF correctly"
+          echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] End installation SF terminated with success"
 
        fi
 
@@ -461,19 +455,19 @@
 
    fi
 
-   runuser -l colluser -c "sudo ls /home/colluser/$repository"
+   runuser -l colluser -c "sudo mv /home/$repository-1.0.0 /home/colluser/"
 
-   if [[ "$?" == "0" ]] ; then
+   if [[ "$?" == "1" ]] ; then
 
-     echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] The repository already exists"
+     echo "$(date '+%Y-%m-%d %H:%M:%S') [ERROR] The package $repository-1.0.0 to be installed doesn't exist in /home, check this and retry to execute the script"
+
+     echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Script 2 click exited because of the package $repository-1.0.0 to be installed is not present in /home"
+
+     exit
 
    else
 
-     runuser -l colluser -c "sudo curl -u vritrovato83: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 -LJO \"https://github.com/SercoSPA/$repository/archive/refs/tags/1.0.0.zip\""
-
-     runuser -l colluser -c "sudo unzip $repository-1.0.0.zip"  
-
-     echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Repository downloaded under /home/colluser"
+     echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] The package to be installed has been moved from /home to /home/colluser"
 
    fi
 

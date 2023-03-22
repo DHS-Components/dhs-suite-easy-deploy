@@ -25,9 +25,9 @@ services:
         ports:
             - '8087:8080'    
         volumes:
-            - /var/lib/docker/volumes/sf_config/_data/configuration.json:/config/configuration.json
+            - /var/lib/docker/volumes/sf-config/_data/configuration.json:/config/configuration.json
             - sf-api_logs:/logs
-            - /var/lib/docker/volumes/sf_config/_data/keycloak_configuration.json:/config/keycloak_configuration.json
+            - /var/lib/docker/volumes/sf-config/_data/keycloak_configuration.json:/config/keycloak_configuration.json
         environment:
             - 'KB_ADDRESS=jdbc:virtuoso://sf-kb:1111'
             - 'KB_ADDRESS_REPO=http://sf-kb:8890/'
@@ -35,7 +35,7 @@ services:
             - 'DR_ADDRESS=http://dr-api:8080/DataReceiver/webresources/'   
 
 volumes:
-  sf_config:
+  sf-config:
     external: true   
   kb_db:
     external: true
