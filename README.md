@@ -19,7 +19,7 @@
 
   HOW TO LAUNCH THE INSTALLATION: 
 
-  The script has 3 parameters, ip machine, name of repository (the repository downloaded is the 1.0.0 version), list of softwares installable. If it wants to install ALL softwares please execute this command:  
+  The script has 3 parameters, ip machine, name of repository (the repository downloaded is the 1.0.0 version), list of softwares installable. If it wants to install ALL softwares please execute this command from 'root' user:  
 
     ./2-click-installer.sh "<ip_machine>" "dhs-suite-easy-deploy" "copsi,dafne,tf,sf,iam"
 
@@ -35,11 +35,13 @@
 
   - KEYCLOAK: custom version ciam-swarm-keycloak:1.0
 
-  If it wants to install a subset of softwares, for instance copsi and dafne, execute this command:
+  If it wants to install a subset of softwares, for instance copsi and dafne, execute this command from 'root' user:
 
     ./2-click-installer.sh "<ip_machine>" "dhs-suite-easy-deploy" "copsi,dafne"
 
-  HOW TO REMOVE ALL SERVICES/ALL VOLUMES/NETWORK/SWARM/USER: 
+  HOW TO REMOVE ALL SERVICES/ALL VOLUMES/NETWORK/SWARM/USER:
+
+  These commands must be executed from 'root' user :
 
   - docker stack rm copsi-service dafne-service tf-service sf-service iam-service 
   
@@ -78,3 +80,5 @@
     /var/lib/docker/volumes/tf-config/_data/hubs_credentials.yaml
  
     /var/lib/docker/volumes/tf-config/_data/traceability_config.yaml
+
+  Please refer to documentation of each software regarding how to configure the files above.

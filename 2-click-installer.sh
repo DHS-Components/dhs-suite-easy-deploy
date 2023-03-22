@@ -467,7 +467,7 @@
 
    else
 
-     echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] The package to be installed has been moved from /home to /home/colluser"
+     echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] The package $repository-1.0.0 to be installed has been moved from /home to /home/colluser"
 
    fi
 
