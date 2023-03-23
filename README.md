@@ -78,30 +78,30 @@ If it wants to install a subset of softwares, for instance copsi and dafne, exec
 
 ### How to restart services
 
-- COPSI:
+#### COPSI
 
     docker stack rm copsi-service    
     docker stack deploy --compose-file /home/colluser/dhs-suite-easy-deploy-1.0.0/copsi_install_pkg/docker-compose.yml copsi-service
 
-- DAFNE:
+#### DAFNE
 
     docker stack rm dafne-service
 
     docker stack deploy --compose-file /home/colluser/dhs-suite-easy-deploy-1.0.0/dafne_install_pkg/docker-compose.yml dafne-service
 
-- TF:
+#### TF
 
     docker stack rm tf-service
 
     docker stack deploy --compose-file /home/colluser/dhs-suite-easy-deploy-1.0.0/esa_tf_install_pkg/docker-compose.yml tf-service
 
-- SF:
+#### SF
 
     docker stack rm sf-service
 
     docker stack deploy --compose-file /home/colluser/dhs-suite-easy-deploy-1.0.0/sf_install_pkg/docker-compose.yml sf-service
 
-- KEYCLOAK:
+#### KEYCLOAK
 
     docker stack rm iam-service
 
