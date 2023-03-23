@@ -22,7 +22,7 @@ The package having the installation content is downloadable by:
 
 and this package must be downloaded under /home folder by 'root' user.
 
-After the download is needed to unzip the package and go inside it:
+After the download is needed to unzip the package and go inside it where is the installer script:
 
     unzip /home/dhs-suite-easy-deploy-1.0.0.zip
 
@@ -30,24 +30,84 @@ After the download is needed to unzip the package and go inside it:
 
 ## Usage
 
+### Softwares version installed
+
+The softwares it can be installed with installer script are:
+
+- COPSI: copsi 1.0.1
+
+- DAFNE: dafne frontend 3.0.2, dafne backend 3.0.1, postgres 12.5
+
+- TF: esa_tf_restapi and esa_tf_worker latest version, scheduler dask 2021.8.1-py3.9, nginx 1.21.6
+
+- SF: virtuoso-opensource-7 latest version, sf-datareceiver v2.0, semantic_framework v2.3
+
+- KEYCLOAK: custom version ciam-swarm-keycloak:1.0
+
 ### How to launch the installation
 
-### Softwares version installed
+The installer script has 3 parameters, ip machine, name of repository (the repository downloaded is the 1.0.0 version), list of softwares installable. If it wants to install ALL softwares the command to be executed from 'root' user is:
+
+    ./2-click-installer.sh "<ip_machine>" "dhs-suite-easy-deploy" "copsi,dafne,tf,sf,iam"
+
+If it wants to install a subset of softwares, for instance copsi and dafne, execute this command from 'root' user:
+
+    ./2-click-installer.sh "<ip_machine>" "dhs-suite-easy-deploy" "copsi,dafne"
 
 ### How to remove 
 
 #### All docker services
 
+    docker stack rm copsi-service dafne-service tf-service sf-service iam-service
+
 #### All docker volumes
+
+    docker volume rm copsi-config copsi-html dafne-be-config dafne-be-logs dafne-db dafne-fe-config dafne-fe-html dr-api_logs kb_db pg-data pg-scripts sf-api_logs sf-config tf-config tf-data tf-logs tf-plugins tf-traces tf-output
 
 #### Docker network 
 
+    docker network rm collnetwork
+
+#### Docker Swarm
+
+    docker swarm leave --force
+
 #### User colluser
+
+    userdel -r colluser
 
 ## Softwares configuration 
 
+COPSI:
+
+- /var/lib/docker/volumes/copsi-config/_data/config.json
+
+DAFNE:
+
+- /var/lib/docker/volumes/dafne-be-config/_data/config.json
+
+- /var/lib/docker/volumes/dafne-be-config/_data/db_credentials.env
+
+- /var/lib/docker/volumes/dafne-fe-config/_data/config.json
+
+SF:
+
+- /var/lib/docker/volumes/sf-config/_data/configuration.json
+
+- /var/lib/docker/volumes/sf-config/_data/keycloak_configuration.json
+
+TF:
+
+- /var/lib/docker/volumes/tf-config/_data/esa_tf.config
+
+- /var/lib/docker/volumes/tf-config/_data/hubs_credentials.yaml
+
+- /var/lib/docker/volumes/tf-config/_data/traceability_config.yaml
+
 ### Documentation and support
+
+Please refer to documentation of each software regarding how to configure the files above.
 
 ## Copyright
 
-Copyright (c) Cucumber Ltd. and Contributors. See LICENSE for details.
+Copyright (c) DHS suite Ltd. and Contributors. See LICENSE for details.
