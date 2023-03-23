@@ -72,39 +72,35 @@ If it wants to install a subset of softwares, for instance copsi and dafne, exec
 
     docker swarm leave --force
 
-#### User colluser
+#### User 'colluser'
 
     userdel -r colluser
 
 ### How to restart services
 
-#### COPSI
+#### Copsi
 
     docker stack rm copsi-service    
     docker stack deploy --compose-file /home/colluser/dhs-suite-easy-deploy-1.0.0/copsi_install_pkg/docker-compose.yml copsi-service
 
-#### DAFNE
+#### Dafne
 
     docker stack rm dafne-service
-
     docker stack deploy --compose-file /home/colluser/dhs-suite-easy-deploy-1.0.0/dafne_install_pkg/docker-compose.yml dafne-service
 
-#### TF
+#### Tf
 
     docker stack rm tf-service
-
     docker stack deploy --compose-file /home/colluser/dhs-suite-easy-deploy-1.0.0/esa_tf_install_pkg/docker-compose.yml tf-service
 
-#### SF
+#### Sf
 
     docker stack rm sf-service
-
     docker stack deploy --compose-file /home/colluser/dhs-suite-easy-deploy-1.0.0/sf_install_pkg/docker-compose.yml sf-service
 
-#### KEYCLOAK
+#### Keycloak
 
     docker stack rm iam-service
-
     docker stack deploy --compose-file /home/colluser/dhs-suite-easy-deploy-1.0.0/keycloak/docker-compose.yml iam-service
 
 ## Softwares configuration 
