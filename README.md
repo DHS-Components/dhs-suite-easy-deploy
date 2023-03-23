@@ -80,8 +80,7 @@ If it wants to install a subset of softwares, for instance copsi and dafne, exec
 
 - COPSI:
 
-    docker stack rm copsi-service
-    
+    docker stack rm copsi-service    
     docker stack deploy --compose-file /home/colluser/dhs-suite-easy-deploy-1.0.0/copsi_install_pkg/docker-compose.yml copsi-service
 
 - DAFNE:
