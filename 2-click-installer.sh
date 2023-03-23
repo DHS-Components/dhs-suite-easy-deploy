@@ -32,7 +32,7 @@
 
                 if [[ "$?" == "0" ]];then
 
-	           echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Creation volumes for COPSI terminated correctly"
+	           echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Creation volumes for COPSI is terminated correctly"
 
 		   echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Begin creation services for COPSI"
 
@@ -42,7 +42,7 @@
 
                       status="OK"
 
-		      echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Creation services for COPSI terminated correctly"
+		      echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Creation services for COPSI is terminated correctly"
 
                    fi
 
@@ -62,11 +62,11 @@
 
 	  runuser -l colluser -c "sudo docker volume rm copsi-html"
 
-          echo "$(date '+%Y-%m-%d %H:%M:%S') [ERROR] Installation COPSI not terminated correctly, COPSI service and all related volumes have been removed"
+          echo "$(date '+%Y-%m-%d %H:%M:%S') [ERROR] Installation COPSI is not terminated correctly, COPSI service and all relative volumes have been removed"
 
        else
 
-          echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Installation COPSI terminated with success"
+          echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Installation COPSI is terminated with success"
 
        fi
 
@@ -125,7 +125,7 @@
 
                                     if [[ "$?" == "0" ]];then
 
-					echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Creation volumes for DAFNE terminated correctly"
+					echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Creation volumes for DAFNE is terminated correctly"
 
                                         echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Begin creation services for DAFNE"
 
@@ -135,7 +135,7 @@
 
                                             status="OK"
 
-                                            echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Creation services for DAFNE terminated correctly"
+                                            echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Creation services for DAFNE is terminated correctly"
 
                                         fi
 
@@ -171,11 +171,11 @@
 
           runuser -l colluser -c "sudo docker stack rm dafne-service"
 
-          echo "$(date '+%Y-%m-%d %H:%M:%S') [ERROR] Installation DAFNE not terminated correctly, DAFNE service and all related volumes have been removed"
+          echo "$(date '+%Y-%m-%d %H:%M:%S') [ERROR] Installation DAFNE is not terminated correctly, DAFNE service and all relative volumes have been removed"
 
        else
 
-          echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Installation DAFNE terminated with success"
+          echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Installation DAFNE is terminated with success"
 
        fi
 
@@ -232,7 +232,7 @@
 
                                     if [[ "$?" == "0" ]];then
 
-					echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Creation volumes for TF terminated correctly"
+					echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Creation volumes for TF is terminated correctly"
 
                                         echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Begin creation services for TF"
 
@@ -242,7 +242,7 @@
 
                                             status="OK"
 
-                                            echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Creation services for TF terminated correctly"
+                                            echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Creation services for TF is terminated correctly"
 
                                         fi 
 
@@ -278,11 +278,11 @@
 
 	  runuser -l colluser -c "sudo docker stack rm tf-service"
 
-          echo "$(date '+%Y-%m-%d %H:%M:%S') [ERROR] Installation TF not terminated correctly, TF service and all related volumes have been removed"
+          echo "$(date '+%Y-%m-%d %H:%M:%S') [ERROR] Installation TF is not terminated correctly, TF service and all relative volumes have been removed"
 
        else
 
-          echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Installation TF terminated with success"
+          echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Installation TF is terminated with success"
 
        fi
 
@@ -322,7 +322,7 @@
 
                    if [[ "$?" == "0" ]];then
 
-		       echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Creation volumes for KEYCLOAK terminated correctly"
+		       echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Creation volumes for KEYCLOAK is terminated correctly"
 
                        echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Begin creation services for KEYCLOAK"
 
@@ -332,7 +332,7 @@
 
                            status="OK"
 
-                           echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Creation services for KEYCLOAK terminated correctly"
+                           echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Creation services for KEYCLOAK is terminated correctly"
 
                        fi 
 
@@ -352,11 +352,11 @@
 
 	  runuser -l colluser -c "sudo docker stack rm iam-service"
 
-          echo "$(date '+%Y-%m-%d %H:%M:%S') [ERROR] Installation KEYCLOAK not terminated correctly, KEYCLOAK service and all related volumes have been removed"
+          echo "$(date '+%Y-%m-%d %H:%M:%S') [ERROR] Installation KEYCLOAK is not terminated correctly, KEYCLOAK service and all relative volumes have been removed"
 
        else
 
-          echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Installation KEYCLOAK terminated with success"
+          echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Installation KEYCLOAK is terminated with success"
 
        fi
 
@@ -403,7 +403,7 @@
 
                            if [[ "$?" == "0" ]];then
 
-			       echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Creation volumes for SF terminated correctly"
+			       echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Creation volumes for SF is terminated correctly"
 
                                echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Begin creation services for SF"
 
@@ -413,7 +413,7 @@
 
                                    status="OK"
 
-                                   echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Creation services for SF terminated correctly"
+                                   echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Creation services for SF is terminated correctly"
 
                                fi 
 
@@ -441,11 +441,11 @@
 
 	  runuser -l colluser -c "sudo docker stack rm sf-service"
 
-          echo "$(date '+%Y-%m-%d %H:%M:%S') [ERROR] Installation SF not terminated correctly, SF service and all related volumes have been removed"
+          echo "$(date '+%Y-%m-%d %H:%M:%S') [ERROR] Installation SF is not terminated correctly, SF service and all relative volumes have been removed"
 
        else
 
-          echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Installation SF terminated with success"
+          echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Installation SF is terminated with success"
 
        fi
 
@@ -565,4 +565,4 @@
 
    fi
 
-   echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Script 2 click installation terminated with success"
+   echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Script 2 click installation is terminated with success"

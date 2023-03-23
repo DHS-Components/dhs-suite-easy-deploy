@@ -78,6 +78,8 @@ If it wants to install a subset of softwares, for instance copsi and dafne, exec
 
 ## Softwares configuration 
 
+The softwares can be configured changing the content of these files:
+
 COPSI:
 
 - /var/lib/docker/volumes/copsi-config/_data/config.json
@@ -103,8 +105,6 @@ TF:
 - /var/lib/docker/volumes/tf-config/_data/hubs_credentials.yaml
 
 - /var/lib/docker/volumes/tf-config/_data/traceability_config.yaml
-
-### Documentation and support
 
 Please refer to documentation of each software regarding how to configure the files above.
 
