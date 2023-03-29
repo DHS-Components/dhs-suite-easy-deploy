@@ -16,15 +16,15 @@
 
        echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Begin creation volumes for COPSI"
 
-       runuser -l colluser -c "sudo docker volume create copsi-config"
-
+       runuser -l colluser -c "sudo docker volume create copsi-config > /dev/null 2>&1"
+ 
        if [[ "$?" == "0" ]];then
 
           runuser -l colluser -c "sudo cp /home/colluser/$1/copsi_install_pkg/data/copsi/config/config.json /var/lib/docker/volumes/copsi-config/_data/"
 
           if [[ "$?" == "0" ]];then
 
-             runuser -l colluser -c "sudo docker volume create copsi-html"
+             runuser -l colluser -c "sudo docker volume create copsi-html > /dev/null 2>&1"
 
              if [[ "$?" == "0" ]];then
 
@@ -36,7 +36,7 @@
 
 		   echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Begin creation services for COPSI"
 
-                   runuser -l colluser -c "sudo docker stack deploy --compose-file /home/colluser/$1/copsi_install_pkg/docker-compose.yml copsi-service"
+                   runuser -l colluser -c "sudo docker stack deploy --compose-file /home/colluser/$1/copsi_install_pkg/docker-compose.yml copsi-service > /dev/null 2>&1"
 
                    if [[ "$?" == "0" ]];then
 
@@ -56,11 +56,11 @@
 
        if [[ "$status" == "NOK" ]];then
 
-          runuser -l colluser -c "sudo docker stack rm copsi-service"
+          runuser -l colluser -c "sudo docker stack rm copsi-service > /dev/null 2>&1"
 
-	  runuser -l colluser -c "sudo docker volume rm copsi-config"
+	  runuser -l colluser -c "sudo docker volume rm copsi-config > /dev/null 2>&1"
 
-	  runuser -l colluser -c "sudo docker volume rm copsi-html"
+	  runuser -l colluser -c "sudo docker volume rm copsi-html > /dev/null 2>&1"
 
           echo "$(date '+%Y-%m-%d %H:%M:%S') [ERROR] Installation COPSI is not terminated correctly, COPSI service and all relative volumes have been removed"
 
@@ -93,11 +93,11 @@
 
        if [[ "$?" == "0" ]];then
 
-          runuser -l colluser -c 'sudo docker volume create dafne-fe-config'
+          runuser -l colluser -c 'sudo docker volume create dafne-fe-config > /dev/null 2>&1'
 
           if [[ "$?" == "0" ]];then
 	  
-	     runuser -l colluser -c 'sudo docker volume create dafne-fe-html'
+	     runuser -l colluser -c 'sudo docker volume create dafne-fe-html > /dev/null 2>&1'
 
              if [[ "$?" == "0" ]];then
 	     
@@ -109,7 +109,7 @@
 
                     if [[ "$?" == "0" ]];then
 		    
-		        runuser -l colluser -c "sudo docker volume create dafne-be-config"
+		        runuser -l colluser -c "sudo docker volume create dafne-be-config > /dev/null 2>&1"
 
                         if [[ "$?" == "0" ]];then
 			
@@ -117,11 +117,11 @@
 
                             if [[ "$?" == "0" ]];then
 			    
-			        runuser -l colluser -c "sudo docker volume create dafne-db"
+			        runuser -l colluser -c "sudo docker volume create dafne-db > /dev/null 2>&1"
 
                                 if [[ "$?" == "0" ]];then
 
-                                    runuser -l colluser -c "sudo docker volume create dafne-be-logs"
+                                    runuser -l colluser -c "sudo docker volume create dafne-be-logs > /dev/null 2>&1"
 
                                     if [[ "$?" == "0" ]];then
 
@@ -129,7 +129,7 @@
 
                                         echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Begin creation services for DAFNE"
 
-                                        runuser -l colluser -c "sudo docker stack deploy --compose-file /home/colluser/$1/dafne_install_pkg/docker-compose.yml dafne-service"
+                                        runuser -l colluser -c "sudo docker stack deploy --compose-file /home/colluser/$1/dafne_install_pkg/docker-compose.yml dafne-service > /dev/null 2>&1"
 
                                         if [[ "$?" == "0" ]];then
 
@@ -159,17 +159,17 @@
 
        if [[ "$status" == "NOK" ]];then
 
-          runuser -l colluser -c 'sudo docker volume rm dafne-fe-config'   
+          runuser -l colluser -c 'sudo docker volume rm dafne-fe-config > /dev/null 2>&1'   
 
-          runuser -l colluser -c 'sudo docker volume rm dafne-fe-html'	  
+          runuser -l colluser -c 'sudo docker volume rm dafne-fe-html > /dev/null 2>&1'	  
 
-          runuser -l colluser -c "sudo docker volume rm dafne-be-config"
+          runuser -l colluser -c "sudo docker volume rm dafne-be-config > /dev/null 2>&1"
 
-          runuser -l colluser -c "sudo docker volume rm dafne-db"
+          runuser -l colluser -c "sudo docker volume rm dafne-db > /dev/null 2>&1"
 
-	  runuser -l colluser -c "sudo docker volume rm dafne-be-logs"
+	  runuser -l colluser -c "sudo docker volume rm dafne-be-logs > /dev/null 2>&1"
 
-          runuser -l colluser -c "sudo docker stack rm dafne-service"
+          runuser -l colluser -c "sudo docker stack rm dafne-service > /dev/null 2>&1"
 
           echo "$(date '+%Y-%m-%d %H:%M:%S') [ERROR] Installation DAFNE is not terminated correctly, DAFNE service and all relative volumes have been removed"
 
@@ -200,7 +200,7 @@
 
        echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Begin creation volumes for TF"
 
-       runuser -l colluser -c "sudo docker volume create tf-config"
+       runuser -l colluser -c "sudo docker volume create tf-config > /dev/null 2>&1"
 
        if [[ "$?" == "0" ]];then
 
@@ -208,7 +208,7 @@
 
            if [[ "$?" == "0" ]];then
 
-               runuser -l colluser -c "sudo docker volume create tf-data"
+               runuser -l colluser -c "sudo docker volume create tf-data > /dev/null 2>&1"
 
                if [[ "$?" == "0" ]];then
 
@@ -216,19 +216,19 @@
 
                    if [[ "$?" == "0" ]];then
 
-                       runuser -l colluser -c "sudo docker volume create tf-plugins"
+                       runuser -l colluser -c "sudo docker volume create tf-plugins > /dev/null 2>&1"
 
                        if [[ "$?" == "0" ]];then
 
-                           runuser -l colluser -c "sudo docker volume create tf-traces"
+                           runuser -l colluser -c "sudo docker volume create tf-traces > /dev/null 2>&1"
 
                            if [[ "$?" == "0" ]];then
 
-                               runuser -l colluser -c "sudo docker volume create tf-logs"
+                               runuser -l colluser -c "sudo docker volume create tf-logs > /dev/null 2>&1"
 
 			       if [[ "$?" == "0" ]];then
 
-                                    runuser -l colluser -c "sudo docker volume create tf-output"
+                                    runuser -l colluser -c "sudo docker volume create tf-output > /dev/null 2>&1"
 
                                     if [[ "$?" == "0" ]];then
 
@@ -236,7 +236,7 @@
 
                                         echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Begin creation services for TF"
 
-                                        runuser -l colluser -c "sudo docker stack deploy --compose-file /home/colluser/$1/esa_tf_install_pkg/docker-compose.yml tf-service"
+                                        runuser -l colluser -c "sudo docker stack deploy --compose-file /home/colluser/$1/esa_tf_install_pkg/docker-compose.yml tf-service > /dev/null 2>&1"
                                         
 				        if [[ "$?" == "0" ]];then
 
@@ -264,19 +264,19 @@
 
        if [[ "$status" == "NOK" ]];then
 
-          runuser -l colluser -c "sudo docker volume rm tf-config" 
+          runuser -l colluser -c "sudo docker volume rm tf-config > /dev/null 2>&1" 
 
-	  runuser -l colluser -c "sudo docker volume rm tf-data"
+	  runuser -l colluser -c "sudo docker volume rm tf-data > /dev/null 2>&1"
 
-	  runuser -l colluser -c "sudo docker volume rm tf-plugins"
+	  runuser -l colluser -c "sudo docker volume rm tf-plugins > /dev/null 2>&1"
 
-	  runuser -l colluser -c "sudo docker volume rm tf-traces"
+	  runuser -l colluser -c "sudo docker volume rm tf-traces > /dev/null 2>&1"
 
-	  runuser -l colluser -c "sudo docker volume rm tf-logs"
+	  runuser -l colluser -c "sudo docker volume rm tf-logs > /dev/null 2>&1"
 
-	  runuser -l colluser -c "sudo docker volume rm tf-output"
+	  runuser -l colluser -c "sudo docker volume rm tf-output > /dev/null 2>&1"
 
-	  runuser -l colluser -c "sudo docker stack rm tf-service"
+	  runuser -l colluser -c "sudo docker stack rm tf-service > /dev/null 2>&1"
 
           echo "$(date '+%Y-%m-%d %H:%M:%S') [ERROR] Installation TF is not terminated correctly, TF service and all relative volumes have been removed"
 
@@ -306,11 +306,11 @@
 
        echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Begin creation volumes for KEYCLOAK"
 
-       runuser -l colluser -c "sudo docker volume create pg-scripts"
+       runuser -l colluser -c "sudo docker volume create pg-scripts > /dev/null 2>&1"
 
        if [[ "$?" == "0" ]];then
 
-           runuser -l colluser -c "sudo docker volume create pg-data"
+           runuser -l colluser -c "sudo docker volume create pg-data > /dev/null 2>&1"
 
            if [[ "$?" == "0" ]];then
 
@@ -326,7 +326,7 @@
 
                        echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Begin creation services for KEYCLOAK"
 
-                       runuser -l colluser -c "sudo docker stack deploy --compose-file /home/colluser/"$1"/keycloak/docker-compose.yml iam-service"
+                       runuser -l colluser -c "sudo docker stack deploy --compose-file /home/colluser/"$1"/keycloak/docker-compose.yml iam-service > /dev/null 2>&1"
 
                        if [[ "$?" == "0" ]];then
 
@@ -346,11 +346,11 @@
 
        if [[ "$status" == "NOK" ]];then
 
-          runuser -l colluser -c "sudo docker volume rm pg-data"
+          runuser -l colluser -c "sudo docker volume rm pg-data > /dev/null 2>&1"
 
-          runuser -l colluser -c "sudo docker volume rm pg-scripts"
+          runuser -l colluser -c "sudo docker volume rm pg-scripts > /dev/null 2>&1"
 
-	  runuser -l colluser -c "sudo docker stack rm iam-service"
+	  runuser -l colluser -c "sudo docker stack rm iam-service > /dev/null 2>&1"
 
           echo "$(date '+%Y-%m-%d %H:%M:%S') [ERROR] Installation KEYCLOAK is not terminated correctly, KEYCLOAK service and all relative volumes have been removed"
 
@@ -383,19 +383,19 @@
 
        if [[ "$?" == "0" ]];then
 
-           runuser -l colluser -c "sudo docker volume create sf-config"
+           runuser -l colluser -c "sudo docker volume create sf-config > /dev/null 2>&1"
 
            if [[ "$?" == "0" ]];then
 
-               runuser -l colluser -c "sudo docker volume create kb_db"
+               runuser -l colluser -c "sudo docker volume create kb_db > /dev/null 2>&1"
 
                if [[ "$?" == "0" ]];then
 
-                   runuser -l colluser -c "sudo docker volume create dr-api_logs"
+                   runuser -l colluser -c "sudo docker volume create dr-api_logs > /dev/null 2>&1"
 
                    if [[ "$?" == "0" ]];then
 
-                       runuser -l colluser -c "sudo docker volume create sf-api_logs"
+                       runuser -l colluser -c "sudo docker volume create sf-api_logs > /dev/null 2>&1"
 
                        if [[ "$?" == "0" ]];then
 
@@ -407,7 +407,7 @@
 
                                echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Begin creation services for SF"
 
-                               runuser -l colluser -c "sudo docker stack deploy --compose-file /home/colluser/$1/sf_install_pkg/docker-compose.yml sf-service"
+                               runuser -l colluser -c "sudo docker stack deploy --compose-file /home/colluser/$1/sf_install_pkg/docker-compose.yml sf-service > /dev/null 2>&1"
                                
 			       if [[ "$?" == "0" ]];then
 
@@ -431,15 +431,15 @@
 
        if [[ "$status" == "NOK" ]];then
 
-          runuser -l colluser -c "sudo docker volume rm sf-config"
+          runuser -l colluser -c "sudo docker volume rm sf-config > /dev/null 2>&1"
 
-	  runuser -l colluser -c "sudo docker volume rm kb_db"
+	  runuser -l colluser -c "sudo docker volume rm kb_db > /dev/null 2>&1"
 
-	  runuser -l colluser -c "sudo docker volume rm dr-api_logs"
+	  runuser -l colluser -c "sudo docker volume rm dr-api_logs > /dev/null 2>&1"
 
-	  runuser -l colluser -c "sudo docker volume rm sf-api_logs"
+	  runuser -l colluser -c "sudo docker volume rm sf-api_logs > /dev/null 2>&1"
 
-	  runuser -l colluser -c "sudo docker stack rm sf-service"
+	  runuser -l colluser -c "sudo docker stack rm sf-service > /dev/null 2>&1"
 
           echo "$(date '+%Y-%m-%d %H:%M:%S') [ERROR] Installation SF is not terminated correctly, SF service and all relative volumes have been removed"
 
@@ -465,9 +465,7 @@
 
    ip_machine=$1
 
-   repository=$2
-
-   listtoinstall=$3
+   listtoinstall=$2
 
    checkuser=`cat /etc/passwd | grep "colluser" | wc -l`
 
@@ -501,27 +499,29 @@
 
    else
 
-     docker swarm init --advertise-addr "$ip_machine"
+     docker swarm init --advertise-addr "$ip_machine" > /dev/null 2>&1
 
-     docker network create --driver=overlay --attachable -o com.docker.network.bridge.enable_icc=true collnetwork
+     docker network create --driver=overlay --attachable -o com.docker.network.bridge.enable_icc=true collnetwork > /dev/null 2>&1
 
      echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Created Docker Swarm"
 
    fi
 
-   runuser -l colluser -c "sudo mv /home/$repository-1.0.0 /home/colluser/"
+   runuser -l colluser -c "sudo ls /home/dhs-suite-easy-deploy-1.0.0"
 
    if [[ "$?" == "1" ]] ; then
 
-     echo "$(date '+%Y-%m-%d %H:%M:%S') [ERROR] The package $repository-1.0.0 to be installed doesn't exist in /home, check this and retry to execute the script"
+     echo "$(date '+%Y-%m-%d %H:%M:%S') [WARN] The package dhs-suite-easy-deploy-1.0.0 to be installed doesn't exist in /home"
 
-     echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Script 2 click exited because of the package $repository-1.0.0 to be installed is not present in /home"
+     echo "$(date '+%Y-%m-%d %H:%M:%S') [WARN] If the script has been launched at first time please download before in /home the package dhs-suite-easy-deploy-1.0.0 from repository (view the README.md file for the details) and re-execute the script"
 
      exit
 
    else
 
-     echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] The package $repository-1.0.0 to be installed has been moved from /home to /home/colluser"
+     runuser -l colluser -c "sudo mv /home/dhs-suite-easy-deploy-1.0.0 /home/colluser/"
+
+     echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] The package dhs-suite-easy-deploy-1.0.0 to be installed has been moved from /home to /home/colluser"
 
    fi
 
@@ -529,7 +529,7 @@
 
    if [[ "$listtoinstall" == *"copsi"* ]];then
 
-      installCopsi "$repository-1.0.0"
+      installCopsi "dhs-suite-easy-deploy-1.0.0"
 
    fi
 
@@ -537,7 +537,7 @@
 
    if [[ "$listtoinstall" == *"dafne"* ]];then
 
-      installDafne "$repository-1.0.0"
+      installDafne "dhs-suite-easy-deploy-1.0.0"
 
    fi
 
@@ -545,7 +545,7 @@
 
    if [[ "$listtoinstall" == *"tf"* ]];then
 
-      installTF "$repository-1.0.0"
+      installTF "dhs-suite-easy-deploy-1.0.0"
 
    fi
 
@@ -553,7 +553,7 @@
 
    if [[ "$listtoinstall" == *"iam"* ]];then
 
-      installIam "$repository-1.0.0"
+      installIam "dhs-suite-easy-deploy-1.0.0"
 
    fi
 
@@ -561,7 +561,7 @@
 
    if [[ "$listtoinstall" == *"sf"* ]];then
 
-      installSF "$repository-1.0.0"
+      installSF "dhs-suite-easy-deploy-1.0.0"
 
    fi
 

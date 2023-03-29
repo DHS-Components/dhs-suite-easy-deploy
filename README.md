@@ -2,9 +2,9 @@
   <img src="./LogoDHS.png" alt="DHS suite easy deploy" width="214" />
 </p>
 
-# DHS suite easy deploy
+# DHS Suite Easy Deploy
 
-The DHS suite is a tool allowing the installation of Collaborative Softwares in Docker Swarm environment
+The DHS suite is a tool allowing the installation of Collaborative Softwares in Docker Swarm environment, in particular if the machine where the suite will be installed is not in a swarm it will be added. The Docker swarm created will be a single node swarm and it is important to have on the machine these TCP/UDP ports opened 2376/2377/7946/4789.
 
 ## Prerequirements
 
@@ -13,6 +13,12 @@ The softwares needed to allow the installation are:
 - Docker engine>=v20.10.21
 
 - Docker compose>=v2.12.2
+
+Rememeber that the minimum resources needed to install correctly the entire DHS suite are:
+
+CPU = 16cores + Ycores for TF
+RAM = 32GB + 6GB x Ycore for TF
+DISK = 350GB
 
 ## Download the package to be installed
 
@@ -28,6 +34,8 @@ After the download is needed to unzip the package and go inside it where is the 
 
     cd /home/dhs-suite-easy-deploy-1.0.0
 
+The version of the package for this installation is 1.0.0.
+
 ## Usage
 
 ### Softwares version installed
@@ -42,17 +50,55 @@ The softwares it can be installed with installer script are:
 
 - SF: virtuoso-opensource-7 latest version, sf-datareceiver v2.0, semantic_framework v2.3
 
-- KEYCLOAK: custom version ciam-swarm-keycloak:1.0
+- KEYCLOAK: custom version ciam-swarm-keycloak 1.0
 
 ### How to launch the installation
 
-The installer script has 3 parameters, ip machine, name of repository (the repository downloaded is the 1.0.0 version), list of softwares installable. If it wants to install ALL softwares the command to be executed from 'root' user is:
+The installer script has 2 parameters, ip machine and list of softwares installable. If it wants to install ALL softwares the command to be executed from 'root' user is:
 
-    ./2-click-installer.sh "<ip_machine>" "dhs-suite-easy-deploy" "copsi,dafne,tf,sf,iam"
+    ./2-click-installer.sh "<ip_machine>" "copsi,dafne,tf,sf,iam"
 
 If it wants to install a subset of softwares, for instance copsi and dafne, execute this command from 'root' user:
 
-    ./2-click-installer.sh "<ip_machine>" "dhs-suite-easy-deploy" "copsi,dafne"
+    ./2-click-installer.sh "<ip_machine>" "copsi,dafne"
+
+In order to configure the DHS suite as it wants it is needed to refer to section "Softwares configuration" and then, to restart the services, refer to section "How to restart services".
+
+This installation will be create these docker volumes:
+
+COPSI:
+
+- copsi-config
+- copsi-html
+
+DAFNE:
+
+- dafne-be-config
+- dafne-be-logs
+- dafne-db
+- dafne-fe-config
+- dafne-fe-html
+
+KEYCLOAK:
+
+- pg-data
+- pg-scripts
+
+SF:
+
+- dr-api_logs
+- kb_db
+- sf-api_logs
+- sf-config
+
+TF:
+
+- tf-config
+- tf-data
+- tf-logs
+- tf-output
+- tf-plugins
+- tf-traces
 
 ### How to remove 
 
@@ -137,4 +183,4 @@ Please refer to documentation of each software regarding how to configure the fi
 
 ## Copyright
 
-Copyright (c) DHS suite Ltd. and Contributors. See LICENSE for details.
+Copyright (c) DHS Suite Easy Deploy Ltd. and Contributors. See LICENSE for details.
