@@ -514,9 +514,7 @@
      runuser -l colluser -c "sudo mv /home/dhs-suite-easy-deploy-1.0.0 /home/colluser/"
 
      echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] The package dhs-suite-easy-deploy-1.0.0 to be installed has been moved from /home to /home/colluser"
-
-     exit
-
+   
    else
 
      echo "$(date '+%Y-%m-%d %H:%M:%S') [WARN] The package dhs-suite-easy-deploy-1.0.0 to be installed doesn't exist in /home"
