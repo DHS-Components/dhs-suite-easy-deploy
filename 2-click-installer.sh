@@ -318,7 +318,7 @@
 
                if [[ "$?" == "0" ]];then
 
-                   runuser -l colluser -c "cd /home/colluser/\"$1\"/keycloak; sudo docker build -t ciam-swarm-keycloak:1.0 .;"
+                   runuser -l colluser -c "cd /home/colluser/\"$1\"/keycloak; sudo docker build -t ciam-swarm-keycloak:1.0 . > /dev/null 2>&1;"
 
                    if [[ "$?" == "0" ]];then
 
@@ -491,7 +491,7 @@
   
    fi
 
-   docker node ls
+   docker node ls > /dev/null 2>&1
 
    if [[ "$?" == "0" ]] ; then
 
@@ -507,7 +507,7 @@
 
    fi
 
-   runuser -l colluser -c "sudo ls /home/dhs-suite-easy-deploy-1.0.0"
+   runuser -l colluser -c "sudo ls /home/dhs-suite-easy-deploy-1.0.0 > /dev/null 2>&1"
 
    if [[ "$?" == "1" ]] ; then
 
