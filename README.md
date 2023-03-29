@@ -16,9 +16,11 @@ The softwares needed to allow the installation are:
 
 Rememeber that the minimum resources needed to install correctly the entire DHS suite are:
 
-CPU = 16cores + Ycores for TF
-RAM = 32GB + 6GB x Ycore for TF
-DISK = 350GB
+- CPU = 16cores + Ycores for TF
+
+- RAM = 32GB + 6GB x Ycore for TF
+
+- DISK = 350GB
 
 ## Download the package to be installed
 
