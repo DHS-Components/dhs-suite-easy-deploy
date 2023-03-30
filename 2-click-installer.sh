@@ -514,14 +514,20 @@
      runuser -l colluser -c "sudo mv /home/dhs-suite-easy-deploy-1.0.0 /home/colluser/"
 
      echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] The package dhs-suite-easy-deploy-1.0.0 to be installed has been moved from /home to /home/colluser"
-   
+
+     runuser -l colluser -c "sudo touch /home/colluser/firstrundone"
+
    else
 
-     echo "$(date '+%Y-%m-%d %H:%M:%S') [WARN] The package dhs-suite-easy-deploy-1.0.0 to be installed doesn't exist in /home"
+     if [ ! -f /home/colluser/firstrundone ];then
 
-     echo "$(date '+%Y-%m-%d %H:%M:%S') [WARN] If the script has been launched at first time please download before in /home the package dhs-suite-easy-deploy-1.0.0 from repository (view the README.md file for the details) and re-execute the script"
+       echo "$(date '+%Y-%m-%d %H:%M:%S') [WARN] The package dhs-suite-easy-deploy-1.0.0 to be installed doesn't exist in /home"
 
-     exit
+       echo "$(date '+%Y-%m-%d %H:%M:%S') [WARN] If the script has been launched at first time please download before in /home the package dhs-suite-easy-deploy-1.0.0 from repository (view the README.md file for the details) and re-execute the script"
+
+       exit
+
+     fi
 
    fi
 
