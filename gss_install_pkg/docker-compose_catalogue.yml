@@ -1,0 +1,16 @@
+services:
+  catalogue:
+    image: "gaeldockerhub/cdh-catalogue:${TAG}"
+    ports:
+     - 8081:8081
+    volumes:
+     - ./gss-catalogue.xml:/catalogue/etc/gss.xml
+     - ./application.properties:/catalogue/etc/application.properties
+     - ~/test/data/:/catalogue/hfs
+    networks:
+     - backend
+
+networks:
+  backend:
+    name: backend
+    external: true

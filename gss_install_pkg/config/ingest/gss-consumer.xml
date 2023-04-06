@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!-- This file is used to configure an ingester in consumer mode for products stored in a DHuS OData endpoint. -->
+<!-- Products will be ingested in a HFS DataStore and indexed in Solr -->
+<!-- Mandatory parameters are commented with a [M], optional ones with a [0] -->
+<conf:configuration
+        xmlns:conf="fr:gael:gss:ingest:configuration"
+        xmlns:ingester="fr:gael:gss:ingest:ingester"
+        xmlns:ds="fr:gael:gss:core:datastore"
+        xmlns:ms="fr:gael:gss:core:metadatastore">
+        <!-- [M] Access to the PostgreSQL database -->
+        <!-- The attribute poolSize is optional (default 10) and is the max opened connection to the database -->
+        <conf:database jdbcUrl="jdbc:postgresql://10.21.2.9:5432/gss_new_2" login="postgres" password="Qwaszx-1!" poolSize="100" />
+                <!-- Stores are configured below. In this scenario, one HFS DataStore is used to store products and quicklooks. A Solr index is used to store metadata -->
+                <!-- Stores are configured below. In this scenario, one HFS DataStore is used to store products and quicklooks. A Solr index is used to store metadata -->
+   <conf:dataStores>
+      <ds:dataStore xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ds:hfsDataStoreConf" name="QL1">
+         <!-- [0] Access permissions. Default is read-only -->
+         <ds:permission>WRITE</ds:permission>
+         <ds:permission>READ</ds:permission>
+         <ds:permission>DELETE</ds:permission>
+         <ds:properties>
+            <!-- [0] if true, this store will be able to store attached files. Default is false -->
+            <ds:property>
+               <ds:name>STORE_ATTACHED_FILES</ds:name>
+               <ds:value>true</ds:value>
+            </ds:property>
+         </ds:properties>
+         <!-- [M] Abolute path to the destination folder -->
+         <!-- In case of using Docker, this path is referred to an internal conatiner path -->
+         <!-- which will be mapped to an external absolute path folder of VM host into dokcer run command -->
+         <!-- as follows where products will be stored: -v /path/to/external/folder:/ingest/folder -->
+         <!-- In case of using .zip package, this path is referred to an absolute path folder of VM host where -->
+         <!-- products will be stored. -->
+         <ds:path>/ingest/folder1</ds:path>
+         <!-- [0] How many levels of directories there will be. Default is 2 -->
+         <ds:depth>0</ds:depth>
+         <!-- [0] How many characters of an UUID will be taken for a directory's name. Default is 2 -->
+         <ds:granularity>2</ds:granularity>
+      </ds:dataStore>
+      <!-- Time based datastoreGroup -->
+      <ds:dataStore xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ds:timeBasedDataStoreGroupConf" name="TimeGroup1">
+         <!-- [0] Access permissions. Default is read-only -->
+         <ds:permission>READ</ds:permission>
+         <ds:permission>WRITE</ds:permission>
+         <ds:permission>DELETE</ds:permission>
+         <!-- [M] This is a regex product filename filtering on kafka messages received. -->
+         <!-- .* means that all messages will be processed by consumer without any filter. -->
+         <ds:filter>.*</ds:filter>
+         <!-- [M] Control the orders of stores in this group. Here each store has a manually assigned priority -->
+         <ds:policy>UserDefinedPriorityPolicy</ds:policy>
+         <!-- [M] DataStores that make up this group. -->
+         <ds:dataStores>
+            <ds:dataStore xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ds:hfsDataStoreConf" name="hfs1">
+               <ds:permission>READ</ds:permission>
+               <ds:permission>WRITE</ds:permission>
+               <ds:permission>DELETE</ds:permission>
+               <ds:properties>
+                  <!-- [M] How much time in seconds a product will be kept in this store -->
+                  <ds:property>
+                     <ds:name>KEEP_PERIOD_SECONDS</ds:name>
+                     <ds:value>20</ds:value>
+                  </ds:property>
+                  <!-- [M] Assigned priority. The lower the value is, the highest is the priority -->
+                  <ds:property>
+                     <ds:name>PRIORITY</ds:name>
+                     <ds:value>0</ds:value>
+                  </ds:property>
+               </ds:properties>
+               <!-- [M] Abolute path to the destination folder -->
+               <!-- In case of using Docker, this path is referred to an internal container path -->
+               <!-- which will be mapped to an external absolute path folder of VM host into docker run command -->
+               <!-- as follows where products will be stored: -v /path/to/external/folder:/ingest/folder -->
+               <!-- In case of using .zip package, this path is referred to an absolute path folder of VM host where -->
+               <!-- products will be stored. -->
+               <ds:path>/ingest/folder1</ds:path>
+               <!-- [0] How many levels of directories there will be. Default is 2 -->
+               <ds:depth>0</ds:depth>
+               <!-- [0] How many characters of an UUID will be taken for a directory's name. Default is 2 -->
+               <ds:granularity>2</ds:granularity>
+            </ds:dataStore>
+         </ds:dataStores>
+      </ds:dataStore>
+   </conf:dataStores>
+   <!-- [0] Metadata stores are defined below. SolrCloud instance in this scenario -->
+   <conf:metadataStores>
+      <!-- [0] Solr Metastore -->
+      <ms:metadataStore xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ms:SolrMetadataStoreConf" name="solr">
+         <!-- [0] Access permissions. Default is READ only -->
+         <ms:permission>READ</ms:permission>
+         <ms:permission>WRITE</ms:permission>
+         <ms:permission>DELETE</ms:permission>
+         <!-- [M] comma separated solr nodes (1 to n nodes) -->
+         <ms:hosts>http://10.21.2.10:8983/solr</ms:hosts>
+         <!-- [0] Client type to connect solr -->
+         <!-- LBHttp : load balanced http access (round-robin) to all specified nodes -->
+         <!-- SolrCloud : default, discover solr nodes with zookeeper -->
+         <ms:clientType>SolrCloud</ms:clientType>
+         <!-- [0] Solr username -->
+         <ms:user></ms:user>
+         <!-- [0] Solr password -->
+         <ms:password></ms:password>
+         <!-- [M] name of the solr collection -->
+         <ms:collection>gss_new_2</ms:collection>
+      </ms:metadataStore>
+   </conf:metadataStores>
+   <!-- [M] Define the ingesters. In this scenario, the consumers will retrieve products from a folder -->
+   <conf:ingesters>
+      <ingester:ingester xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ingester:kafkaIngesterConsumerConf" name="dhus-consumer">
+         <!-- [O] Configuration of error Manager container. -->
+         <!-- errorLocation: In case of using Docker, this path is referred to an internal container path -->
+         <!-- ............ : which will be mapped to an external absolute path folder of VM host into docker run command -->
+         <!-- ............ : as follows where products in error will be stored: -v /mnt/nas/error:/ingest/error -->
+         <!-- ............ : In case of using .zip package, this path is referred to an absolute path folder of VM host where -->
+         <!-- ............ : products in error will be stored. For example: /mnt/nas/error -->
+         <ingester:errorManager type="folder">
+            <ingester:errorLocation>/ingest/error</ingester:errorLocation>
+         </ingester:errorManager>
+         <!-- [0] number of parallel ingestions. Default is 4. Should match the parallel download source quota -->
+         <ingester:parallelIngests>10</ingester:parallelIngests>
+         <!-- [M] comma separated kafka nodes (1 to n nodes) -->
+         <ingester:hosts>10.21.2.7:9092</ingester:hosts>
+         <!-- [M] if you want multiple consumers to read messages from the same topics, each one of them must have the same
+            groupId -->
+         <ingester:groupId>ingest-topic-group</ingester:groupId>
+         <!-- [M] comma separated kafka topics where consumed messages will be fetched -->
+         <ingester:topics>ingestion-S1</ingester:topics>
+         <!-- [M] Ingestion tasks. At least 1 task has to be configured -->
+         <!-- The tasks can be declared in any order, they have an assigned not configurable priority -->
+         <!-- Each task as at least 3 parameters -->
+         <!-- active: boolean, activate or not this task. Default is true -->
+         <!-- pattern: filter which products will be processed. Default is ".*" i.e. all products -->
+         <!-- tryLimit: how many attempts will be done in case of error. Default is 1 -->
+         <!-- stopOnFailure: if an error occurs during the task, indicates whether or not to stop the ingestion -->
+         <!-- and undo all previous successful tasks. Default is true -->
+         <!-- tmpPath attribute : some tasks need to make a local copy of the product to be deleted after processing. Default
+            is /tmp -->
+
+         <ingester:tasks tmpPath="/ingest/tmp">
+            <!-- [0] ingestInDataStores task: used to ingest the products in the datastores -->
+            <!-- [0] targetStores: comma separated list of stores where products will be ingested -->
+            <!-- if not specified, products will be ingested in all configured datastores -->
+            <ingester:task xsi:type="ingester:ingestInDataStores" pattern=".*" tryLimit="5" stopOnFailure="true" targetStores="TimeGroup1" />
+            <!-- [0] extractMetadata task: used to extract/retrieve metadata of a product -->
+            <ingester:task xsi:type="ingester:extractMetadata" pattern=".*" tryLimit="5" stopOnFailure="true" />
+            <!-- [0] ingestInMetadataStores task: used to ingest the products in the MetadataStores -->
+            <!-- [0] targetStores: comma separated list of stores where products will be ingested -->
+            <!-- if not specified, products will be ingested in all configured MetadataStores -->
+            <ingester:task xsi:type="ingester:ingestInMetadataStores" pattern=".*" tryLimit="5" stopOnFailure="true" targetStores="solr" />
+            <!-- [0] createQuicklook task: used to create and save quicklooks -->
+            <!-- [M] targetStores: comma separated list of stores where quicklooks will be saved -->
+            <!-- Those store must have the property STORE_ATTACHED_FILES set to true -->
+            <ingester:task xsi:type="ingester:createQuicklook" pattern=".*" tryLimit="5" stopOnFailure="false" targetStores="QL1" />
+            <!-- [0] generateTrace task: generate a trace record (json) and save it in a directory -->
+            <!-- [M] privateKeyPath: path to the file containing your private key -->
+            <!-- [M] passphrase: your passphrase -->
+            <!-- [M] destinationFolder: path to the folder where traces record will be saved -->
+            <!-- .................... : In case of using Docker, this path is referred to an internal container path -->
+            <!-- .................... : which will be mapped to an external absolute path folder of VM host into docker run
+               command -->
+            <!-- .................... : as follows where traces will be stored: -v /mnt/nas/traces:/ingest/traces -->
+            <!-- [M] serviceContext: name of your service on the traceability server -->
+            <!-- [M] serviceType: type of service, should be DISTRIBUTION -->
+            <!-- [M] serviceProvider: your identifer to indicate the source of the trace -->
+            <!--<ingester:task xsi:type="ingester:generateTrace" pattern=".*" tryLimit="1"
+               stopOnFailure="true" privateKeyPath="/path/to/secret-key.txt" passphrase="passphrase"
+               destinationFolder="/ingest/traces" serviceContext="gs-cdh" serviceType="DISTRIBUTION"
+            serviceProvider="cdh01" />-->
+         </ingester:tasks>
+         <!-- [M] OData source configuration (elements can appear in any order) -->
+         <ingester:source xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ingester:consumerOdataConf">
+            <!-- [M] Url of the OData endpoint -->
+            <ingester:serviceRootUrl>https://colhub.copernicus.eu/dhus/odata/v2</ingester:serviceRootUrl>
+            <!-- [0] Use basic auth to connect to the OData endpoint -->
+            <ingester:auth type="basic">
+               <!-- [M] User name -->
+               <ingester:user>ivvuser</ingester:user>
+               <!-- [M] User password -->
+               <ingester:password>password</ingester:password>
+            </ingester:auth>
+            <!-- [M] Type of OData endpoint (can be dhus or csc) -->
+            <ingester:type>dhus</ingester:type>
+            <!-- [0] retriesOn429: if a HTTP 429 error is received, retry the download. Default is 0 -->
+            <ingester:retriesOn429>5</ingester:retriesOn429>
+            <!-- [0] retryWaitOn429ms: time to wait in ms between retries. Default is 1000 -->
+            <ingester:retryWaitOn429ms>5000</ingester:retryWaitOn429ms>
+         </ingester:source>
+      </ingester:ingester>
+   </conf:ingesters>
+</conf:configuration>
+

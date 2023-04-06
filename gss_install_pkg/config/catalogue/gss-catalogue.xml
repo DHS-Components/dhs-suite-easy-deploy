@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+
+<!-- This file is used to configure DataStores, MetadataStores and other different system parameters of the catalogue -->
+<!-- Mandatory parameters will be commented with a [M], optional ones with a [0] -->
+
+<conf:configuration xmlns:conf="fr:gael:gss:odata:configuration"
+   xmlns:ds="fr:gael:gss:core:datastore" xmlns:ms="fr:gael:gss:core:metadatastore" xmlns:dl="fr:gael:gss:odata:download">
+
+   <!-- [M] Access to the PostgreSQL database -->
+   <!-- The attribute poolSize is optional (default 10) and is the max opened connection to the database -->
+   <conf:database jdbcUrl="jdbc:postgresql://postgres:5432/postgres" login="postgres" password="password"
+      poolSize="5" />
+
+   <!-- [0] Activate some background processes -->
+   <!-- evictionByTime activate the data transfer for TimeBasedDataStoreGroups. Default is false -->
+   <conf:process evictionByTime="false" />
+
+   <!-- [0] Configuration tweaks -->
+   <!-- directDownloadLink : enable the direct download from cloud stores (swift) when using $value. Default is true. -->
+   <!-- quotaDisabled : disable quotas. Default is false. -->
+   <conf:download directDownloadLink="true" quotaDisabled="true" />
+
+   <!-- Stores are configured below. In this scenario, one HFS DataStore is used to store products and quicklooks. A Solr 
+      index is used to store metadata -->
+   <conf:dataStores>
+      <ds:dataStore xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ds:hfsDataStoreConf"
+         name="hfs">
+         <!-- [0] Access permissions. Default is read-only -->
+         <ds:permission>WRITE</ds:permission>
+         <ds:permission>READ</ds:permission>
+         <ds:permission>DELETE</ds:permission>
+         <ds:properties>
+            <!-- [0] if true, this store will be able to store attached files. Default is false -->
+            <ds:property>
+               <ds:name>STORE_ATTACHED_FILES</ds:name>
+               <ds:value>true</ds:value>
+            </ds:property>
+         </ds:properties>
+         <!-- [M] Absolute path to the root path of the store -->
+         <ds:path>/catalogue/hfs</ds:path>
+         <!-- [0] How many levels of directories there will be. Default is 2 -->
+         <ds:depth>2</ds:depth>
+         <!-- [0] How many characters of an UUID will be taken for a directory's name. Default is 2 -->
+         <ds:granularity>2</ds:granularity>
+      </ds:dataStore>
+   </conf:dataStores>
+
+   <!-- [0] Metadata stores are defined below. SolrCloud instance in this scenario -->
+   <conf:metadataStores>
+      <!-- [0] Solr Metastore -->
+      <ms:metadataStore xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:type="ms:SolrMetadataStoreConf" name="solr">
+         <!-- [0] Access permissions. Default is READ only -->
+         <ms:permission>READ</ms:permission>
+         <ms:permission>WRITE</ms:permission>
+         <ms:permission>DELETE</ms:permission>
+
+         <!-- [M] comma separated solr nodes (1 to n nodes) -->
+         <ms:hosts>http://solr-1:8981/solr,http://solr-2:8982/solr,http://solr-3:8983/solr</ms:hosts>
+
+         <!-- [0] Client type to connect solr -->
+         <!-- LBHttp : load balanced http access (round-robin) to all specified nodes -->
+         <!-- SolrCloud : default, discover solr nodes with zookeeper -->
+         <ms:clientType>LBHttp</ms:clientType>
+
+         <!-- [M] name of the solr collection -->
+         <ms:collection>cdh</ms:collection>
+      </ms:metadataStore>
+   </conf:metadataStores>
+
+</conf:configuration>

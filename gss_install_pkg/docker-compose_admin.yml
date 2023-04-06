@@ -1,0 +1,15 @@
+services:
+  catalogue:
+    image: "gaeldockerhub/cdh-admin-api:${TAG}"
+    ports:
+     - 8082:8082
+
+    volumes:
+     - ./application.properties:/admin-api/etc/application.properties
+    networks:
+     - backend
+
+networks:
+  backend:
+    name: backend
+    external: true

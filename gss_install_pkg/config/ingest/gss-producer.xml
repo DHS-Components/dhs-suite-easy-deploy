@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!-- This file is used to configure an ingester in producer mode scanning products from a DHuS OData v4 endpoint. -->
+<!-- Mandatory parameters will be commented with a [M], optional ones with a [0] -->
+<conf:configuration
+        xmlns:conf="fr:gael:gss:ingest:configuration"
+        xmlns:ingester="fr:gael:gss:ingest:ingester"
+        xmlns:ds="fr:gael:gss:core:datastore"
+        xmlns:ms="fr:gael:gss:core:metadatastore">
+        <!-- [M] Access to the PostgreSQL database -->
+        <!-- The attribute poolSize is optional (default 10) and is the max opened connection to the database -->
+        <conf:database jdbcUrl="jdbc:postgresql://10.21.2.9:5432/gss_new_2" login="postgres" password="Qwaszx-1!" poolSize="100" />
+        <!-- [M] Define the ingesters. In this scenario, there is only one producer that will scan a DHuS -->
+        <conf:ingesters>
+                <ingester:ingester
+                        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ingester:kafkaIngesterProducerConf" name="producer">
+                        <!-- [M] comma separated kafka nodes (1 to n nodes) -->
+                        <ingester:hosts>172.21.2.7:9092</ingester:hosts>
+                        <!-- [M] name of the kafka topic where produced messages will be sent -->
+                        <ingester:topic>ingestion-S1</ingester:topic>
+                        <!-- [M] Frequency of the source scan in seconds. Default is 60. -->
+                        <ingester:pushInterval>1</ingester:pushInterval>
+                        <!-- [0] This is a regex product filename filtering on kafka messages to put in queue. -->
+                        <!-- .* means that all messages will be put in queue without any filter. -->
+                        <!-- If the datasource is a DHUS or CSC, this is a second level filter which will be taken into -->
+                        <!-- consideration after the execution of OData filter inside ingester:source section. -->
+                        <ingester:filter>.*</ingester:filter>
+                        <!-- [M] OData source configuration (elements can appear in any order) -->
+                        <ingester:source
+                                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ingester:producerOdataConf">
+                                <!-- [M] Url of the OData endpoint -->
+                                <ingester:serviceRootUrl>https://colhub.copernicus.eu/dhus/odata/v2</ingester:serviceRootUrl>
+                                <!-- [0] Use basic auth to connect to the OData endpoint -->
+                                <ingester:auth type="basic">
+                                <!-- [M] User name -->
+                                <ingester:user>ivvuser</ingester:user>
+                                <!-- [M] User password -->
+                                <ingester:password>password</ingester:password>
+                                </ingester:auth>
+                                <!-- [0] How many products to take at each scan, default is 10 -->
+                                <ingester:top>10</ingester:top>
+                                <!-- [0] product published after this date will be selected -->
+                                <ingester:lastPublicationDate>2023-04-03T03:00:00.000Z</ingester:lastPublicationDate>
+                                <!-- [0] OData filter to apply to select products -->
+				<ingester:filter>startswith(Name,'S1') and CreationDate lt 2023-04-03T03:20:00.000Z</ingester:filter>
+				<ingester:assumedFormat>.zip</ingester:assumedFormat>
+                                <!-- [M] Type of OData endpoint (can be dhus or csc) -->
+                                <ingester:type>dhus</ingester:type>
+                                <!-- [0] if true, use the lastPublicationDate saved in db if not null (search by ingester name). Default is true -->
+                                <ingester:useDateFromDb>false</ingester:useDateFromDb>
+                                <!-- [0] if true, try to get the quicklook from the source. Default is false -->
+                                <ingester:fetchQuicklook>true</ingester:fetchQuicklook>
+                                <!-- [0] Polygon in WKT format to get only products intersecting it -->
+                                <!--<ingester:geoPostFilter>POLYGON((2.5902972717712602 48.83790703748822,2.59068082766039
+                                   48.83790703748822,2.59068082766039 48.83779052047628,2.5902972717712602
+                                48.83779052047628,2.5902972717712602 48.83790703748822))</ingester:geoPostFilter>-->
+		</ingester:source>
+		</ingester:ingester>
+        </conf:ingesters>
+</conf:configuration>

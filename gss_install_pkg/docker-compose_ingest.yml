@@ -1,0 +1,69 @@
+services:
+  producer-S1:
+    image: "gaeldockerhub/cdh-ingest:${TAG}"
+    volumes:
+     - ./gss-producer-S1.xml:/ingest/etc/gss.xml
+     - /data/GSS/1.2.0/cdh-compose-1.2.0/ingest/logs:/ingest/logs 
+       #networks:
+       #- backend
+  producer-S2:
+    image: "gaeldockerhub/cdh-ingest:${TAG}"
+    volumes:
+     - ./gss-producer-S2.xml:/ingest/etc/gss.xml
+     - /data/GSS/1.2.0/cdh-compose-1.2.0/ingest/logs:/ingest/logs
+       #networks:
+       #- backend
+  producer-S3:
+    image: "gaeldockerhub/cdh-ingest:${TAG}"
+    volumes:
+     - ./gss-producer-S3.xml:/ingest/etc/gss.xml
+     - /data/GSS/1.2.0/cdh-compose-1.2.0/ingest/logs:/ingest/logs  
+       #networks:
+       #- backend
+  producer-S5P:
+    image: "gaeldockerhub/cdh-ingest:${TAG}"
+    volumes:
+     - ./gss-producer-S5P.xml:/ingest/etc/gss.xml
+     - /data/GSS/1.2.0/cdh-compose-1.2.0/ingest/logs:/ingest/logs
+       #networks:
+       #- backend
+
+  consumer-S1:
+    image: "gaeldockerhub/cdh-ingest:${TAG}"
+    volumes:
+    - ./gss_consumer-dest-folder_S1.xml:/ingest/etc/gss.xml
+    - /mnt/dhsnas/IVV_PLATFORM/GSS/DEST_FOLDER_GSS_1.2.0/S1:/ingest/folder1
+    - /mnt/dhsnas/IVV_PLATFORM/GSS/DEST_FOLDER_GSS_1.2.0/error:/ingest/error
+    - /mnt/dhsnas/IVV_PLATFORM/GSS/DEST_FOLDER_GSS_1.2.0/tmp:/ingest/tmp 
+    - /data/GSS/1.2.0/cdh-compose-1.2.0/ingest/logs:/ingest/logs
+  consumer-S2:
+    image: "gaeldockerhub/cdh-ingest:${TAG}"
+    volumes:
+    - ./gss_consumer-dest-folder_S2.xml:/ingest/etc/gss.xml
+    - /mnt/dhsnas/IVV_PLATFORM/GSS/DEST_FOLDER_GSS_1.2.0/S2:/ingest/folder2
+    - /mnt/dhsnas/IVV_PLATFORM/GSS/DEST_FOLDER_GSS_1.2.0/error:/ingest/error
+    - /mnt/dhsnas/IVV_PLATFORM/GSS/DEST_FOLDER_GSS_1.2.0/tmp:/ingest/tmp
+    - /data/GSS/1.2.0/cdh-compose-1.2.0/ingest/logs:/ingest/logs
+  consumer-S3:
+    image: "gaeldockerhub/cdh-ingest:${TAG}"
+    volumes:
+    - ./gss_consumer-dest-folder_S3.xml:/ingest/etc/gss.xml
+    - /mnt/dhsnas/IVV_PLATFORM/GSS/DEST_FOLDER_GSS_1.2.0/S3:/ingest/folder3
+    - /mnt/dhsnas/IVV_PLATFORM/GSS/DEST_FOLDER_GSS_1.2.0/error:/ingest/error
+    - /mnt/dhsnas/IVV_PLATFORM/GSS/DEST_FOLDER_GSS_1.2.0/tmp:/ingest/tmp
+    - /data/GSS/1.2.0/cdh-compose-1.2.0/ingest/logs:/ingest/logs
+  consumer-S5P:
+    image: "gaeldockerhub/cdh-ingest:${TAG}"
+    volumes:
+    - ./gss_consumer-dest-folder_S5P.xml:/ingest/etc/gss.xml
+    - /mnt/dhsnas/IVV_PLATFORM/GSS/DEST_FOLDER_GSS_1.2.0/S5P:/ingest/folder5P
+    - /mnt/dhsnas/IVV_PLATFORM/GSS/DEST_FOLDER_GSS_1.2.0/error:/ingest/error
+    - /mnt/dhsnas/IVV_PLATFORM/GSS/DEST_FOLDER_GSS_1.2.0/tmp:/ingest/tmp
+    - /data/GSS/1.2.0/cdh-compose-1.2.0/ingest/logs:/ingest/logs
+       #networks:
+       #- backend
+
+       #networks:
+       #backend:
+       #name: backend
+       #external: true
