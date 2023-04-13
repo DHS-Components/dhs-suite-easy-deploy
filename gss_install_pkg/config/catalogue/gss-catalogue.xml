@@ -8,7 +8,7 @@
 
    <!-- [M] Access to the PostgreSQL database -->
    <!-- The attribute poolSize is optional (default 10) and is the max opened connection to the database -->
-   <conf:database jdbcUrl="jdbc:postgresql://postgres:5432/postgres" login="postgres" password="password"
+   <conf:database jdbcUrl="jdbc:postgresql://10.144.1.99:5432/gss" login="postgres" password="password"
       poolSize="5" />
 
    <!-- [0] Activate some background processes -->
@@ -56,7 +56,7 @@
          <ms:permission>DELETE</ms:permission>
 
          <!-- [M] comma separated solr nodes (1 to n nodes) -->
-         <ms:hosts>http://solr-1:8981/solr,http://solr-2:8982/solr,http://solr-3:8983/solr</ms:hosts>
+         <ms:hosts>http://localhost:8983/solr</ms:hosts>
 
          <!-- [0] Client type to connect solr -->
          <!-- LBHttp : load balanced http access (round-robin) to all specified nodes -->

@@ -1,16 +1,15 @@
+version: "3.1"
 services:
   catalogue:
-    image: "gaeldockerhub/cdh-catalogue:${TAG}"
+    image: "gaeldockerhub/cdh-catalogue:1.2.0"
     ports:
      - 8081:8081
     volumes:
-     - ./gss-catalogue.xml:/catalogue/etc/gss.xml
-     - ./application.properties:/catalogue/etc/application.properties
-     - ~/test/data/:/catalogue/hfs
-    networks:
-     - backend
+     - ./config/catalogue/gss-catalogue.xml:/catalogue/etc/gss.xml
+     - ./config/catalogue/application.properties:/catalogue/etc/application.properties
+     - ./data/catalogue:/catalogue/hfs
 
 networks:
-  backend:
-    name: backend
-    external: true
+  default:
+    external:
+      name: collnetwork
