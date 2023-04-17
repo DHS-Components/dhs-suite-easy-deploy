@@ -14,6 +14,14 @@ The softwares needed to allow the installation are:
 
 - Docker compose>=v2.12.2
 
+- Java-17-openjdk
+
+- Solr>=8.0
+
+- Postgres>=10.12
+
+- Kafka>=3.3.1
+
 Rememeber that the minimum resources needed to install correctly the entire DHS suite are:
 
 - CPU = 16cores + Ycores for TF
@@ -26,7 +34,7 @@ Rememeber that the minimum resources needed to install correctly the entire DHS 
 
 The package having the installation content is downloadable by:
 
-    curl -u vritrovato83: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 -LJO "https://github.com/SercoSPA/dhs-suite-easy-deploy/archive/refs/tags/1.0.0.zip"
+    curl -u vritrovato83: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 -LJO "https://github.com/SercoSPA/dhs-suite-easy-deploy/archive/refs/tags/1.0.0.zip"
 
 and this package must be downloaded under /home folder by 'root' user.
 
@@ -54,17 +62,19 @@ The softwares it can be installed with installer script are:
 
 - KEYCLOAK: custom version ciam-swarm-keycloak 1.0
 
+- GSS: gss-admin/catalogue/ingest 1.2.0
+
 ### How to launch the installation
 
-The installer script has 2 parameters, ip machine and list of softwares installable. If it wants to install ALL softwares the command to be executed from 'root' user is:
+The installer script has 2 parameters, ip machine and list of softwares installable. If it wants to install ALL softwares the command to be executed from 'root' user is (only for gss softwares before the launching, it is needed to set the IP adress of the machine in ALL config files and it is needed to install the COTS softwares, refer to section "Softwares configuration"):
 
-    ./2-click-installer.sh "<ip_machine>" "copsi,dafne,tf,sf,iam"
+    ./2-click-installer.sh "<ip_machine>" "copsi,dafne,tf,sf,iam,gss"
 
 If it wants to install a subset of softwares, for instance copsi and dafne, execute this command from 'root' user:
 
     ./2-click-installer.sh "<ip_machine>" "copsi,dafne"
 
-In order to configure the DHS suite as it wants it is needed to refer to section "Softwares configuration" and then, to restart the services, refer to section "How to restart services".
+In order to configure the DHS suite as it wants it is needed to refer to section "Softwares configuration". In order to restart the services, refer to section "How to restart services".
 
 This installation will be create these docker volumes:
 
@@ -106,7 +116,7 @@ TF:
 
 #### All docker services
 
-    docker stack rm copsi-service dafne-service tf-service sf-service iam-service
+    docker stack rm copsi-service dafne-service tf-service sf-service iam-service gss-admin-service gss-catalogue-service gss-ingest-service
 
 #### All docker volumes
 
@@ -151,6 +161,13 @@ TF:
     docker stack rm iam-service
     docker stack deploy --compose-file /home/colluser/dhs-suite-easy-deploy-1.0.0/keycloak/docker-compose.yml iam-service
 
+#### Gss
+
+    docker stack rm gss-admin-service
+    docker stack deploy --compose-file /home/colluser/dhs-suite-easy-deploy-1.0.0/gss_install_pkg/docker-compose_admin.yml gss-admin-service
+    docker stack deploy --compose-file /home/colluser/dhs-suite-easy-deploy-1.0.0/gss_install_pkg/docker-compose_catalogue.yml gss-catalogue-service
+    docker stack deploy --compose-file /home/colluser/dhs-suite-easy-deploy-1.0.0/gss_install_pkg/docker-compose_ingest.yml gss-ingest-service    
+
 ## Softwares configuration 
 
 The softwares can be configured changing the content of these files:
@@ -181,7 +198,19 @@ TF:
 
 - /var/lib/docker/volumes/tf-config/_data/traceability_config.yaml
 
-Please refer to documentation of each software regarding how to configure the files above.
+GSS:
+
+- ./gss_install_pkg/config/admin/application.properties
+
+- ./gss_install_pkg/config/catalogue/application.properties
+
+- ./gss_install_pkg/config/catalogue/gss-catalogue.xml
+
+- ./gss_install_pkg/config/ingest/gss-producer.xml
+
+- ./gss_install_pkg/config/ingest/gss-consumer.xml
+
+Please refer to documentation of each software regarding how to configure the files above and only for GSS softwares refere also to the Installation Manual for COTS.
 
 ## Copyright
 
