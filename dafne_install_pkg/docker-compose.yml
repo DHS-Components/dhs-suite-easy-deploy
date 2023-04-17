@@ -43,8 +43,8 @@ services:
     image: "library/postgres:12.5"
     env_file:
       - /var/lib/docker/volumes/dafne-be-config/_data/db_credentials.env
-    ports:
-      - "5432:5432"
+        #ports:
+        #- "5432:5432"
     volumes:
       - dafne-db:/var/lib/postgresql/data
 volumes:
