@@ -453,6 +453,71 @@
 
    }
 
+   function installGSS()
+   {
+
+     checkservicegss=`docker service ls | grep "gss-" | wc -l`
+
+     if [[ "$checkservicegss" != 0  ]];then
+
+       echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] The GSS software is already installed"
+
+     else
+
+       echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Begin installation GSS"
+
+       status="NOK"
+
+       echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Begin creation services for GSS"
+
+       runuser -l colluser -c "cd /home/colluser/$1/gss_install_pkg/; sudo docker stack deploy --compose-file /home/colluser/$1/gss_install_pkg/docker-compose_admin.yml gss-admin-service > /dev/null 2>&1"
+
+       if [[ "$?" == "0" ]];then
+	   
+	  echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Creation service for GSS ADMIN is terminated correctly"
+	   
+          runuser -l colluser -c "cd /home/colluser/$1/gss_install_pkg/; sudo docker stack deploy --compose-file /home/colluser/$1/gss_install_pkg/docker-compose_catalogue.yml gss-catalogue-service > /dev/null 2>&1"
+		   
+          if [[ "$?" == "0" ]];then
+		   
+	       echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Creation service for GSS CATALOGUE is terminated correctly"
+	   
+	       runuser -l colluser -c "cd /home/colluser/$1/gss_install_pkg/; sudo docker stack deploy --compose-file /home/colluser/$1/gss_install_pkg/docker-compose_ingest.yml gss-ingest-service > /dev/null 2>&1"
+				
+	       if [[ "$?" == "0" ]];then
+				
+	            echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Creation service for GSS INGEST is terminated correctly"
+
+		    status="OK"
+
+		    echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Creation services for GSS is terminated correctly"
+				
+	       fi
+
+          fi
+
+       fi
+
+       if [[ "$status" == "NOK" ]];then
+
+          runuser -l colluser -c "sudo docker stack rm gss-admin-service > /dev/null 2>&1"
+		  
+          runuser -l colluser -c "sudo docker stack rm gss-catalogue-service > /dev/null 2>&1"
+		  
+	  runuser -l colluser -c "sudo docker stack rm gss-ingest-service > /dev/null 2>&1"
+
+          echo "$(date '+%Y-%m-%d %H:%M:%S') [ERROR] Installation GSS is not terminated correctly, GSS services have been removed"
+
+       else
+
+          echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Installation GSS is terminated with success"
+
+       fi
+
+     fi
+
+   }
+
    echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Script 2 click installation begin"
 
    #Installation needed
@@ -568,6 +633,14 @@
    if [[ "$listtoinstall" == *"sf"* ]];then
 
       installSF "dhs-suite-easy-deploy-1.0.0"
+
+   fi
+
+   #SF
+
+   if [[ "$listtoinstall" == *"gss"* ]];then
+
+      installGSS "dhs-suite-easy-deploy-1.0.0"
 
    fi
 
