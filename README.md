@@ -164,6 +164,8 @@ TF:
 #### Gss
 
     docker stack rm gss-admin-service
+    docker stack rm gss-catalogue-service
+    docker stack rm gss-ingest-service
     docker stack deploy --compose-file /home/colluser/dhs-suite-easy-deploy-1.0.0/gss_install_pkg/docker-compose_admin.yml gss-admin-service
     docker stack deploy --compose-file /home/colluser/dhs-suite-easy-deploy-1.0.0/gss_install_pkg/docker-compose_catalogue.yml gss-catalogue-service
     docker stack deploy --compose-file /home/colluser/dhs-suite-easy-deploy-1.0.0/gss_install_pkg/docker-compose_ingest.yml gss-ingest-service    
