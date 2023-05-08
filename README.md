@@ -4,7 +4,7 @@
 
 # DHS Suite Easy Deploy
 
-The DHS suite is a tool allowing the installation of Collaborative Softwares in Docker Swarm environment, in particular if the machine where the suite will be installed is not in a swarm it will be added. The Docker swarm created will be a single node swarm and it is important to have on the machine these TCP/UDP ports opened 2376/2377/7946/4789.
+The DHS suite Easy Deploy is a tool allowing the installation of Collaborative Softwares in Docker Swarm environment, in particular if the machine where the suite will be installed is not in a swarm it will be added. The Docker swarm created will be a single node swarm and it is important to have on the machine these TCP/UDP ports opened 2376/2377/7946/4789.
 
 ## Prerequirements
 
@@ -22,6 +22,8 @@ The softwares needed to allow the installation are:
 
 - Kafka>=3.3.1
 
+- Zookeeper=3.8
+
 Rememeber that the minimum resources needed to install correctly the entire DHS suite are:
 
 - CPU = 16cores + Ycores for TF
@@ -38,7 +40,7 @@ The package having the installation content is downloadable by:
 
 and this package must be downloaded under /home folder by 'root' user.
 
-After the download is needed to unzip the package and go inside it where is the installer script:
+After the download it is needed to unzip the package and go inside it where is the installer script:
 
     unzip /home/dhs-suite-easy-deploy-1.0.0.zip
 
@@ -50,15 +52,15 @@ The version of the package for this installation is 1.0.0.
 
 ### Softwares version installed
 
-The softwares it can be installed with installer script are:
+The softwares that can be installed with installer script are:
 
 - COPSI: copsi 1.0.1
 
-- DAFNE: dafne frontend 3.0.2, dafne backend 3.0.1, postgres 12.5
+- DAFNE: dafne frontend 3.0.2, dafne backend 3.0.1, postgres 12.5 (release version: 3.0.2)
 
-- TF: esa_tf_restapi and esa_tf_worker latest version, scheduler dask 2021.8.1-py3.9, nginx 1.21.6
+- TF: esa_tf_restapi and esa_tf_worker latest version, scheduler dask 2021.8.1-py3.9, nginx 1.21.6 (release version: 1.3.0-osf)
 
-- SF: virtuoso-opensource-7 latest version, sf-datareceiver v2.0, semantic_framework v2.3
+- SF: virtuoso-opensource-7 latest version, sf-datareceiver v2.0, semantic_framework v2.3 (release version: 2.3)
 
 - KEYCLOAK: custom version ciam-swarm-keycloak 1.0
 
@@ -70,13 +72,15 @@ The installer script has 2 parameters, ip machine and list of softwares installa
 
     ./2-click-installer.sh "<ip_machine>" "copsi,dafne,tf,sf,iam,gss"
 
+every commands in the script above is executed as 'colluser' user, pre-created before the execution of installation commands.
+
 If it wants to install a subset of softwares, for instance copsi and dafne, execute this command from 'root' user:
 
     ./2-click-installer.sh "<ip_machine>" "copsi,dafne"
 
 In order to configure the DHS suite as it wants it is needed to refer to section "Softwares configuration". In order to restart the services, refer to section "How to restart services".
 
-This installation will be create these docker volumes:
+This installation will create these docker volumes:
 
 COPSI:
 
@@ -136,32 +140,32 @@ TF:
 
 ### How to restart services
 
-#### Copsi
+#### COPSI
 
     docker stack rm copsi-service    
     docker stack deploy --compose-file /home/colluser/dhs-suite-easy-deploy-1.0.0/copsi_install_pkg/docker-compose.yml copsi-service
 
-#### Dafne
+#### DAFNE
 
     docker stack rm dafne-service
     docker stack deploy --compose-file /home/colluser/dhs-suite-easy-deploy-1.0.0/dafne_install_pkg/docker-compose.yml dafne-service
 
-#### Tf
+#### TF
 
     docker stack rm tf-service
     docker stack deploy --compose-file /home/colluser/dhs-suite-easy-deploy-1.0.0/esa_tf_install_pkg/docker-compose.yml tf-service
 
-#### Sf
+#### SF
 
     docker stack rm sf-service
     docker stack deploy --compose-file /home/colluser/dhs-suite-easy-deploy-1.0.0/sf_install_pkg/docker-compose.yml sf-service
 
-#### Keycloak
+#### KEYCLOAK
 
     docker stack rm iam-service
     docker stack deploy --compose-file /home/colluser/dhs-suite-easy-deploy-1.0.0/keycloak/docker-compose.yml iam-service
 
-#### Gss
+#### GSS
 
     docker stack rm gss-admin-service
     docker stack rm gss-catalogue-service
@@ -212,7 +216,7 @@ GSS:
 
 - ./gss_install_pkg/config/ingest/gss-consumer.xml
 
-Please refer to documentation of each software regarding how to configure the files above and only for GSS softwares refere also to the Installation Manual for COTS.
+Please refer to documentation of each software regarding how to configure the files above and only for GSS softwares please refer also to [COPE-SERCO-TN-23-1461] - GSS COTS installation v1.1.
 
 ## Copyright
 
