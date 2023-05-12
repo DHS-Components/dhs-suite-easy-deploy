@@ -36,7 +36,7 @@ Rememeber that the minimum resources needed to install correctly the entire DHS 
 
 The package having the installation content is downloadable by:
 
-    curl -u vritrovato83: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 -LJO "https://github.com/SercoSPA/dhs-suite-easy-deploy/archive/refs/tags/1.0.0.zip"
+    curl -LJO "https://github.com/DHS-Components/dhs-suite-easy-deploy/archive/refs/tags/1.0.0.zip"
 
 and this package must be downloaded under /home folder by 'root' user.
 
