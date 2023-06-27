@@ -14,43 +14,35 @@
 
        status="NOK"
 
-       echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Begin creation volumes for COPSI"
-
-       runuser -l colluser -c "sudo docker volume create copsi-config > /dev/null 2>&1"
+       mkdir -p /shared/copsi-config/
  
+       mkdir -p /shared/copsi-html/
+
        if [[ "$?" == "0" ]];then
 
-          runuser -l colluser -c "sudo cp /home/colluser/$1/copsi_install_pkg/data/copsi/config/config.json /var/lib/docker/volumes/copsi-config/_data/"
-
-          if [[ "$?" == "0" ]];then
-
-             runuser -l colluser -c "sudo docker volume create copsi-html > /dev/null 2>&1"
-
-             if [[ "$?" == "0" ]];then
-
-                runuser -l colluser -c "sudo cp /home/colluser/$1/copsi_install_pkg/data/copsi/html/index.html /var/lib/docker/volumes/copsi-html/_data/"
+                runuser -l colluser -c "sudo cp /home/colluser/$1/copsi_install_pkg/data/copsi/config/config.json /shared/copsi-config/"
 
                 if [[ "$?" == "0" ]];then
 
-	           echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Creation volumes for COPSI is terminated correctly"
+                   runuser -l colluser -c "sudo cp /home/colluser/$1/copsi_install_pkg/data/copsi/html/index.html /shared/copsi-html/"
 
-		   echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Begin creation services for COPSI"
+		   if [[ "$?" == "0" ]];then
 
-                   runuser -l colluser -c "sudo docker stack deploy --compose-file /home/colluser/$1/copsi_install_pkg/docker-compose.yml copsi-service > /dev/null 2>&1"
+		     echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Begin creation services for COPSI"
 
-                   if [[ "$?" == "0" ]];then
+                     runuser -l colluser -c "sudo docker stack deploy --compose-file /home/colluser/$1/copsi_install_pkg/docker-compose.yml copsi-service > /dev/null 2>&1"
 
-                      status="OK"
+                     if [[ "$?" == "0" ]];then
 
-		      echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Creation services for COPSI is terminated correctly"
+                        status="OK"
 
-                   fi
+		        echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Creation services for COPSI is terminated correctly"
+
+                     fi
+
+	           fi
 
 	        fi
-
-	     fi
-
-          fi
 
        fi
 
@@ -58,11 +50,11 @@
 
           runuser -l colluser -c "sudo docker stack rm copsi-service > /dev/null 2>&1"
 
-	  runuser -l colluser -c "sudo docker volume rm copsi-config > /dev/null 2>&1"
+          rm -rf /shared/copsi-config/
 
-	  runuser -l colluser -c "sudo docker volume rm copsi-html > /dev/null 2>&1"
+          rm -rf /shared/copsi-html/
 
-          echo "$(date '+%Y-%m-%d %H:%M:%S') [ERROR] Installation COPSI is not terminated correctly, COPSI service and all relative volumes have been removed"
+          echo "$(date '+%Y-%m-%d %H:%M:%S') [ERROR] Installation COPSI is not terminated correctly, COPSI service has been removed"
 
        else
 
@@ -89,43 +81,30 @@
 
        status="NOK"
 
-       echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Begin creation volumes for DAFNE"
-
        if [[ "$?" == "0" ]];then
 
-          runuser -l colluser -c 'sudo docker volume create dafne-fe-config > /dev/null 2>&1'
+             mkdir -p /shared/dafne-fe-config/
 
-          if [[ "$?" == "0" ]];then
-	  
-	     runuser -l colluser -c 'sudo docker volume create dafne-fe-html > /dev/null 2>&1'
+             mkdir -p /shared/dafne-be-config/
+
+             mkdir -p /shared/dafne-db/
+
+             mkdir -p /shared/dafne-be-logs/
+
+	     mkdir -p /shared/dafne-fe-html/
 
              if [[ "$?" == "0" ]];then
 	     
-	        runuser -l colluser -c "sudo cp /home/colluser/$1/dafne_install_pkg/data/dafne/front-end/config/* /var/lib/docker/volumes/dafne-fe-config/_data/"
-
+	        runuser -l colluser -c "sudo cp /home/colluser/$1/dafne_install_pkg/data/dafne/front-end/config/* /shared/dafne-fe-config/"
                 if [[ "$?" == "0" ]];then
-		
-		    runuser -l colluser -c "sudo cp /home/colluser/$1/dafne_install_pkg/data/dafne/front-end/html/* /var/lib/docker/volumes/dafne-fe-html/_data/"
-
-                    if [[ "$?" == "0" ]];then
 		    
-		        runuser -l colluser -c "sudo docker volume create dafne-be-config > /dev/null 2>&1"
-
-                        if [[ "$?" == "0" ]];then
-			
-			    runuser -l colluser -c "sudo cp /home/colluser/$1/dafne_install_pkg/data/dafne/back-end/config/* /var/lib/docker/volumes/dafne-be-config/_data/"
+			    runuser -l colluser -c "sudo cp /home/colluser/$1/dafne_install_pkg/data/dafne/back-end/config/* /shared/dafne-be-config/"
 
                             if [[ "$?" == "0" ]];then
+
+				  runuser -l colluser -c "sudo cp /home/colluser/$1/dafne_install_pkg/data/dafne/front-end/html/* /shared/dafne-fe-html/"
 			    
-			        runuser -l colluser -c "sudo docker volume create dafne-db > /dev/null 2>&1"
-
-                                if [[ "$?" == "0" ]];then
-
-                                    runuser -l colluser -c "sudo docker volume create dafne-be-logs > /dev/null 2>&1"
-
-                                    if [[ "$?" == "0" ]];then
-
-					echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Creation volumes for DAFNE is terminated correctly"
+                                  if [[ "$?" == "0" ]];then
 
                                         echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Begin creation services for DAFNE"
 
@@ -139,39 +118,31 @@
 
                                         fi
 
-                                    fi
+		                  fi
 
-			        fi
+			    fi
 
-	                    fi
-
-			fi
-
-                    fi
-
-		fi
+                fi
 
              fi
-
-	  fi
 
        fi
 
        if [[ "$status" == "NOK" ]];then
 
-          runuser -l colluser -c 'sudo docker volume rm dafne-fe-config > /dev/null 2>&1'   
-
-          runuser -l colluser -c 'sudo docker volume rm dafne-fe-html > /dev/null 2>&1'	  
-
-          runuser -l colluser -c "sudo docker volume rm dafne-be-config > /dev/null 2>&1"
-
-          runuser -l colluser -c "sudo docker volume rm dafne-db > /dev/null 2>&1"
-
-	  runuser -l colluser -c "sudo docker volume rm dafne-be-logs > /dev/null 2>&1"
-
           runuser -l colluser -c "sudo docker stack rm dafne-service > /dev/null 2>&1"
 
-          echo "$(date '+%Y-%m-%d %H:%M:%S') [ERROR] Installation DAFNE is not terminated correctly, DAFNE service and all relative volumes have been removed"
+          rm -rf /shared/dafne-fe-config/
+
+          rm -rf /shared/dafne-be-config/
+
+          rm -rf /shared/dafne-db/
+
+          rm -rf /shared/dafne-be-logs/
+
+          rm -rf /shared/dafne-fe-html/
+
+          echo "$(date '+%Y-%m-%d %H:%M:%S') [ERROR] Installation DAFNE is not terminated correctly, DAFNE service has been removed"
 
        else
 
@@ -556,19 +527,15 @@
   
    fi
 
-   docker node ls > /dev/null 2>&1
+   docker network create --driver=overlay --attachable -o com.docker.network.bridge.enable_icc=true collnetwork > /dev/null 2>&1
 
    if [[ "$?" == "0" ]] ; then
 
-     echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] The Docker Swarm already exists"
+     echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Created Network for Swarm"
 
    else
 
-     docker swarm init --advertise-addr "$ip_machine" > /dev/null 2>&1
-
-     docker network create --driver=overlay --attachable -o com.docker.network.bridge.enable_icc=true collnetwork > /dev/null 2>&1
-
-     echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Created Docker Swarm"
+     echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] The Network for Swarm already exists"
 
    fi
 

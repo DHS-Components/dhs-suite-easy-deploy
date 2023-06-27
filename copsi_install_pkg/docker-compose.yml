@@ -10,13 +10,14 @@ services:
     volumes:
       - copsi-config:/usr/local/apache2/htdocs/assets/config
       # uncomment the following line in case of deployment without proxy
-      - /var/lib/docker/volumes/copsi-html/_data/index.html:/usr/local/apache2/htdocs/index.html    
+      - /shared/copsi-html/index.html:/usr/local/apache2/htdocs/index.html    
 
 volumes:
   copsi-config:
-    external: true
-  copsi-html:
-    external: true
+    driver_opts:
+      type: "nfs"
+      o: "addr=172.20.7.26,nolock,soft,rw"
+      device: ":/shared/copsi-config/"
 
 networks:
   default:

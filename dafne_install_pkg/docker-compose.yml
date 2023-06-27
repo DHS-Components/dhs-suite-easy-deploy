@@ -11,7 +11,7 @@ services:
     volumes:
       - dafne-fe-config:/usr/local/apache2/htdocs/assets/config
       # uncomment the following line in case of deployment without proxy
-      - /var/lib/docker/volumes/dafne-fe-html/_data/index.html:/usr/local/apache2/htdocs/index.html
+      - /shared/dafne-fe-html/index.html:/usr/local/apache2/htdocs/index.html
     depends_on:
       - be
   be:
@@ -42,20 +42,32 @@ services:
     #restart: always
     image: "library/postgres:12.5"
     env_file:
-      - /var/lib/docker/volumes/dafne-be-config/_data/db_credentials.env
+      - /shared/dafne-be-config/db_credentials.env
         #ports:
         #- "5432:5432"
     volumes:
       - dafne-db:/var/lib/postgresql/data
 volumes:
   dafne-fe-config:
-     external: true
+    driver_opts:
+      type: "nfs"
+      o: "addr=172.20.7.26,nolock,soft,rw"
+      device: ":/shared/dafne-fe-config/"
   dafne-be-config:
-     external: true
+    driver_opts:
+      type: "nfs"
+      o: "addr=172.20.7.26,nolock,soft,rw"
+      device: ":/shared/dafne-be-config/" 
   dafne-be-logs:
-     external: true
+     driver_opts:
+      type: "nfs"
+      o: "addr=172.20.7.26,nolock,soft,rw"
+      device: ":/shared/dafne-be-logs/"
   dafne-db:
-     external: true
+     driver_opts:
+      type: "nfs"
+      o: "addr=172.20.7.26,nolock,soft,rw"
+      device: ":/shared/dafne-db/"
 
 networks:
   default:
