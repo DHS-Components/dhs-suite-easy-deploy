@@ -15,12 +15,8 @@ services:
             - "8000:8000"
         command: make serve PORT=8000 SCHEDULER="tcp://esa_tf_scheduler:8786"
         volumes:
-            - type: volume
-              source: tf-config
-              target: /config
-            - type: volume
-              source: tf-output
-              target: /output
+            - tf-config:/config
+            - tf-output:/output
         environment:
             - ESA_TF_CONFIG_FILE=/config/esa_tf.config
             - FORWARDED_ALLOW_IPS=*
@@ -32,21 +28,11 @@ services:
         depends_on:
             - esa_tf_scheduler
         volumes:
-            - type: volume
-              source: tf-config
-              target: /config
-            - type: volume
-              source: tf-output
-              target: /output
-            - type: volume
-              source: tf-data
-              target: /data
-            - type: volume
-              source: tf-plugins
-              target: /plugins
-            - type: volume
-              source: tf-traces
-              target: /traces
+            - tf-config:/config
+            - tf-output:/output
+            - tf-data:/data
+            - tf-plugins:/plugins
+            - tf-traces:/traces
         environment:
             - ESA_TF_CONFIG_FILE=/config/esa_tf.config
             - HUBS_CREDENTIALS_FILE=/config/hubs_credentials.yaml
@@ -68,12 +54,8 @@ services:
             - ./nginx/templates:/etc/nginx/templates
             - ./nginx/njs:/etc/nginx/njs
             - ./nginx/nginx.conf:/etc/nginx/nginx.conf
-            - type: volume
-              source: tf-output
-              target: /usr/share/nginx/html
-            - type: volume
-              source: tf-logs
-              target: /var/log/nginx
+            - tf-output:/usr/share/nginx/html
+            - tf-logs:/var/log/nginx
         ports:
             - "8070:8080"
         environment:
@@ -91,17 +73,35 @@ services:
 
 volumes:
   tf-config:
-    external: true
+    driver_opts:
+      type: "nfs"
+      o: "addr=172.20.7.26,nolock,soft,rw"
+      device: ":/shared/tf-config/"
   tf-output:
-    external: true
+    driver_opts:
+      type: "nfs"
+      o: "addr=172.20.7.26,nolock,soft,rw"
+      device: ":/shared/tf-output/"
   tf-data:
-    external: true
+    driver_opts:
+      type: "nfs"
+      o: "addr=172.20.7.26,nolock,soft,rw"
+      device: ":/shared/tf-data/"
   tf-plugins:
-    external: true
+    driver_opts:
+      type: "nfs"
+      o: "addr=172.20.7.26,nolock,soft,rw"
+      device: ":/shared/tf-plugins/"
   tf-traces:
-    external: true
+    driver_opts:
+      type: "nfs"
+      o: "addr=172.20.7.26,nolock,soft,rw"
+      device: ":/shared/tf-traces/"
   tf-logs:
-    external: true
+    driver_opts:
+      type: "nfs"
+      o: "addr=172.20.7.26,nolock,soft,rw"
+      device: ":/shared/tf-logs/"
 
 networks:
   default:

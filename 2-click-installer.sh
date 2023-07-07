@@ -169,45 +169,31 @@
 
        status="NOK"
 
-       echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Begin creation volumes for TF"
-
-       runuser -l colluser -c "sudo docker volume create tf-config > /dev/null 2>&1"
-
        if [[ "$?" == "0" ]];then
 
-           runuser -l colluser -c "sudo cp /home/colluser/$1/esa_tf_install_pkg/config/* /var/lib/docker/volumes/tf-config/_data/"
+	   mkdir /shared/tf-config/
+
+           mkdir /shared/tf-output/
+
+           mkdir /shared/tf-data/
+
+           mkdir /shared/tf-plugins/
+
+           mkdir /shared/tf-traces/
+
+           mkdir /shared/tf-logs/
+
+           runuser -l colluser -c "sudo cp /home/colluser/$1/esa_tf_install_pkg/config/* /shared/tf-config/"
 
            if [[ "$?" == "0" ]];then
 
-               runuser -l colluser -c "sudo docker volume create tf-data > /dev/null 2>&1"
-
-               if [[ "$?" == "0" ]];then
-
-                   runuser -l colluser -c "sudo mkdir -p /var/lib/docker/volumes/tf-data/_data/land-cover"
+                   runuser -l colluser -c "sudo mkdir -p /shared/tf-data/land-cover/"
 
                    if [[ "$?" == "0" ]];then
 
-                       runuser -l colluser -c "sudo docker volume create tf-plugins > /dev/null 2>&1"
-
-                       if [[ "$?" == "0" ]];then
-
-                           runuser -l colluser -c "sudo docker volume create tf-traces > /dev/null 2>&1"
-
-                           if [[ "$?" == "0" ]];then
-
-                               runuser -l colluser -c "sudo docker volume create tf-logs > /dev/null 2>&1"
-
-			       if [[ "$?" == "0" ]];then
-
-                                    runuser -l colluser -c "sudo docker volume create tf-output > /dev/null 2>&1"
-
-                                    if [[ "$?" == "0" ]];then
-
-					echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Creation volumes for TF is terminated correctly"
-
                                         echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Begin creation services for TF"
 
-                                        runuser -l colluser -c "sudo docker stack deploy --compose-file /home/colluser/$1/esa_tf_install_pkg/docker-compose.yml tf-service > /dev/null 2>&1"
+                                        runuser -l colluser -c "cd /home/colluser/$1/esa_tf_install_pkg/; sudo docker stack deploy --compose-file /home/colluser/$1/esa_tf_install_pkg/docker-compose.yml tf-service > /dev/null 2>&1"
                                         
 				        if [[ "$?" == "0" ]];then
 
@@ -217,17 +203,7 @@
 
                                         fi 
 
-                                    fi
-
-			       fi
-
-			   fi
-
-		       fi
-
 		   fi
-
-	       fi
 
 	   fi
 
@@ -235,21 +211,21 @@
 
        if [[ "$status" == "NOK" ]];then
 
-          runuser -l colluser -c "sudo docker volume rm tf-config > /dev/null 2>&1" 
+          runuser -l colluser -c "sudo docker stack rm tf-service > /dev/null 2>&1"
 
-	  runuser -l colluser -c "sudo docker volume rm tf-data > /dev/null 2>&1"
+          rm -rf /shared/tf-config/
 
-	  runuser -l colluser -c "sudo docker volume rm tf-plugins > /dev/null 2>&1"
+          rm -rf /shared/tf-output/
 
-	  runuser -l colluser -c "sudo docker volume rm tf-traces > /dev/null 2>&1"
+          rm -rf /shared/tf-data/
 
-	  runuser -l colluser -c "sudo docker volume rm tf-logs > /dev/null 2>&1"
+          rm -rf /shared/tf-plugins/
 
-	  runuser -l colluser -c "sudo docker volume rm tf-output > /dev/null 2>&1"
+          rm -rf /shared/tf-traces/
 
-	  runuser -l colluser -c "sudo docker stack rm tf-service > /dev/null 2>&1"
+          rm -rf /shared/tf-logs/
 
-          echo "$(date '+%Y-%m-%d %H:%M:%S') [ERROR] Installation TF is not terminated correctly, TF service and all relative volumes have been removed"
+          echo "$(date '+%Y-%m-%d %H:%M:%S') [ERROR] Installation TF is not terminated correctly, TF service has been removed"
 
        else
 
