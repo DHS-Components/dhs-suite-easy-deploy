@@ -1,22 +1,34 @@
-version: "3.1"
+version: "3.8"
 services:
   copsi:
-    image: "collaborativedhs/copsi:1.0.1"
-    #container_name: copsi
+    image: "collaborativedhs/copsi:3.0.1"
     hostname: copsi
-    #restart: always
     ports:
       - "8090:80"
     volumes:
-      - copsi-config:/usr/local/apache2/htdocs/assets/config
-      # uncomment the following line in case of deployment without proxy
-      - /shared/copsi-html/index.html:/usr/local/apache2/htdocs/index.html    
+      - type: volume
+        source: copsi-config
+        target: /usr/local/apache2/htdocs/assets/config
+        volume:
+          nocopy: true        
+    # uncomment the following 3 lines in case of deployment without proxy          
+    #configs:
+    #  - source: copsi_index
+    #    target: /usr/local/apache2/htdocs/index.html
+
+    deploy:
+      placement:
+        constraints:
+          - node.labels.copsi_tag == true
+configs:
+    copsi_index:
+      file: ./data/copsi/html/index.html
 
 volumes:
   copsi-config:
     driver_opts:
       type: "nfs"
-      o: "addr=172.20.7.26,nolock,soft,rw"
+      o: "addr=127.0.0.1,nolock,soft,rw"
       device: ":/shared/copsi-config/"
 
 networks:

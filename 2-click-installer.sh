@@ -12,25 +12,26 @@
  
        echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Begin installation COPSI"
 
+       /home/colluser/$1/utils/remove_tag.sh copsi_tag	
+
+       docker node update --label-add copsi_tag=true $copsi_tag > /dev/null 2>&1 && echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] copsi_tag added to $copsi_tag node" || echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] copsi_tag NOT added to $copsi_tag node"
+
        status="NOK"
 
        mkdir -p /shared/copsi-config/
- 
-       mkdir -p /shared/copsi-html/
 
        if [[ "$?" == "0" ]];then
 
                 runuser -l colluser -c "sudo cp /home/colluser/$1/copsi_install_pkg/data/copsi/config/config.json /shared/copsi-config/"
+                runuser -l colluser -c "sudo cp /home/colluser/$1/copsi_install_pkg/data/copsi/config/footprints_customization.json /shared/copsi-config/"
+                runuser -l colluser -c "sudo cp /home/colluser/$1/copsi_install_pkg/data/copsi/config/product_details.json /shared/copsi-config/"
 
-                if [[ "$?" == "0" ]];then
-
-                   runuser -l colluser -c "sudo cp /home/colluser/$1/copsi_install_pkg/data/copsi/html/index.html /shared/copsi-html/"
 
 		   if [[ "$?" == "0" ]];then
 
 		     echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Begin creation services for COPSI"
-
-                     runuser -l colluser -c "sudo docker stack deploy --compose-file /home/colluser/$1/copsi_install_pkg/docker-compose.yml copsi-service > /dev/null 2>&1"
+			
+		     runuser -l colluser -c "sudo docker stack deploy --compose-file /home/colluser/$1/copsi_install_pkg/docker-compose.yml copsi-service > /dev/null 2>&1"
 
                      if [[ "$?" == "0" ]];then
 
@@ -42,8 +43,6 @@
 
 	           fi
 
-	        fi
-
        fi
 
        if [[ "$status" == "NOK" ]];then
@@ -51,8 +50,6 @@
           runuser -l colluser -c "sudo docker stack rm copsi-service > /dev/null 2>&1"
 
           rm -rf /shared/copsi-config/
-
-          rm -rf /shared/copsi-html/
 
           echo "$(date '+%Y-%m-%d %H:%M:%S') [ERROR] Installation COPSI is not terminated correctly, COPSI service has been removed"
 
@@ -78,6 +75,10 @@
      else
 
        echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Begin installation DAFNE"
+
+       /home/colluser/$1/utils/remove_tag.sh dafne_tag
+
+       docker node update --label-add dafne_tag=true $dafne_tag > /dev/null 2>&1 && echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] dafne_tag added to $dafne_tag node" || echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] dafne_tag NOT added to $dafne_tag node"
 
        status="NOK"
 
@@ -166,6 +167,10 @@
      else
 
        echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Begin installation TF"
+       
+        /home/colluser/$1/utils/remove_tag.sh tf_tag
+
+      docker node update --label-add tf_tag=true $tf_tag > /dev/null 2>&1 && echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] tf_tag added to $tf_tag node" || echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] tf_tag NOT added to $tf_tag node"
 
        status="NOK"
 
@@ -182,8 +187,12 @@
            mkdir /shared/tf-traces/
 
            mkdir /shared/tf-logs/
+	   
+	   mkdir /shared/tf-nginx/
 
            runuser -l colluser -c "sudo cp /home/colluser/$1/esa_tf_install_pkg/config/* /shared/tf-config/"
+
+           runuser -l colluser -c "sudo cp -rp /home/colluser/$1/esa_tf_install_pkg/nginx/* /shared/tf-nginx/"
 
            if [[ "$?" == "0" ]];then
 
@@ -193,8 +202,8 @@
 
                                         echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Begin creation services for TF"
 
-                                        runuser -l colluser -c "cd /home/colluser/$1/esa_tf_install_pkg/; sudo docker stack deploy --compose-file /home/colluser/$1/esa_tf_install_pkg/docker-compose.yml tf-service > /dev/null 2>&1"
-                                        
+					 runuser -l colluser -c "cd /home/colluser/$1/esa_tf_install_pkg/; source .env; sudo docker stack deploy --compose-file /home/colluser/$1/esa_tf_install_pkg/docker-compose.yml tf-service > /dev/null 2>&1"
+
 				        if [[ "$?" == "0" ]];then
 
                                             status="OK"
@@ -225,6 +234,9 @@
 
           rm -rf /shared/tf-logs/
 
+          rm -rf /shared/tf-nginx
+
+
           echo "$(date '+%Y-%m-%d %H:%M:%S') [ERROR] Installation TF is not terminated correctly, TF service has been removed"
 
        else
@@ -248,6 +260,10 @@
      else
 
        echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Begin installation KEYCLOAK"
+   
+       /home/colluser/$1/utils/remove_tag.sh iam_tag
+
+       docker node update --label-add iam_tag=true $iam_tag > /dev/null 2>&1 && echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] iam_tag added to $iam_tag node" || echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] iam_tag NOT added to $iam_tag node"
 
        status="NOK"
 
@@ -324,71 +340,45 @@
 
        echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Begin installation SF"
 
+       /home/colluser/$1/utils/remove_tag.sh sf_tag
+
+       docker network create --driver=bridge token-network > /dev/null 2>&1
+
+       if [[ "$?" == "0" ]] ; then
+
+    	 echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Created Network for SF"
+
+  	 else
+
+    	 echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] The Network for SF already exists"
+
+       fi
+
        status="NOK"
 
        echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Begin creation volumes for SF"
 
        if [[ "$?" == "0" ]];then
 
-           runuser -l colluser -c "sudo docker volume create sf-config > /dev/null 2>&1"
+           echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Begin creation services for SF"
 
+           cd /home/colluser/$1/sf_install_pkg/; docker compose up > /dev/null 2>&1 & 
+                               
            if [[ "$?" == "0" ]];then
 
-               runuser -l colluser -c "sudo docker volume create kb_db > /dev/null 2>&1"
+              status="OK"
 
-               if [[ "$?" == "0" ]];then
+              echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Creation services for SF is terminated correctly"
 
-                   runuser -l colluser -c "sudo docker volume create dr-api_logs > /dev/null 2>&1"
+           fi 
 
-                   if [[ "$?" == "0" ]];then
+           fi
 
-                       runuser -l colluser -c "sudo docker volume create sf-api_logs > /dev/null 2>&1"
-
-                       if [[ "$?" == "0" ]];then
-
-                           runuser -l colluser -c "sudo cp /home/colluser/$1/sf_install_pkg/config/* /var/lib/docker/volumes/sf-config/_data/"
-
-                           if [[ "$?" == "0" ]];then
-
-			       echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Creation volumes for SF is terminated correctly"
-
-                               echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Begin creation services for SF"
-
-                               runuser -l colluser -c "sudo docker stack deploy --compose-file /home/colluser/$1/sf_install_pkg/docker-compose.yml sf-service > /dev/null 2>&1"
-                               
-			       if [[ "$?" == "0" ]];then
-
-                                   status="OK"
-
-                                   echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Creation services for SF is terminated correctly"
-
-                               fi 
-
-                           fi
-
-		       fi
-
-		   fi
-
-	       fi
-
-	   fi
-
-       fi
 
        if [[ "$status" == "NOK" ]];then
 
-          runuser -l colluser -c "sudo docker volume rm sf-config > /dev/null 2>&1"
 
-	  runuser -l colluser -c "sudo docker volume rm kb_db > /dev/null 2>&1"
-
-	  runuser -l colluser -c "sudo docker volume rm dr-api_logs > /dev/null 2>&1"
-
-	  runuser -l colluser -c "sudo docker volume rm sf-api_logs > /dev/null 2>&1"
-
-	  runuser -l colluser -c "sudo docker stack rm sf-service > /dev/null 2>&1"
-
-          echo "$(date '+%Y-%m-%d %H:%M:%S') [ERROR] Installation SF is not terminated correctly, SF service and all relative volumes have been removed"
+          echo "$(date '+%Y-%m-%d %H:%M:%S') [ERROR] Installation SF is not terminated correctly, SF service has been removed"
 
        else
 
@@ -400,70 +390,199 @@
 
    }
 
-   function installGSS()
-   {
 
-     checkservicegss=`docker service ls | grep "gss-" | wc -l`
+   function installGSS-admin(){
 
-     if [[ "$checkservicegss" != 0  ]];then
+    checkservicegssadmin=`docker service ls | grep "gss-admin-service" | wc -l`
 
-       echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] The GSS software is already installed"
+     if [[ "$checkservicegssadmin" != 0  ]];then
+
+       echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] The GSS admin software is already installed"
 
      else
 
-       echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Begin installation GSS"
+       echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Begin installation GSS admin"
+
+       /home/colluser/$1/utils/remove_tag.sh gss_admin_tag
+
+       docker node update --label-add gss_admin_tag=true $gss_admin_tag > /dev/null 2>&1 && echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] gss_admin_tag added to $gss_admin_tag node" || echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] gss_admin_tag NOT added to $gss_admin_tag node"
 
        status="NOK"
 
-       echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Begin creation services for GSS"
+       echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Begin creation services for GSS admin"
 
        runuser -l colluser -c "cd /home/colluser/$1/gss_install_pkg/; sudo docker stack deploy --compose-file /home/colluser/$1/gss_install_pkg/docker-compose_admin.yml gss-admin-service > /dev/null 2>&1"
 
        if [[ "$?" == "0" ]];then
-	   
-	  echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Creation service for GSS ADMIN is terminated correctly"
-	   
-          runuser -l colluser -c "cd /home/colluser/$1/gss_install_pkg/; sudo docker stack deploy --compose-file /home/colluser/$1/gss_install_pkg/docker-compose_catalogue.yml gss-catalogue-service > /dev/null 2>&1"
-		   
-          if [[ "$?" == "0" ]];then
-		   
-	       echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Creation service for GSS CATALOGUE is terminated correctly"
-	   
-	       runuser -l colluser -c "cd /home/colluser/$1/gss_install_pkg/; sudo docker stack deploy --compose-file /home/colluser/$1/gss_install_pkg/docker-compose_ingest.yml gss-ingest-service > /dev/null 2>&1"
-				
-	       if [[ "$?" == "0" ]];then
-				
-	            echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Creation service for GSS INGEST is terminated correctly"
 
-		    status="OK"
+          echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Creation service for GSS ADMIN is terminated correctly"      
 
-		    echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Creation services for GSS is terminated correctly"
-				
-	       fi
-
-          fi
-
+	  status="OK"
+   
        fi
 
        if [[ "$status" == "NOK" ]];then
 
           runuser -l colluser -c "sudo docker stack rm gss-admin-service > /dev/null 2>&1"
-		  
-          runuser -l colluser -c "sudo docker stack rm gss-catalogue-service > /dev/null 2>&1"
-		  
-	  runuser -l colluser -c "sudo docker stack rm gss-ingest-service > /dev/null 2>&1"
 
-          echo "$(date '+%Y-%m-%d %H:%M:%S') [ERROR] Installation GSS is not terminated correctly, GSS services have been removed"
+
+          echo "$(date '+%Y-%m-%d %H:%M:%S') [ERROR] Installation GSS admin is not terminated correctly, GSS admin service has been removed"
 
        else
 
-          echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Installation GSS is terminated with success"
+          echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Installation GSS admin is terminated with success"
 
        fi
 
      fi
 
    }
+
+
+  function installGSS-ingest(){
+	
+    checkservicegssingest=`docker service ls | grep "gss-ingest-service" | wc -l`
+
+     if [[ "$checkservicegssingest" != 0  ]];then
+
+       echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] The GSS ingest software is already installed"
+
+     else
+
+       echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Begin installation GSS ingest"
+       
+       /home/colluser/$1/utils/remove_tag.sh gss_ingest_tag
+
+       docker node update --label-add gss_ingest_tag=true $gss_ingest_tag > /dev/null 2>&1 && echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] gss_ingest_tag added to $gss_ingest_tag node" || echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] gss_ingest_tag NOT added to $gss_ingest_tag node"
+       status="NOK"
+
+       echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Begin creation services for GSS ingest"
+
+       runuser -l colluser -c "cd /home/colluser/$1/gss_install_pkg/; sudo docker stack deploy --compose-file /home/colluser/$1/gss_install_pkg/docker-compose_ingest.yml gss-ingest-service > /dev/null 2>&1"
+
+       if [[ "$?" == "0" ]];then
+
+          echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Creation service for GSS ingest is terminated correctly"     
+
+          status="OK"		  
+   
+       fi
+
+       if [[ "$status" == "NOK" ]];then
+
+          runuser -l colluser -c "sudo docker stack rm gss-ingest-service > /dev/null 2>&1"
+
+
+          echo "$(date '+%Y-%m-%d %H:%M:%S') [ERROR] Installation GSS ingest is not terminated correctly, GSS ingest service has been removed"
+
+       else
+
+          echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Installation GSS ingest is terminated with success"
+
+       fi
+
+    fi
+
+   }
+
+
+    function installGSS-catalogue(){
+	
+    checkservicegsscatalogue=`docker service ls | grep "gss-catalogue-service" | wc -l`
+
+     if [[ "$checkservicegsscatalogue" != 0  ]];then
+
+       echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] The GSS catalogue software is already installed"
+
+     else
+
+	echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Begin installation GSS catalogue"
+
+       /home/colluser/$1/utils/remove_tag.sh gss_catalogue_tag
+
+   	docker node update --label-add gss_catalogue_tag=true $gss_catalogue_tag > /dev/null 2>&1 && echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] gss_catalogue_tag added to $gss_catalogue_tag node" || echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] gss_catalogue_tag NOT added to $gss_catalogue_tag node"
+		status="NOK"
+
+	mkdir -p /shared/gss-catalogue-config/
+
+	cp ./gss_install_pkg/config/catalogue/application.properties /shared/gss-catalogue-config/	   
+
+	echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Begin creation services for GSS catalogue"
+
+       runuser -l colluser -c "cd /home/colluser/$1/gss_install_pkg/; sudo docker stack deploy --compose-file /home/colluser/$1/gss_install_pkg/docker-compose_catalogue.yml gss-catalogue-service > /dev/null 2>&1"
+
+       if [[ "$?" == "0" ]];then
+
+          echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Creation service for GSS catalogue is terminated correctly"     
+
+          status="OK"		  
+   
+       fi
+
+       if [[ "$status" == "NOK" ]];then
+
+          runuser -l colluser -c "sudo docker stack rm gss-catalogue-service > /dev/null 2>&1"
+
+
+          echo "$(date '+%Y-%m-%d %H:%M:%S') [ERROR] Installation GSS catalogue is not terminated correctly, GSS catalogue service has been removed"
+
+       else
+
+          echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Installation GSS catalogue is terminated with success"
+
+       fi
+
+    fi
+
+   }
+   
+    function installGSS-notification(){
+	
+    checkservicegssnotification=`docker service ls | grep "gss-notification-service" | wc -l`
+
+     if [[ "$checkservicegssnotification" != 0  ]];then
+
+       echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] The GSS notification software is already installed"
+
+     else
+
+	echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Begin installation GSS notification"
+
+        /home/colluser/$1/utils/remove_tag.sh gss_notification_tag
+
+        docker node update --label-add gss_notification_tag=true $gss_notification_tag > /dev/null 2>&1 && echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] gss_notification_tag added to $gss_notification_tag node" || echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] gss_notification_tag NOT added to $gss_notification_tag node"
+
+        status="NOK"   
+
+	echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Begin creation services for GSS notification"
+
+       runuser -l colluser -c "cd /home/colluser/$1/gss_install_pkg/; sudo docker stack deploy --compose-file /home/colluser/$1/gss_install_pkg/docker-compose_notification.yml gss-notification-service > /dev/null 2>&1"
+
+       if [[ "$?" == "0" ]];then
+
+          echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Creation service for GSS notification is terminated correctly"     
+
+          status="OK"		  
+   
+       fi
+
+       if [[ "$status" == "NOK" ]];then
+
+          runuser -l colluser -c "sudo docker stack rm gss-notification-service > /dev/null 2>&1"
+
+
+          echo "$(date '+%Y-%m-%d %H:%M:%S') [ERROR] Installation GSS notification is not terminated correctly, GSS notification service has been removed"
+
+       else
+
+          echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Installation GSS notification is terminated with success"
+
+       fi
+
+    fi
+
+   }
+
 
    echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Script 2 click installation begin"
 
@@ -474,10 +593,59 @@
    #install Docker compose=v2.12.2
 
    #Preliminary commands
+   #Please be sure that the file  /etc/exports is configure to export the /shared folder to the machines of the same subnet 
 
-   ip_machine=$1
+   #check if /shared folder is configured in /etc/exports NFS configuration file
+   shared=$(grep shared /etc/exports | wc -l)
+   
+   if [ $shared -eq -0 ] 
 
-   listtoinstall=$2
+   then 
+
+	echo "$(date '+%Y-%m-%d %H:%M:%S') [ERROR] /shared folder not configured in /etc/exports"
+	exit 10;
+
+   else
+
+	echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] /shared folder correctly configured in /etc/exports"
+
+   fi
+	
+   showmount > /dev/null 2>&1
+
+   if [ $? -ne 0 ]
+   
+   then
+
+        echo echo "$(date '+%Y-%m-%d %H:%M:%S') [ERROR] Please install showmount"
+
+   fi
+
+   exported=$(showmount -e $nfs_server_ip | grep shared | wc -l)
+
+   if [ $exported -eq -0 ]
+
+   then
+
+        echo "$(date '+%Y-%m-%d %H:%M:%S') [ERROR] /shared folder not correctly exported"
+        exit 10;
+
+   else
+
+        echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] /shared folder correctly exported"
+
+   fi   
+
+   #Source the configuration file
+   source config.cfg
+
+   listtoinstall=$1
+
+   # Apply the nfs server IP to docker-compose files using nfs setting. Existing files must contain valid IP 
+   find . -type f -name docker-compose.*.yml -exec sed -i "s/addr=[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}/addr=$nfs_server_ip/" {} \;
+
+   #clear all the tags before node update
+   #./utils/remove_all_tags.sh
 
    checkuser=`cat /etc/passwd | grep "colluser" | wc -l`
 
@@ -487,19 +655,34 @@
   
    else
 
-     useradd colluser
+     useradd -m colluser
 
-     usermod -aG wheel colluser
+     #usermod -aG wheel colluser
 
      usermod -aG docker colluser
 
      chmod +w /etc/sudoers
 
-     sed -i '/%wheel/d' /etc/sudoers
+     #sed -i '/%wheel/d' /etc/sudoers
 
-     echo "%wheel ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+     #echo "%wheel ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+     echo "%colluser ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 
      echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Created 'colluser' user"
+
+     if [ -e /home/colluser ]; then
+
+	   echo "colluser home directory exists"
+
+     else
+
+	   mkdir /home/colluser
+
+	   chown colluser:colluser /home/colluser
+
+	   echo "colluser home directory created"
+
+     fi 
   
    fi
 
@@ -579,11 +762,35 @@
 
    fi
 
-   #SF
+   #GSS ADMIN
 
-   if [[ "$listtoinstall" == *"gss"* ]];then
+   if [[ "$listtoinstall" == *"gss-admin"* ]];then
 
-      installGSS "dhs-suite-easy-deploy-1.0.0"
+      installGSS-admin "dhs-suite-easy-deploy-1.0.0"
+
+   fi
+
+   #GSS INGEST
+
+   if [[ "$listtoinstall" == *"gss-ingest"* ]];then
+
+      installGSS-ingest "dhs-suite-easy-deploy-1.0.0"
+
+   fi
+
+   #GSS CATALOGUE
+
+   if [[ "$listtoinstall" == *"gss-catalogue"* ]];then
+
+      installGSS-catalogue "dhs-suite-easy-deploy-1.0.0"
+
+   fi
+
+   #GSS NOTIFICATION
+
+   if [[ "$listtoinstall" == *"gss-notification"* ]];then
+
+      installGSS-notification "dhs-suite-easy-deploy-1.0.0"
 
    fi
 

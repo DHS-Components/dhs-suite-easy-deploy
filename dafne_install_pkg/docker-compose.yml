@@ -1,25 +1,25 @@
-version: "3.1"
+version: "3.8"
 services:
   fe:
     image: "collaborativedhs/dafne:fe-3.0.2"
-    #container_name: fe
     hostname: frontend
-    #restart: always
-    #build: .
     ports:
       - "8080:80"
     volumes:
       - dafne-fe-config:/usr/local/apache2/htdocs/assets/config
-      # uncomment the following line in case of deployment without proxy
-      - /shared/dafne-fe-html/index.html:/usr/local/apache2/htdocs/index.html
+    # uncomment the following 3 lines in case of deployment without proxy
+    #configs:
+    #  - source: index_html
+    #    target: /usr/local/apache2/htdocs/index.html
+    deploy:
+      placement:
+        constraints:
+          - node.labels.dafne_tag == true      
     depends_on:
       - be
   be:
     image: "collaborativedhs/dafne:be-3.0.1"
-    #container_name: be
     hostname: backend
-    #restart: always
-    #build: .
     command: bash -c "npx sequelize-cli db:migrate && node index.js"
 
     ports:
@@ -28,45 +28,58 @@ services:
       - NODE_ENV=production               # {'development', 'test', 'production'}
       - CONF_PATH=/usr/src/app/config/
       - LOGS_PATH=/usr/src/app/logs/
+    deploy:
+      placement:
+        constraints:
+          - node.labels.dafne_tag == true      
     volumes:
       # create a 'config' folder in the working dir and bind it to an external folder of the host, where the config.json file is located
       - dafne-be-config:/usr/src/app/config
       # create a 'log' folder in the working dir and binds it to an external folder of the host, to make the logs persistent
       - dafne-be-logs:/usr/src/app/logs
   # uncomment the following lines to use a dockerized image of the DAFNE database
-    depends_on:
-      - db
-  db:
+  #    depends_on:
+  #     - db
+  # db:
     #container_name: db
-    hostname: dafne_db
+    #  hostname: dafne_db
     #restart: always
-    image: "library/postgres:12.5"
-    env_file:
-      - /shared/dafne-be-config/db_credentials.env
+    #  image: "library/postgres:12.5"
+    #deploy:
+    #  placement:
+    #    constraints:
+    #      - node.labels.dafne_tag == true      
+    #env_file:
+    #  - /shared/dafne-be-config/db_credentials.env
         #ports:
         #- "5432:5432"
-    volumes:
-      - dafne-db:/var/lib/postgresql/data
+        #volumes:
+        #- dafne-db:/var/lib/postgresql/data
+
+configs:
+    index_html:
+      file: /shared/dafne-fe-html/index.html
+
 volumes:
   dafne-fe-config:
     driver_opts:
       type: "nfs"
-      o: "addr=172.20.7.26,nolock,soft,rw"
+      o: "addr=127.0.0.1,nolock,soft,rw"
       device: ":/shared/dafne-fe-config/"
   dafne-be-config:
     driver_opts:
       type: "nfs"
-      o: "addr=172.20.7.26,nolock,soft,rw"
+      o: "addr=127.0.0.1,nolock,soft,rw"
       device: ":/shared/dafne-be-config/" 
   dafne-be-logs:
      driver_opts:
       type: "nfs"
-      o: "addr=172.20.7.26,nolock,soft,rw"
+      o: "addr=127.0.0.1,nolock,soft,rw"
       device: ":/shared/dafne-be-logs/"
   dafne-db:
      driver_opts:
       type: "nfs"
-      o: "addr=172.20.7.26,nolock,soft,rw"
+      o: "addr=127.0.0.1,nolock,soft,rw"
       device: ":/shared/dafne-db/"
 
 networks:

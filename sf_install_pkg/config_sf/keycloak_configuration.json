@@ -1,0 +1,9 @@
+{
+    "client_secret": "test",
+    "client_container_id": "test",
+    "client_name": "sf-api",
+    "URL": "http://kc-main:8080/",
+    "realm": "master",
+    "adminUsername":"test",
+    "adminPassword":"test"
+}

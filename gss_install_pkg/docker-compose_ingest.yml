@@ -1,21 +1,30 @@
-version: "3.1"
+version: "3.8"
 services:
-  producer:
-    image: "gaeldockerhub/cdh-ingest:1.2.0"
-    volumes:
-     - ./config/ingest/gss-producer.xml:/ingest/etc/gss.xml
-     - ./logs/ingest/producer:/ingest/logs 
 
-  consumer:
-    image: "gaeldockerhub/cdh-ingest:1.2.0"
+
+  INGESTION-DAS-S1:
+    image: "gaeldockerhub/cdh-ingest:1.4.3"
+    environment:
+       CONF_FILE: /ingest/etc/database-conf-application.properties
     volumes:
-    - ./config/ingest/gss-consumer.xml:/ingest/etc/gss.xml
-    - ./data/ingest:/ingest/folder
-    - ./data/ingest/error:/ingest/error
-    - ./data/ingest/tmp:/ingest/tmp 
-    - ./logs/ingest/consumer:/ingest/logs
+       - /data/GSS/cdh-compose-1.4.3/ingest/logs/:/ingest/logs
+       - /mnt/ivvnas/2click_test/GSS/DESTINATION_FOLDER2/S1/error:/ingest/error
+       - /mnt/ivvnas/2click_test/GSS/DESTINATION_FOLDER2/S1/tmp:/ingest/tmp
+       - /mnt/ivvnas/2click_test/GSS/DESTINATION_FOLDER2/S1/:/ingest/folder1
+
+    configs:
+      - source: s1_application_properties
+        target: /ingest/etc/database-conf-application.properties
+
+    deploy:
+      placement:
+        constraints:
+          - node.labels.gss_ingest_tag == true
+configs:
+  s1_application_properties:
+    file: ./config/ingest/INGESTION_DAS_S1.properties
 
 networks:
   default:
     external:
-      name: collnetwork
+      name: collnetwork            

@@ -1,50 +1,69 @@
 version: '3.7'
 services:
-    sf-kb:
-        image: openlink/virtuoso-opensource-7:latest
-        #container_name: kb
-        environment:
-            - DBA_PASSWORD=mysecret
-        ports:
-            - '1111:1111'
-            - '8890:8890'
-        volumes:
-            - kb_db:/database
-    dr-api:
-        image: collaborativedhs/sf-datareceiver:v2.0
-        #container_name: dr
-        ports:
-            - '8088:8080'    
-        volumes:
-            - dr-api_logs:/logs       
-    sf-api:
-        image: collaborativedhs/semantic_framework:v2.3
-        depends_on:
-            - sf-kb
-            - dr-api
-        ports:
-            - '8087:8080'    
-        volumes:
-            - /var/lib/docker/volumes/sf-config/_data/configuration.json:/config/configuration.json
-            - sf-api_logs:/logs
-            - /var/lib/docker/volumes/sf-config/_data/keycloak_configuration.json:/config/keycloak_configuration.json
-        environment:
-            - 'KB_ADDRESS=jdbc:virtuoso://sf-kb:1111'
-            - 'KB_ADDRESS_REPO=http://sf-kb:8890/'
-            - 'KB_ADDRESS_RETRIEVE=http://sf-kb:8890/sparql'
-            - 'DR_ADDRESS=http://dr-api:8080/DataReceiver/webresources/'   
+  sf-kb:
+    image: openlink/virtuoso-opensource-7:latest
+    container_name: kb
+    restart: unless-stopped
+    environment:
+      - DBA_PASSWORD=mysecret
+    ports:
+      - '1111:1111'
+      - '8890:8890'
+    volumes:
+      - './pwd:/database'
+    networks:
+      - token-network
 
-volumes:
-  sf-config:
-    external: true   
-  kb_db:
-    external: true
-  sf-api_logs:
-    external: true    
-  dr-api_logs:
-    external: true
+  dr-api:
+    image: collaborativedhs/sf-datareceiver:v3.6
+    container_name: dr
+    restart: unless-stopped
+    ports:
+      - '8088:8080'
+    volumes:
+      - .logs_dr:/logs
+    networks:
+      - token-network
+
+  sf-api:
+    image: collaborativedhs/semantic_framework:v3.6
+    container_name: sf-api
+    restart: unless-stopped
+    depends_on:
+      - sf-kb
+      - dr-api
+    ports:
+      - '8087:8080'
+    volumes:
+      - ./config_sf:/config
+      - ./logs_sf:/logs
+      - ./cities_countries_clear.json:/code/cities_countries_clear.json
+    environment:
+      - 'KB_ADDRESS=jdbc:virtuoso://sf-kb:1111'
+      - 'KB_ADDRESS_REPO=http://sf-kb:8890/'
+      - 'KB_ADDRESS_RETRIEVE=http://sf-kb:8890/sparql'
+      - 'DR_ADDRESS=http://dr-api:8080/DataReceiver/webresources/'
+    networks:
+      - token-network
+
+
+  nl-api:
+    image: collaborativedhs/sf-natural-language:1.4
+    container_name: nl-api
+    restart: unless-stopped
+    depends_on:
+      - sf-api
+    ports:
+      - '8000:8000'
+    volumes:
+      - ./config_nl:/config
+    environment:
+      - 'NL_ENDPOINT=/NaturalLanguage'
+      - 'SF_ENDPOINT=http://sf-api:8080/SemanticFramework/api/retrieve'
+      - 'KEYCLOAK_CONFIG=/config/keycloak_configuration.json'
+    networks:
+      - token-network
 
 networks:
-  default:
-    external:
-      name: collnetwork
+  token-network:
+    external: true

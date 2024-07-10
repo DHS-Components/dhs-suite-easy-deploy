@@ -18,11 +18,11 @@
         {"threshold": 95.0, "color": "#ffff00"},
         {"threshold": 98.0, "color": "#92d050"},
         {"threshold": 99.0, "color": "#00b050"},
-        {"threshold": 100.0, "color": "#00b050"}        
+        {"threshold": 100.0, "color": "#00b050"}
     ],
     "averageAvailabilityColor": "#00d0ff",
     "dataRefreshTime": 300000,
-    "apiUrl": "http://be:3000/",
+    "apiUrl": "<back-end-url>",
     "version": "3.0.2",
     "satelliteList": [
         {
@@ -75,7 +75,7 @@
                 "SR_2_LAN___",
                 "SR_2_LAN_SI",
                 "SR_2_LAN_HY",
-                "SR_2_LAN_LI"            
+                "SR_2_LAN_LI"
             ],
             "platform": [
                 "A",

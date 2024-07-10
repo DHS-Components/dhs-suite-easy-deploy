@@ -1,205 +1,582 @@
 {
-    "version": "1.0.1",
-    "centreInfo": {
-        "name": "",
-        "image": "",
-        "link": "",
-        "alt": "",
-        "title": ""
-    },
-    "baseUrl": "https://dhs-test.onda-dias.eu/gss-cat-01/",
-    "searchOptions": {
-        "productsPerPage": 50,
-        "orderBy": "PublicationDate",
-        "sort": "desc"
-    },
-    "mapSettings": {
-        "initialViewState": {
-            "longitude": 2.27,
-            "latitude": 38.86,
-            "zoom": 1.5,
-            "minZoom": 0.5,
-            "maxZoom": 10
-        },
-        "projection": "globe"
-    },
-    "loginSettings": {
-        "text": "Please Sign in to access our service",
-        "buttonText": "Sign in"
-    },
-    "keycloak": {
-        "issuer": "https://collaborative-dhs.onda-dias.eu/auth/realms/collaborative-dhs",
-        "redirectUri": "http://127.0.0.1:8090/copsi/home",
-        "clientId": "ivv-gss1-client",
-        "responseType": "code",
-        "scope": "openid profile email",
-        "requireHttps": false,
-        "showDebugInformation": false,
-        "disableAtHashCheck": true,
-        "useSilentRefresh": true
-    },
-    "quicklookURL": "https://dhs-test.onda-dias.eu/gss-cat-01/odata/v1/Products(<uuid>)/AttachedFiles('quick-look.jpg')/$value",
-    "infoLogosLeft": [
-        { "link": "https://www.esa.int/", "image": "./assets/images/ESA_logo_2020_White_cut.png", "title": "Visit ESA website", "alt": "ESA logo" },
-        { "link": "https://european-union.europa.eu/", "image": "./assets/images/logoEU.svg", "title": "Visit EU website", "alt": "EU logo" },
-        { "link": "http://www.copernicus.eu", "image": "./assets/images/copernicus_eu_logo_blu_white.png", "title": "Visit Copernicus website", "alt": "Copernicus logo" },
-        { "link": "https://ivvproxy.onda.onda-dias.com/col-dhs-website/", "image": "./assets/images/logoDHS.png", "title": "Visit DHS website" , "alt": "DHS logo"}
-
-    ],
-    "infoLogosRight": [
-        { "link": "https://www.serco.com/", "image": "./assets/images/logo-serco-grey_cut.png", "title": "Visit Serco website", "alt": "Serco logo"  },
-        { "link": "http://www.alia-space.com/", "image": "./assets/images/logo_alia_white.png", "title": "Visit Alia website", "alt": "Alia Space logo"  }
-    ],
-    "platformList": [
+  "version": "3.0.1",
+  "centreInfo": {
+      "name": "",
+      "image": "",
+      "link": "",
+      "alt": "",
+      "title": ""
+  },
+  "baseUrl": "http(s)://<domain>/<api_context>/",
+  "searchOptions": {
+    "productsPerPage": 100,
+    "orderByOptions": [
       {
-        "name": "SENTINEL-1",
-        "tags": [
-          {
-            "name": "productType",
-            "color": "#ff6400",
-            "title": "Product Type"
-          },
-          {
-            "name": "operationalMode",
-            "color": "#00338D",
-            "title": "Operational Mode"
-          },
-          {
-            "name": "polarisationChannels",
-            "color": "#0CCE6B",
-            "title": "Polarisation"
-          },
-          {
-            "name": "orbitNumber",
-            "color": "#b81365",
-            "title": "Orbit Number"
-          },
-          {
-            "name": "timeliness",
-            "color": "#C47AC0",
-            "title": "Timeliness"
-          }
-        ]
+        "name": "Publication Date",
+        "value": "PublicationDate"
       },
       {
-        "name": "Sentinel-2",
-        "tags": [
-          {
-            "name": "productType",
-            "color": "#ff6400",
-            "title": "Product Type"
-          },
-          {
-            "name": "cloudCover",
-            "color": "#ff006e",
-            "title": "Cloud Cover Percentage"
-          },
-          {
-            "name": "tileId",
-            "color": "#6400ff",
-            "title": "Tile Identifier"
-          },
-          {
-            "name": "orbitNumber",
-            "color": "#b81365",
-            "title": "Orbit Number"
-          },
-          {
-            "name": "datastripId",
-            "color": "#0f7173",
-            "title": "Datastrip Identifier"
-          }
-        ]
-      },
-      {
-        "name": "SENTINEL-3",
-        "tags": [
-          {
-            "name": "productType",
-            "color": "#ff6400",
-            "title": "Product Type"
-          },
-          {
-            "name": "orbitNumber",
-            "color": "#b81365",
-            "title": "Orbit Number"
-          },
-          {
-            "name": "relativeOrbitNumber",
-            "color": "#48a9a6",
-            "title": "Relative Orbit Number"
-          },
-          {
-            "name": "timeliness",
-            "color": "#C47AC0",
-            "title": "Timeliness"
-          },
-          {
-            "name": "instrumentShortName",
-            "color": "#4B9CE7",
-            "title": "Instrument"
-          }
-        ]
-      },
-      {
-        "name": "SENTINEL-5P",
-        "tags": [
-          {
-            "name": "productType",
-            "color": "#ff6400",
-            "title": "Product Type"
-          },
-          {
-            "name": "processingMode",
-            "color": "#5B486A",
-            "title": "Processing Mode"
-          },
-          {
-            "name": "orbitNumber",
-            "color": "#b81365",
-            "title": "Orbit Number"
-          },
-          {
-            "name": "processingLevel",
-            "color": "#E71D36",
-            "title": "Processing Level"
-          }
-        ]
+        "name": "Sensing Date",
+        "value": "ContentDate/Start"
       }
     ],
-    "footprints": {
-      "defaultColor": "#ff640070",
-      "defaultBorderColor": "#882200dd",
-      "defaultBorderWidth": 2,
-      "selectedColor": "#00aeefaa",
-      "selectedBorderColor": "#0044eecc",
-      "selectedBorderWidth": 3
+    "sortByOptions": [
+      {
+        "name": "Descending",
+        "value": "DESC"
+      },
+      {
+        "name": "Ascending",
+        "value": "ASC"
+      }
+    ],
+    "hideFilterOutputTimeout": 2000,
+    "filterOutputIsPinnedByDefault": true,
+    "useMultipleAttributesInOption": true
+  },
+  "headerSettings": {
+    "showUserEditButton": false,
+    "showPasswordChangeButton": false,
+    "menuAutoHideTimeout": 2000
+  },
+  "mapSettings": {
+      "initialViewState": {
+        "longitude": 2.27,
+        "latitude": 38.86,
+        "zoom": 1.7,
+        "minZoom": 1.2,
+        "maxZoom": 10
+      },
+      "projection": "globe"
+  },
+  "geoSearchSettings": {
+    "showGeoSearchToolbar": true,
+    "defaultCircleRadius": 8,
+    "bigCircleRadius": 12,
+    "smallCircleRadius": 3,
+    "latitudeLimit": 85.05,
+    "fillColor": [220, 255, 100, 80],
+    "borderColor": [180, 220, 50, 255],
+    "fillColorActive": [255, 220, 60, 50],
+    "borderColorActive": [220, 150, 0, 255]
+  },
+  "loginSettings": {
+      "text": "Please Sign in to access our service",
+      "buttonText": "Sign in"
+  },
+  "keycloak": {
+      "issuer": "https://<keycloak_url>/auth/realms/<realm>",
+      "editProfileUrl": "<issuer>/account/?referrer=<clientId>#/personal-info",
+      "changePasswordUrl": "<issuer>/account/?referrer=<clientId>#/security/signingin",
+      "redirectUri": "http(s)://<copsy_domain>/home",
+      "clientId": "<client_id>",
+      "responseType": "code",
+      "scope": "openid profile email",
+      "requireHttps": false,
+      "showDebugInformation": false,
+      "disableAtHashCheck": true,
+      "useSilentRefresh": false
+  },
+  "quicklookURL": "<base_url>/odata/v1/Products(<uuid>)/AttachedFiles('quick-look.jpg')/$value",
+  "infoLogosLeft": [
+      { "link": "https://www.esa.int/", "image": "./assets/images/ESA_logo_2020_White_cut.png", "title": "Visit ESA website", "alt": "ESA logo" },
+      { "link": "https://european-union.europa.eu/", "image": "./assets/images/logoEU.svg", "title": "Visit EU website", "alt": "EU logo" },
+      { "link": "http://www.copernicus.eu", "image": "./assets/images/copernicus_eu_logo_blu_white.png", "title": "Visit Copernicus website", "alt": "Copernicus logo" },
+      { "link": "https://ivvproxy.onda.onda-dias.com/col-dhs-website/", "image": "./assets/images/logoDHS.png", "title": "Visit DHS website" , "alt": "DHS logo"}
+
+  ],
+  "infoLogosRight": [
+      { "link": "https://www.serco.com/", "image": "./assets/images/logo-serco-grey_cut.png", "title": "Visit Serco website", "alt": "Serco logo"  },
+      { "link": "http://www.alia-space.com/", "image": "./assets/images/logo_alia_white.png", "title": "Visit Alia website", "alt": "Alia Space logo"  }
+  ],
+  "footprints": {
+    "fallBackColor": "#808080cc",
+    "fallBackBorderColor": "#303030ff",
+    "fallBackHoverColor": "#a0a0a0ee",
+    "fallBackHoverBorderColor": "#808080ff",
+    "defaultBorderWidth": 2,
+    "selectedBorderColor": "#00aeefff",
+    "selectedBorderWidth": 4,
+    "hoveredBorderWidth": 2,
+    "maxPickableObjectsDepth": 15
+  },
+  "styles": [
+    {
+      "name": "Terrain",
+      "url": "https://tiles.maps.eox.at/wmts/1.0.0/terrain_3857/default/g/{z}/{y}/{x}.jpg"
     },
-    "styles": [
+    {
+      "name": "OSM",
+      "url": "https://c.tile.openstreetmap.org/{z}/{x}/{y}.png"
+    },
+    {
+      "name": "Terrain Light",
+      "url": "https://tiles.maps.eox.at/wmts/1.0.0/terrain-light_3857/default/g/{z}/{y}/{x}.jpg"
+    },
+    {
+      "name": "Black Marble",
+      "url": "https://tiles.maps.eox.at/wmts/1.0.0/blackmarble_3857/default/g/{z}/{y}/{x}.jpg"
+    },
+    {
+      "name": "Blue Marble",
+      "url": "https://tiles.maps.eox.at/wmts/1.0.0/bluemarble_3857/default/g/{z}/{y}/{x}.jpg"
+    },
+    {
+      "name": "S2 Cloudless",
+      "url": "https://tiles.maps.eox.at/wmts/1.0.0/s2cloudless_3857/default/g/{z}/{y}/{x}.jpg"
+    }
+  ],
+  "overlays": [
+    {
+      "name": "No Overlay",
+      "url": ""
+    },
+    {
+      "name": "Overlay",
+      "url": "https://tiles.maps.eox.at/wmts/1.0.0/overlay_bright_3857/default/g/{z}/{y}/{x}.jpg"
+    }
+  ],
+  "platformDetailsList": [
+    {
+      "name": "Mission",
+      "mission": "Sentinel-1",
+      "value": "SENTINEL-1",
+      "attributeName": "platformShortName",
+      "attributeType": "OData.CSC.StringAttribute",
+      "fillColor": "#b31b1b64",
+      "borderColor": "#b31b1bff",
+      "hoverColor": "#ff0000aa",
+      "hoverBorderColor": "#ff0000ff",
+      "tags": [
         {
-          "name": "Terrain",
-          "url": "https://tiles.maps.eox.at/wmts/1.0.0/terrain_3857/default/g/{z}/{y}/{x}.jpg"
+          "name": "productType",
+          "color": "#ff6400",
+          "title": "Product Type"
         },
         {
-          "name": "OSM",
-          "url": "https://c.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          "name": "operationalMode",
+          "color": "#00338D",
+          "title": "Operational Mode"
         },
         {
-          "name": "Terrain Light",
-          "url": "https://tiles.maps.eox.at/wmts/1.0.0/terrain-light_3857/default/g/{z}/{y}/{x}.jpg"
+          "name": "polarisationChannels",
+          "color": "#0CCE6B",
+          "title": "Polarisation"
         },
         {
-          "name": "Black Marble",
-          "url": "https://tiles.maps.eox.at/wmts/1.0.0/blackmarble_3857/default/g/{z}/{y}/{x}.jpg"
+          "name": "orbitNumber",
+          "color": "#b81365",
+          "title": "Orbit Number"
         },
         {
-          "name": "Blue Marble",
-          "url": "https://tiles.maps.eox.at/wmts/1.0.0/bluemarble_3857/default/g/{z}/{y}/{x}.jpg"
+          "name": "timeliness",
+          "color": "#C47AC0",
+          "title": "Timeliness"
+        }
+      ],
+      "filters": [
+        {
+          "name": "Platform Identifier",
+          "attributeName": "platformSerialIdentifier",
+          "attributeType": "OData.CSC.StringAttribute",
+          "value": [
+            "A",
+            "B"
+          ],
+          "selectedValues": []
         },
         {
-          "name": "S2 Cloudless",
-          "url": "https://tiles.maps.eox.at/wmts/1.0.0/s2cloudless_3857/default/g/{z}/{y}/{x}.jpg"
+          "name": "Product Type",
+          "attributeName": "productType",
+          "attributeType": "OData.CSC.StringAttribute",
+          "value": [
+            "S1_RAW__0S",
+            "S2_RAW__0S",
+            "S3_RAW__0S",
+            "S4_RAW__0S",
+            "S5_RAW__0S",
+            "S6_RAW__0S",
+            "IW_RAW__0S",
+            "EW_RAW__0S",
+            "WV_RAW__0S",
+            "S1_SLC__1S",
+            "S2_SLC__1S",
+            "S3_SLC__1S",
+            "S4_SLC__1S",
+            "S5_SLC__1S",
+            "S6_SLC__1S",
+            "IW_SLC__1S",
+            "EW_SLC__1S",
+            "WV_SLC__1S",
+            "S1_GRDH_1S",
+            "S2_GRDH_1S",
+            "S3_GRDH_1S",
+            "S4_GRDH_1S",
+            "S5_GRDH_1S",
+            "S6_GRDH_1S",
+            "IW_GRDH_1S",
+            "EW_GRDH_1S",
+            "S1_GRDM_1S",
+            "S2_GRDM_1S",
+            "S3_GRDM_1S",
+            "S4_GRDM_1S",
+            "S5_GRDM_1S",
+            "S6_GRDM_1S",
+            "IW_GRDM_1S",
+            "EW_GRDM_1S",
+            "S1_OCN__2S",
+            "S2_OCN__2S",
+            "S3_OCN__2S",
+            "S4_OCN__2S",
+            "S5_OCN__2S",
+            "S6_OCN__2S",
+            "IW_OCN__2S",
+            "EW_OCN__2S",
+            "WV_OCN__2S"
+          ],
+          "selectedValues": []
+        },
+        {
+          "name": "Polarisation",
+          "attributeName": "polarisationChannels",
+          "attributeType": "OData.CSC.StringAttribute",
+          "value": [
+            "HH",
+            "VV",
+            "VV,VH",
+            "VH,VV",
+            "HH,HV",
+            "HV,HH"
+          ],
+          "selectedValues": []
+        },
+        {
+          "name": "Operational Mode",
+          "attributeName": "operationalMode",
+          "attributeType": "OData.CSC.StringAttribute",
+          "value": [
+            "SM",
+            "IW",
+            "EW",
+            "WV"
+          ],
+          "selectedValues": []
+        },
+        {
+          "name": "Orbit Direction",
+          "attributeName": "orbitDirection",
+          "attributeType": "OData.CSC.StringAttribute",
+          "value": [
+            "ASCENDING",
+            "DESCENDING"
+          ],
+          "selectedValues": []
+        },
+        {
+          "name": "Timeliness",
+          "attributeName": "timeliness",
+          "attributeType": "OData.CSC.StringAttribute",
+          "value": [
+            "NRT-10m",
+            "NRT-1h",
+            "NRT-3h",
+            "Fast-24h",
+            "Off-line",
+            "Reprocessing"
+          ],
+          "selectedValues": []
         }
       ]
-
+    },
+    {
+      "name": "Mission",
+      "mission": "Sentinel-2",
+      "value": "SENTINEL-2",
+      "attributeName": "platformShortName",
+      "attributeType": "OData.CSC.StringAttribute",
+      "fillColor": "#17724564",
+      "borderColor": "#177245ff",
+      "hoverColor": "#adff2faa",
+      "hoverBorderColor": "#adff2fff",
+      "tags": [
+        {
+          "name": "productType",
+          "color": "#ff6400",
+          "title": "Product Type"
+        },
+        {
+          "name": "cloudCover",
+          "color": "#ff006e",
+          "title": "Cloud Cover Percentage"
+        },
+        {
+          "name": "tileId",
+          "color": "#6400ff",
+          "title": "Tile Identifier"
+        },
+        {
+          "name": "orbitNumber",
+          "color": "#b81365",
+          "title": "Orbit Number"
+        },
+        {
+          "name": "datastripId",
+          "color": "#0f7173",
+          "title": "Datastrip Identifier"
+        }
+      ],
+      "filters": [
+        {
+          "name": "Platform Identifier",
+          "attributeName": "platformSerialIdentifier",
+          "attributeType": "OData.CSC.StringAttribute",
+          "value": [
+            "A",
+            "B"
+          ],
+          "selectedValues": []
+        },
+        {
+          "name": "Product Type",
+          "attributeName": "productType",
+          "attributeType": "OData.CSC.StringAttribute",
+          "value": [
+            "S2MSI1C",
+            "S2MSI2A"
+          ],
+          "selectedValues": []
+        },
+        {
+          "name": "Tile ID",
+          "attributeName": "tileId",
+          "attributeType": "OData.CSC.StringAttribute",
+          "manualInput": true
+        },
+        {
+          "name": "Datastrip Identifier",
+          "attributeName": "datastripIdentifier",
+          "attributeType": "OData.CSC.StringAttribute",
+          "manualInput": true
+        },
+        {
+          "name": "Cloud Cover %",
+          "attributeName": "cloudCover",
+          "attributeType": "OData.CSC.DoubleAttribute",
+          "minValue": 0.00,
+          "maxValue": 100.00,
+          "step": 0.001,
+          "needsMinMaxValues": true
+        }
+      ]
+    },
+    {
+      "name": "Mission",
+      "mission": "Sentinel-3",
+      "value": "SENTINEL-3",
+      "attributeName": "platformShortName",
+      "attributeType": "OData.CSC.StringAttribute",
+      "fillColor": "#0023b964",
+      "borderColor": "#0023b9ff",
+      "hoverColor": "#0000ffaa",
+      "hoverBorderColor": "#0000ffff",
+      "tags": [
+        {
+          "name": "productType",
+          "color": "#ff6400",
+          "title": "Product Type"
+        },
+        {
+          "name": "orbitNumber",
+          "color": "#b81365",
+          "title": "Orbit Number"
+        },
+        {
+          "name": "relativeOrbitNumber",
+          "color": "#48a9a6",
+          "title": "Relative Orbit Number"
+        },
+        {
+          "name": "timeliness",
+          "color": "#C47AC0",
+          "title": "Timeliness"
+        },
+        {
+          "name": "instrumentShortName",
+          "color": "#4B9CE7",
+          "title": "Instrument"
+        }
+      ],
+      "filters": [
+        {
+          "name": "Platform Identifier",
+          "attributeName": "platformSerialIdentifier",
+          "attributeType": "OData.CSC.StringAttribute",
+          "value": [
+            "A",
+            "B"
+          ],
+          "selectedValues": []
+        },
+        {
+          "name": "Product Type",
+          "attributeName": "productType",
+          "attributeType": "OData.CSC.StringAttribute",
+          "value": [
+            "OL_1_EFR___",
+            "OL_1_ERR___",
+            "OL_2_LFR___",
+            "OL_2_LRR___",
+            "SR_1_SRA___",
+            "SR_1_SRA_A_",
+            "SR_1_SRA_BS",
+            "SR_2_LAN___",
+            "SR_2_LAN_HY",
+            "SR_2_LAN_LI",
+            "SR_2_LAN_SI",
+            "SL_1_RBT___",
+            "SL_2_LST___",
+            "SL_2_FRP___",
+            "SY_2_SYN___",
+            "SY_2_VGP___",
+            "SY_2_VG1___",
+            "SY_2_V10___",
+            "SY_2_AOD___"
+          ],
+          "selectedValues": []
+        },
+        {
+          "name": "Instrument",
+          "attributeName": "instrumentShortName",
+          "attributeType": "OData.CSC.StringAttribute",
+          "value": [
+            "OLCI",
+            "SRAL",
+            "SLSTR",
+            "SYNERGY"
+          ],
+          "selectedValues": []
+        },
+        {
+          "name": "Processing Level",
+          "attributeName": "processingLevel",
+          "attributeType": "OData.CSC.StringAttribute",
+          "value": [
+            "1",
+            "2"
+          ],
+          "selectedValues": []
+        },
+        {
+          "name": "Timeliness",
+          "attributeName": "timeliness",
+          "attributeType": "OData.CSC.StringAttribute",
+          "value": [
+            "NR",
+            "NT",
+            "ST"
+          ],
+          "selectedValues": []
+        },
+        {
+          "name": "Cloud Cover %",
+          "attributeName": "cloudCover",
+          "attributeType": "OData.CSC.DoubleAttribute",
+          "minValue": 0.00,
+          "maxValue": 100.00,
+          "step": 0.001,
+          "needsMinMaxValues": true
+        }
+      ]
+    },
+    {
+      "name": "Mission",
+      "mission": "Sentinel-5p",
+      "value": "SENTINEL-5P",
+      "attributeName": "platformShortName",
+      "attributeType": "OData.CSC.StringAttribute",
+      "fillColor": "#64539464",
+      "borderColor": "#645394ff",
+      "hoverColor": "#ff00ffaa",
+      "hoverBorderColor": "#ff00ffff",
+      "tags": [
+        {
+          "name": "productType",
+          "color": "#ff6400",
+          "title": "Product Type"
+        },
+        {
+          "name": "processingMode",
+          "color": "#5B486A",
+          "title": "Processing Mode"
+        },
+        {
+          "name": "orbitNumber",
+          "color": "#b81365",
+          "title": "Orbit Number"
+        },
+        {
+          "name": "processingLevel",
+          "color": "#E71D36",
+          "title": "Processing Level"
+        }
+      ],
+      "filters": [
+        {
+          "name": "Product Type",
+          "attributeName": "productType",
+          "attributeType": "OData.CSC.StringAttribute",
+          "value": [
+            "L1B_IR_SIR",
+            "L1B_IR_UVN",
+            "L1B_RA_BD1",
+            "L1B_RA_BD2",
+            "L1B_RA_BD3",
+            "L1B_RA_BD4",
+            "L1B_RA_BD5",
+            "L1B_RA_BD6",
+            "L1B_RA_BD7",
+            "L1B_RA_BD8",
+            "L2__AER_AI",
+            "L2__AER_LH",
+            "L2__CH4___",
+            "L2__CLOUD_",
+            "L2__CO____",
+            "L2__HCHO__",
+            "L2__NO2___",
+            "L2__NP_BD3",
+            "L2__NP_BD6",
+            "L2__NP_BD7",
+            "L2__O3_TCL",
+            "L2__O3____",
+            "L2__O3__PR",
+            "L2__SO2___",
+            "AUX_CTMFCT",
+            "AUX_CTMANA"
+          ],
+          "selectedValues": []
+        },
+        {
+          "name": "Processing Mode",
+          "attributeName": "processingMode",
+          "attributeType": "OData.CSC.StringAttribute",
+          "value": [
+            "NRTI",
+            "OFFL",
+            "RPRO"
+          ],
+          "selectedValues": []
+        },
+        {
+          "name": "Processing Level",
+          "attributeName": "processingLevel",
+          "attributeType": "OData.CSC.StringAttribute",
+          "value": [
+            "L1b",
+            "L2"
+          ],
+          "selectedValues": []
+        }
+      ]
+    }
+  ]
 }

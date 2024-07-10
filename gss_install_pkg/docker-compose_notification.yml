@@ -1,0 +1,29 @@
+version: "3.8"
+services:
+
+  notification:
+    image: "gaeldockerhub/cdh-notification:1.4.3"
+    environment:
+       CONF_FILE: /notification/etc/consumer.properties
+    deploy:
+      placement:
+        constraints:
+          - node.labels.gss_notification_tag == true       
+    configs:
+      - source: log4j2_conf
+        target: /notification/etc/log4j2.xml
+      - source: consumer-for-notification-properties
+        target: /notification/etc/consumer.properties
+    volumes:
+      - ./data/notification/logs/:/notification/logs
+
+configs:
+  log4j2_conf:
+    file: ./config/notification/log4j2.xml
+  consumer-for-notification-properties:
+    file: ./config/notification/consumer-for-notification.properties
+
+networks:
+  default:
+    external:
+      name: collnetwork    

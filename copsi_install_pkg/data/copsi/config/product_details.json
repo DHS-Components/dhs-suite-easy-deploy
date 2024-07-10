@@ -1,0 +1,127 @@
+{
+  "Properties": [
+    "Id",
+    "Name",
+    "ContentLength",
+    "OriginDate",
+    "PublicationDate",
+    "Checksum",
+    "ContentDate",
+    "Footprint",
+    "GeoFootprint"
+  ],
+  "Attributes": [
+    {
+      "platformShortName": "SENTINEL-1",
+      "Attributes": [
+        "beginningDateTime",
+        "endingDateTime",
+        "platformShortName",
+        "platformSerialIdentifier",
+        "instrumentShortName",
+        "operationalMode",
+        "swathIdentifier",
+        "productClass",
+        "productType",
+        "productGeneration",
+        "timeliness",
+        "sliceNumber",
+        "polarisationChannels",
+        "orbitNumber",
+        "relativeOrbitNumber",
+        "cycleNumber",
+        "orbitDirection",
+        "processingDate",
+        "processingCenter",
+        "processorName",
+        "processorVersion"
+      ]
+    },
+    {
+      "platformShortName": "Sentinel-2",
+      "Attributes": [
+        "beginningDateTime",
+        "endingDateTime",
+        "productType",
+        "processorVersion",
+        "processingCenter",
+        "processingDate",
+        "platformShortName",
+        "platformSerialIdentifier",
+        "instrumentShortName",
+        "operationalMode",
+        "orbitNumber",
+        "lastOrbitNumber",
+        "relativeOrbitNumber",
+        "cloudCover",
+        "productGroupId",
+        "datastripId",
+        "tileId",
+        "qualityStatus",
+        "qualityInfo"
+      ]
+    },
+    {
+      "platformShortName": "SENTINEL-3",
+      "Attributes": [
+        "beginningDateTime",
+        "endingDateTime",
+        "platformShortName",
+        "platformSerialIdentifier",
+        "instrumentShortName",
+        "operationalMode",
+        "productType",
+        "timeliness",
+        "baselineCollection",
+        "brightCover",
+        "snowOrIceCover",
+        "salineWaterCover",
+        "coastalCover",
+        "freshInlandWaterCover",
+        "tidalRegionCover",
+        "landCover",
+        "closedSeaCover",
+        "continentalIceCover",
+        "openOceanCover",
+        "cloudCover",
+        "orbitNumber",
+        "lastOrbitNumber",
+        "orbitDirection",
+        "lastOrbitDirection",
+        "relativeOrbitNumber",
+        "lastRelativeOrbitNumber",
+        "cycleNumber",
+        "processingLevel",
+        "processingDate",
+        "processingCenter",
+        "processorName",
+        "processorVersion"
+      ]
+    },
+    {
+      "platformShortName": "SENTINEL-5P",
+      "Attributes": [
+        "platformShortName",
+        "instrumentShortName",
+        "processingLevel",
+        "beginningDateTime",
+        "endingDateTime",
+        "processingCenter",
+        "processorName",
+        "processorVersion",
+        "processingDate",
+        "processingMode",
+        "orbitNumber",
+        "productClass",
+        "baselineCollection",
+        "productType",
+        "doi",
+        "identifier",
+        "parentIdentifier",
+        "acquisitionType",
+        "qualityStatus"
+      ]
+    }
+  ]
+}
+

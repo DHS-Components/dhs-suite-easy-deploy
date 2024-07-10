@@ -1,13 +1,26 @@
-version: "3.1"
+version: "3.8"
 services:
   catalogue:
-    image: "gaeldockerhub/cdh-catalogue:1.2.0"
+    image: "gaeldockerhub/cdh-catalogue:1.4.3"
     ports:
      - 8081:8081
+
     volumes:
-     - ./config/catalogue/gss-catalogue.xml:/catalogue/etc/gss.xml
-     - ./config/catalogue/application.properties:/catalogue/etc/application.properties
-     - ./data/catalogue:/catalogue/hfs
+      - /data/GSS/cdh-compose-1.4.3/catalogue/logs/:/catalogue/logs
+      - /mnt/ivvnas/2click_test/GSS/DESTINATION_FOLDER2/S1/:/ingest/folder1       
+
+    configs:
+      - source: application_properties
+        target: /catalogue/etc/application.properties
+
+    deploy:
+      placement:
+        constraints:
+          - node.labels.gss_catalogue_tag == true
+
+configs:
+  application_properties:
+    file: ./config/catalogue/application.properties
 
 networks:
   default:

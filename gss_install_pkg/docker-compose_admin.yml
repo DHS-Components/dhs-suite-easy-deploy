@@ -1,11 +1,24 @@
-version: "3.1"
+version: "3.8"
 services:
-  catalogue:
-    image: "gaeldockerhub/cdh-admin-api:1.2.0"
+  admin:
+    image: "gaeldockerhub/cdh-admin-api:1.4.3"
     ports:
      - 8082:8082
     volumes:
-     - ./config/admin/application.properties:/admin-api/etc/application.properties
+     - /data/GSS/cdh-compose-1.4.3/admin/logs/:/admin-api/logs       
+
+    configs:
+      - source: application_properties
+        target: /admin-api/etc/application.properties
+
+    deploy:
+      placement:
+        constraints:
+          - node.labels.gss_admin_tag == true
+
+configs:
+  application_properties:
+    file: ./config/catalogue/application.properties
 
 networks:
   default:
