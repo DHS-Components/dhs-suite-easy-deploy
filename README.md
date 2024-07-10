@@ -8,7 +8,7 @@ The Two-click Installation Suite is a comprehensive package designed to simplify
 
 For a technological point of view, the Two-click installation is based on Docker Swarm which guarantees the possibility to perform both a deployment on a single node and on a distributed environment.
 
-For additional information refer to the document xxxx
+For additional information refer to the document "DHS Suite Easy Deploy Installation Manual"
 
 ## Copyright
 
