@@ -698,13 +698,13 @@
 
    fi
 
-   runuser -l colluser -c "sudo ls /home/dhs-suite-easy-deploy-1.0.0 > /dev/null 2>&1"
+   runuser -l colluser -c "sudo ls /home/dhs-suite-easy-deploy-1.1.0 > /dev/null 2>&1"
 
    if [[ "$?" == "0" ]] ; then
 
-     runuser -l colluser -c "sudo mv /home/dhs-suite-easy-deploy-1.0.0 /home/colluser/"
+     runuser -l colluser -c "sudo mv /home/dhs-suite-easy-deploy-1.1.0 /home/colluser/"
 
-     echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] The package dhs-suite-easy-deploy-1.0.0 to be installed has been moved from /home to /home/colluser"
+     echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] The package dhs-suite-easy-deploy-1.1.0 to be installed has been moved from /home to /home/colluser"
 
      runuser -l colluser -c "sudo touch /home/colluser/firstrundone"
 
@@ -712,9 +712,9 @@
 
      if [ ! -f /home/colluser/firstrundone ];then
 
-       echo "$(date '+%Y-%m-%d %H:%M:%S') [WARN] The package dhs-suite-easy-deploy-1.0.0 to be installed doesn't exist in /home"
+       echo "$(date '+%Y-%m-%d %H:%M:%S') [WARN] The package dhs-suite-easy-deploy-1.1.0 to be installed doesn't exist in /home"
 
-       echo "$(date '+%Y-%m-%d %H:%M:%S') [WARN] If the script has been launched at first time please download before in /home the package dhs-suite-easy-deploy-1.0.0 from repository (view the README.md file for the details) and re-execute the script"
+       echo "$(date '+%Y-%m-%d %H:%M:%S') [WARN] If the script has been launched at first time please download before in /home the package dhs-suite-easy-deploy-1.1.0 from repository (view the README.md file for the details) and re-execute the script"
 
        exit
 
@@ -726,7 +726,7 @@
 
    if [[ "$listtoinstall" == *"copsi"* ]];then
 
-      installCopsi "dhs-suite-easy-deploy-1.0.0"
+      installCopsi "dhs-suite-easy-deploy-1.1.0"
 
    fi
 
@@ -734,7 +734,7 @@
 
    if [[ "$listtoinstall" == *"dafne"* ]];then
 
-      installDafne "dhs-suite-easy-deploy-1.0.0"
+      installDafne "dhs-suite-easy-deploy-1.1.0"
 
    fi
 
@@ -742,7 +742,7 @@
 
    if [[ "$listtoinstall" == *"tf"* ]];then
 
-      installTF "dhs-suite-easy-deploy-1.0.0"
+      installTF "dhs-suite-easy-deploy-1.1.0"
 
    fi
 
@@ -750,7 +750,7 @@
 
    if [[ "$listtoinstall" == *"iam"* ]];then
 
-      installIam "dhs-suite-easy-deploy-1.0.0"
+      installIam "dhs-suite-easy-deploy-1.1.0"
 
    fi
 
@@ -758,7 +758,7 @@
 
    if [[ "$listtoinstall" == *"sf"* ]];then
 
-      installSF "dhs-suite-easy-deploy-1.0.0"
+      installSF "dhs-suite-easy-deploy-1.1.0"
 
    fi
 
@@ -766,7 +766,7 @@
 
    if [[ "$listtoinstall" == *"gss-admin"* ]];then
 
-      installGSS-admin "dhs-suite-easy-deploy-1.0.0"
+      installGSS-admin "dhs-suite-easy-deploy-1.1.0"
 
    fi
 
@@ -774,7 +774,7 @@
 
    if [[ "$listtoinstall" == *"gss-ingest"* ]];then
 
-      installGSS-ingest "dhs-suite-easy-deploy-1.0.0"
+      installGSS-ingest "dhs-suite-easy-deploy-1.1.0"
 
    fi
 
@@ -782,7 +782,7 @@
 
    if [[ "$listtoinstall" == *"gss-catalogue"* ]];then
 
-      installGSS-catalogue "dhs-suite-easy-deploy-1.0.0"
+      installGSS-catalogue "dhs-suite-easy-deploy-1.1.0"
 
    fi
 
@@ -790,7 +790,7 @@
 
    if [[ "$listtoinstall" == *"gss-notification"* ]];then
 
-      installGSS-notification "dhs-suite-easy-deploy-1.0.0"
+      installGSS-notification "dhs-suite-easy-deploy-1.1.0"
 
    fi
 
