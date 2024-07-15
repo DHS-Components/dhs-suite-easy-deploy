@@ -3,8 +3,14 @@ services:
   esa_tf_scheduler:
     image: daskdev/dask:2023.3.2-py3.10
     ports:
-      - "8786:8786"
-      - "8787:8787"
+      - target: 8786
+        published: 8786
+        protocol: tcp
+        mode: host
+      - target: 8787
+        published: 8787
+        protocol: tcp
+        mode: host        
     command: dask scheduler
     deploy:
       placement:
@@ -14,7 +20,10 @@ services:
   esa_tf_restapi:
     image: ${ESA_REGISTRY_PATH:-collaborativedhs}/esa_tf_restapi:${ESA_TF_RELEASE:-latest}
     ports:
-      - "8000:8000"
+      - target: 8000
+        published: 8000
+        protocol: tcp
+        mode: host        
     command: make serve PORT=8000 SCHEDULER="tcp://esa_tf_scheduler:8786"
     volumes:
       - tf-config:/config
@@ -105,42 +114,42 @@ volumes:
   tf-config:
     driver_opts:
       type: "nfs"
-      o: "addr=127.0.0.1,nolock,soft,rw"
+      o: "addr=172.20.7.25,nolock,soft,rw"
       device: ":/shared/tf-config/"
   tf-output:
     driver_opts:
       type: "nfs"
-      o: "addr=127.0.0.1,nolock,soft,rw"
+      o: "addr=172.20.7.25,nolock,soft,rw"
       device: ":/shared/tf-output/"
   tf-data:
     driver_opts:
       type: "nfs"
-      o: "addr=127.0.0.1,nolock,soft,rw"
+      o: "addr=172.20.7.25,nolock,soft,rw"
       device: ":/shared/tf-data/"
   tf-plugins:
     driver_opts:
       type: "nfs"
-      o: "addr=127.0.0.1,nolock,soft,rw"
+      o: "addr=172.20.7.25,nolock,soft,rw"
       device: ":/shared/tf-plugins/"
   tf-traces:
     driver_opts:
       type: "nfs"
-      o: "addr=127.0.0.1,nolock,soft,rw"
+      o: "addr=172.20.7.25,nolock,soft,rw"
       device: ":/shared/tf-traces/"
   tf-logs:
     driver_opts:
       type: "nfs"
-      o: "addr=127.0.0.1,nolock,soft,rw"
+      o: "addr=172.20.7.25,nolock,soft,rw"
       device: ":/shared/tf-logs/"
   tf-nginx_templates:
     driver_opts:
       type: "nfs"
-      o: "addr=127.0.0.1,nolock,soft,rw"
+      o: "addr=172.20.7.25,nolock,soft,rw"
       device: ":/shared/tf-nginx/templates"
   tf-nginx_njs:
     driver_opts:
       type: "nfs"
-      o: "addr=127.0.0.1,nolock,soft,rw"
+      o: "addr=172.20.7.25,nolock,soft,rw"
       device: ":/shared/tf-nginx/njs"
 networks:
   default:

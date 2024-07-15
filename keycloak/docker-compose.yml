@@ -5,7 +5,10 @@ services:
   keycloak:
       image: ciam-swarm-keycloak:1.0
       ports:
-      - "8060:8080"
+      - target: 8060
+        published: 8080
+        protocol: tcp
+        mode: host
       environment:
         KEYCLOAK_ADMIN: admin
         KEYCLOAK_ADMIN_PASSWORD: p455w0rD_kc1

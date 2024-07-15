@@ -3,8 +3,10 @@ services:
   catalogue:
     image: "gaeldockerhub/cdh-catalogue:1.4.3"
     ports:
-     - 8081:8081
-
+     - target: 8081
+       published: 8081
+       protocol: tcp
+       mode: host
     volumes:
       - /data/GSS/cdh-compose-1.4.3/catalogue/logs/:/catalogue/logs
       - /mnt/ivvnas/2click_test/GSS/DESTINATION_FOLDER2/S1/:/ingest/folder1       

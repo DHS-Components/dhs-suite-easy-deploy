@@ -4,7 +4,10 @@ services:
     image: "collaborativedhs/dafne:fe-3.0.2"
     hostname: frontend
     ports:
-      - "8080:80"
+      - target: 80
+        published: 8080
+        protocol: tcp
+        mode: host            
     volumes:
       - dafne-fe-config:/usr/local/apache2/htdocs/assets/config
     # uncomment the following 3 lines in case of deployment without proxy
@@ -23,7 +26,10 @@ services:
     command: bash -c "npx sequelize-cli db:migrate && node index.js"
 
     ports:
-      - "3000:2000"
+      - target: 2000
+        published: 3000
+        protocol: tcp
+        mode: host            
     environment:
       - NODE_ENV=production               # {'development', 'test', 'production'}
       - CONF_PATH=/usr/src/app/config/
@@ -64,22 +70,22 @@ volumes:
   dafne-fe-config:
     driver_opts:
       type: "nfs"
-      o: "addr=127.0.0.1,nolock,soft,rw"
+      o: "addr=172.20.7.25,nolock,soft,rw"
       device: ":/shared/dafne-fe-config/"
   dafne-be-config:
     driver_opts:
       type: "nfs"
-      o: "addr=127.0.0.1,nolock,soft,rw"
+      o: "addr=172.20.7.25,nolock,soft,rw"
       device: ":/shared/dafne-be-config/" 
   dafne-be-logs:
      driver_opts:
       type: "nfs"
-      o: "addr=127.0.0.1,nolock,soft,rw"
+      o: "addr=172.20.7.25,nolock,soft,rw"
       device: ":/shared/dafne-be-logs/"
   dafne-db:
      driver_opts:
       type: "nfs"
-      o: "addr=127.0.0.1,nolock,soft,rw"
+      o: "addr=172.20.7.25,nolock,soft,rw"
       device: ":/shared/dafne-db/"
 
 networks:

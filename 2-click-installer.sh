@@ -642,7 +642,7 @@
    listtoinstall=$1
 
    # Apply the nfs server IP to docker-compose files using nfs setting. Existing files must contain valid IP 
-   find . -type f -name docker-compose.*.yml -exec sed -i "s/addr=[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}/addr=$nfs_server_ip/" {} \;
+   find . -type f -name docker-compose*.yml -exec sed -i "s/addr=[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}/addr=$nfs_server_ip/" {} \;
 
    #clear all the tags before node update
    #./utils/remove_all_tags.sh
