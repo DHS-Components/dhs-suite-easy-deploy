@@ -202,7 +202,7 @@
 
                                         echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Begin creation services for TF"
 
-					 runuser -l colluser -c "cd /home/colluser/$1/esa_tf_install_pkg/; source /home/colluser/$1/esa_tf_install_pkg/.env; sudo docker stack deploy --compose-file /home/colluser/$1/esa_tf_install_pkg/docker-compose.yml tf-service > /dev/null 2>&1"
+					 runuser -l colluser -c "cd /home/colluser/$1/esa_tf_install_pkg/; . /home/colluser/$1/esa_tf_install_pkg/.env; sudo docker stack deploy --compose-file /home/colluser/$1/esa_tf_install_pkg/docker-compose.yml tf-service > /dev/null 2>&1"
 
 				        if [[ "$?" == "0" ]];then
 
