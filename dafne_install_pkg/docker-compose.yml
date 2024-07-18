@@ -47,20 +47,23 @@ services:
   #    depends_on:
   #     - db
   # db:
-    #container_name: db
-    #  hostname: dafne_db
-    #restart: always
-    #  image: "library/postgres:12.5"
-    #deploy:
-    #  placement:
-    #    constraints:
-    #      - node.labels.dafne_tag == true      
-    #env_file:
-    #  - /shared/dafne-be-config/db_credentials.env
-        #ports:
-        #- "5432:5432"
-        #volumes:
-        #- dafne-db:/var/lib/postgresql/data
+  #  container_name: db
+  #  hostname: dafne_db
+  #  restart: always
+  #  image: "library/postgres:12.5"
+  #  deploy:
+  #  placement:
+  #    constraints:
+  #      - node.labels.dafne_tag == true      
+  #  env_file:
+  #   - /shared/dafne-be-config/db_credentials.env
+  #  ports:
+  #    - target: 5432
+  #      published: 5432
+  #      protocol: tcp
+  #      mode: host            
+  #  volumes:
+  #   - dafne-db:/var/lib/postgresql/data
 
 configs:
     index_html:

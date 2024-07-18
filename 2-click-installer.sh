@@ -498,14 +498,14 @@
 
 	echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Begin installation GSS catalogue"
 
-       /home/colluser/$1/utils/remove_tag.sh gss_catalogue_tag
+        /home/colluser/$1/utils/remove_tag.sh gss_catalogue_tag
 
    	docker node update --label-add gss_catalogue_tag=true $gss_catalogue_tag > /dev/null 2>&1 && echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] gss_catalogue_tag added to $gss_catalogue_tag node" || echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] gss_catalogue_tag NOT added to $gss_catalogue_tag node"
 		status="NOK"
 
 	mkdir -p /shared/gss-catalogue-config/
 
-	cp ./gss_install_pkg/config/catalogue/application.properties /shared/gss-catalogue-config/	   
+	runuser -l colluser -c "sudo cp /home/colluser/$1/gss_install_pkg/config/catalogue/application.properties /shared/gss-catalogue-config/"	   
 
 	echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Begin creation services for GSS catalogue"
 
