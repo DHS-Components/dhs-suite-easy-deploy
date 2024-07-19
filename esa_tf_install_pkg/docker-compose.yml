@@ -117,42 +117,42 @@ volumes:
   tf-config:
     driver_opts:
       type: "nfs"
-      o: "addr=172.20.7.25,nolock,soft,rw"
+      o: "addr=127.0.0.1,nolock,soft,rw"
       device: ":/shared/tf-config/"
   tf-output:
     driver_opts:
       type: "nfs"
-      o: "addr=172.20.7.25,nolock,soft,rw"
+      o: "addr=127.0.0.1,nolock,soft,rw"
       device: ":/shared/tf-output/"
   tf-data:
     driver_opts:
       type: "nfs"
-      o: "addr=172.20.7.25,nolock,soft,rw"
+      o: "addr=127.0.0.1,nolock,soft,rw"
       device: ":/shared/tf-data/"
   tf-plugins:
     driver_opts:
       type: "nfs"
-      o: "addr=172.20.7.25,nolock,soft,rw"
+      o: "addr=127.0.0.1,nolock,soft,rw"
       device: ":/shared/tf-plugins/"
   tf-traces:
     driver_opts:
       type: "nfs"
-      o: "addr=172.20.7.25,nolock,soft,rw"
+      o: "addr=127.0.0.1,nolock,soft,rw"
       device: ":/shared/tf-traces/"
   tf-logs:
     driver_opts:
       type: "nfs"
-      o: "addr=172.20.7.25,nolock,soft,rw"
+      o: "addr=127.0.0.1,nolock,soft,rw"
       device: ":/shared/tf-logs/"
   tf-nginx_templates:
     driver_opts:
       type: "nfs"
-      o: "addr=172.20.7.25,nolock,soft,rw"
+      o: "addr=127.0.0.1,nolock,soft,rw"
       device: ":/shared/tf-nginx/templates"
   tf-nginx_njs:
     driver_opts:
       type: "nfs"
-      o: "addr=172.20.7.25,nolock,soft,rw"
+      o: "addr=127.0.0.1,nolock,soft,rw"
       device: ":/shared/tf-nginx/njs"
 networks:
   default:

@@ -1,19 +1,17 @@
 version: "3.8"
 services:
 
-
-  INGESTION-DAS-S1:
+  ingester:
     image: "gaeldockerhub/cdh-ingest:1.4.3"
     environment:
        CONF_FILE: /ingest/etc/database-conf-application.properties
     volumes:
-       - /data/GSS/cdh-compose-1.4.3/ingest/logs/:/ingest/logs
-       - /mnt/ivvnas/2click_test/GSS/DESTINATION_FOLDER2/S1/error:/ingest/error
-       - /mnt/ivvnas/2click_test/GSS/DESTINATION_FOLDER2/S1/tmp:/ingest/tmp
-       - /mnt/ivvnas/2click_test/GSS/DESTINATION_FOLDER2/S1/:/ingest/folder1
-
+       - /<path-to>/cdh-compose-1.4.3/ingest/logs/:/ingest/logs
+       - <path-to-destination-folder>/error:/ingest/error
+       - <path-to-destination-folder>/tmp:/ingest/tmp
+       - <path-to-destination-product-folder>/:/ingest/folder1
     configs:
-      - source: s1_application_properties
+      - source: database-configuration-for-ingestion-properties
         target: /ingest/etc/database-conf-application.properties
 
     deploy:
@@ -21,8 +19,8 @@ services:
         constraints:
           - node.labels.gss_ingest_tag == true
 configs:
-  s1_application_properties:
-    file: ./config/ingest/INGESTION_DAS_S1.properties
+  database-configuration-for-ingestion-properties:
+    file: ./config/ingest/database-configuration-for-ingestion.properties
 
 networks:
   default:

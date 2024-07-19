@@ -73,22 +73,22 @@ volumes:
   dafne-fe-config:
     driver_opts:
       type: "nfs"
-      o: "addr=172.20.7.25,nolock,soft,rw"
+      o: "addr=127.0.0.1,nolock,soft,rw"
       device: ":/shared/dafne-fe-config/"
   dafne-be-config:
     driver_opts:
       type: "nfs"
-      o: "addr=172.20.7.25,nolock,soft,rw"
+      o: "addr=127.0.0.1,nolock,soft,rw"
       device: ":/shared/dafne-be-config/" 
   dafne-be-logs:
      driver_opts:
       type: "nfs"
-      o: "addr=172.20.7.25,nolock,soft,rw"
+      o: "addr=127.0.0.1,nolock,soft,rw"
       device: ":/shared/dafne-be-logs/"
   dafne-db:
      driver_opts:
       type: "nfs"
-      o: "addr=172.20.7.25,nolock,soft,rw"
+      o: "addr=127.0.0.1,nolock,soft,rw"
       device: ":/shared/dafne-db/"
 
 networks:

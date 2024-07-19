@@ -8,8 +8,8 @@ services:
        protocol: tcp
        mode: host
     volumes:
-      - /data/GSS/cdh-compose-1.4.3/catalogue/logs/:/catalogue/logs
-      - /mnt/ivvnas/2click_test/GSS/DESTINATION_FOLDER2/S1/:/ingest/folder1       
+      - <path-to>/cdh-compose-1.4.3/catalogue/logs/:/catalogue/logs
+      - <path-to-destination-product-folder>/:/ingest/folder1       
 
     configs:
       - source: application_properties

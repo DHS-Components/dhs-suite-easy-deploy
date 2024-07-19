@@ -31,7 +31,7 @@ volumes:
   copsi-config:
     driver_opts:
       type: "nfs"
-      o: "addr=172.20.7.25,nolock,soft,rw"
+      o: "addr=127.0.0.1,nolock,soft,rw"
       device: ":/shared/copsi-config/"
 
 networks:
