@@ -5,36 +5,52 @@ services:
   keycloak:
       image: ciam-swarm-keycloak:1.0
       ports:
-      - target: 8060
-        published: 8080
+      - target: 8080
+        published: 8060
         protocol: tcp
         mode: host
       environment:
         KEYCLOAK_ADMIN: admin
-        KEYCLOAK_ADMIN_PASSWORD: p455w0rD_kc1
+        KEYCLOAK_ADMIN_PASSWORD: <password>
         KC_HOSTNAME: 127.0.0.1
         KC_LOG: console,file
         KC_DB_URL_HOST: postgres_db
         KC_DB_URL_DATABASE: keycloak
         KC_DB_USERNAME: db_user
         KC_DB_PASSWORD: password
-
       depends_on:
         - postgres_db
+      deploy:
+        placement:
+          constraints:
+            - node.labels.iam_tag == true
 
   postgres_db:
       image: postgres:10.21
       environment:
-        POSTGRES_PASSWORD: p455w0rD
-        POSTGRES_USER: postgres
+        POSTGRES_PASSWORD: <password>
+        POSTGRES_USER: <username>
       volumes:
-        - pg-scripts:/docker-entrypoint-initdb.d
         - pg-data:/var/lib/postgresql/data
-        
+      configs:
+        - source: pg_scripts
+          target: /docker-entrypoint-initdb.d/init-user-db.sh
+      ports:
+        - target: 5432
+          published: 5432
+          protocol: tcp
+          mode: host
+      deploy:
+        placement:
+          constraints:
+            - node.labels.iam_tag == true
+
+configs:
+    pg_scripts:
+      file: ./init-user-db.sh
+
 volumes:
   pg-data:
-    external: true
-  pg-scripts:
     external: true
 
 networks:

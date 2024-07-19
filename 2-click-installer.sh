@@ -202,7 +202,7 @@
 
                                         echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Begin creation services for TF"
 
-					 runuser -l colluser -c "cd /home/colluser/$1/esa_tf_install_pkg/; . /home/colluser/$1/esa_tf_install_pkg/.env; sudo docker stack deploy --compose-file /home/colluser/$1/esa_tf_install_pkg/docker-compose.yml tf-service > /dev/null 2>&1"
+					 runuser -l colluser -c "cd /home/colluser/$1/esa_tf_install_pkg/; source .env; sudo docker stack deploy --compose-file /home/colluser/$1/esa_tf_install_pkg/docker-compose.yml tf-service > /dev/null 2>&1"
 
 				        if [[ "$?" == "0" ]];then
 
@@ -275,10 +275,6 @@
 
            runuser -l colluser -c "sudo docker volume create pg-data > /dev/null 2>&1"
 
-           if [[ "$?" == "0" ]];then
-
-               runuser -l colluser -c "sudo cp /home/colluser/"$1"/keycloak/init-user-db.sh /var/lib/docker/volumes/pg-scripts/_data/"
-
                if [[ "$?" == "0" ]];then
 
                    runuser -l colluser -c "cd /home/colluser/\"$1\"/keycloak; sudo docker build -t ciam-swarm-keycloak:1.0 . > /dev/null 2>&1;"
@@ -302,8 +298,6 @@
 		   fi
 
 	       fi
-
-	   fi
 
        fi
 
